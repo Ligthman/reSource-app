@@ -525,7 +525,7 @@ function getCommercialRecs(answers) {
   return recs.sort((a,b) => a.priority - b.priority);
 }
 // ── RESULTS ────────────────────────────────────────────────────────────────
-function ResultsView({ answers, flow, onRestart }) {
+function ResultsView({ answers, flow, onRestart, detailedMode, setDetailedMode, setStep, setScreen }) {
   const recs = (flow === "residential" ? getResidentialRecs(answers) : getCommercialRecs(answers)).map(r => ({
     ...r,
     roi: calcROI(answers, r)
@@ -964,7 +964,7 @@ export default function ResourceApp() {
           )}
           {/* ── RESULTS ── */}
           {screen === "results" && (
-            <ResultsView answers={answers} flow={flow} onRestart={handleRestart} />
+            <ResultsView answers={answers} flow={flow} onRestart={handleRestart} detailedMode={detailedMode} setDetailedMode={setDetailedMode} setStep={setStep} setScreen={setScreen} />
           )}
         </div>
         <div style={{ textAlign:"center", marginTop:14, fontSize:11, color:C.muted }}>reSource App · 2025</div>
