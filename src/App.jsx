@@ -11,6 +11,55 @@ const ratingColors = {
   "B":"#a8c830","C":"#d4d400","D":"#f0c000","E":"#f09000","F":"#e05a00","G":"#cc2222",
 };
 const ratingOrder = ["A+++","A++","A+","A","B","C","D","E","F","G"];
+
+// ── ROI CALCULATOR ─────────────────────────────────────────────────────────
+function calcROI(answers, rec) {
+  const sizeMap = {"40 m² alatt":35,"40–70 m²":55,"70–120 m²":95,"120–200 m²":160,"200 m² felett":220};
+  const size = sizeMap[answers.r_size] || 80;
+  const gasBill = {"Nincs gáz":0,"0–15 000 Ft":8000,"15 000–40 000 Ft":25000,"40 000–80 000 Ft":60000,"80 000 Ft felett":100000};
+  const elecBill = {"0–10 000 Ft":5000,"10 000–25 000 Ft":17000,"25 000–50 000 Ft":37000,"50 000 Ft felett":65000};
+  const monthlyGas = gasBill[answers.r_gasbill] || 0;
+  const monthlyElec = elecBill[answers.r_elecbill] || 17000;
+  const yearlyGas = monthlyGas * 12;
+  const yearlyElec = monthlyElec * 12;
+
+  switch(rec.name) {
+    case "Hőszigetelés":
+    case "Hőszigetelés + Nyílászárócsere":
+      const heatSave = Math.round(yearlyGas * 0.35 + yearlyElec * 0.15);
+      const heatCost = size < 60 ? 900000 : size < 120 ? 1800000 : 2800000;
+      return { save: heatSave, cost: heatCost, years: Math.round(heatCost / heatSave) };
+    case "Napelem rendszer":
+      const pvSave = Math.round(yearlyElec * 0.75);
+      const pvCost = size < 60 ? 1800000 : size < 120 ? 2800000 : 3800000;
+      return { save: pvSave, cost: pvCost, years: Math.round(pvCost / pvSave) };
+    case "Napkollektor (melegvíz)":
+      const ncSave = Math.round((yearlyGas * 0.2 + yearlyElec * 0.1));
+      return { save: Math.max(ncSave, 60000), cost: 650000, years: Math.round(650000 / Math.max(ncSave, 60000)) };
+    case "Hőszivattyú":
+      const hpSave = Math.round(yearlyGas * 0.7);
+      const hpCost = 2500000;
+      return { save: hpSave, cost: hpCost, years: Math.round(hpCost / Math.max(hpSave, 1)) };
+    case "Akkumulátor rendszer":
+      const batSave = Math.round(yearlyElec * 0.4);
+      return { save: batSave, cost: 2000000, years: Math.round(2000000 / Math.max(batSave, 1)) };
+    case "EV töltő":
+      return { save: 180000, cost: 250000, years: 1 };
+    case "Távhő optimalizálás + egyedi szabályozás":
+      return { save: Math.round(yearlyGas * 0.15 + yearlyElec * 0.1), cost: 150000, years: 2 };
+    case "Panel hőszigetelés (EPS rendszer)":
+      const panelSave = Math.round(yearlyGas * 0.3 + yearlyElec * 0.1);
+      return { save: Math.max(panelSave, 80000), cost: 1200000, years: Math.round(1200000 / Math.max(panelSave, 80000)) };
+    default:
+      return null;
+  }
+}
+
+function formatFt(n) {
+  if (n >= 1000000) return (n/1000000).toFixed(1).replace('.0','') + ' M Ft';
+  if (n >= 1000) return Math.round(n/1000) + ' e Ft';
+  return n + ' Ft';
+}
 // ── FLOW BLOCKS ────────────────────────────────────────────────────────────
 const BLOCKS = {
   residential: [
@@ -442,8 +491,18 @@ function getResidentialRecs(answers) {
   if (wantsIndep && bigBudget) recs.push({ priority:4, icon:"🔋", name:"Akkumulátor rendszer", tag:"AUTONÓMIA", tagColor:C.sunDark, cost:"1 500 000 – 3 500 000 Ft", payback:"8–12 év", connects:["Napelem"] });
   if (hasWater && own) recs.push({ priority:5, icon:"💧", name:"Esővízgyűjtés", tag:"EGYSZERŰ START", tagColor:C.teal, cost:"50 000 – 300 000 Ft", payback:"3–6 év", connects:[] });
   if (answers.r_ventilation === "Nincs, természetes szellőzés" && bigBudget) recs.push({ priority:4, icon:"🌀", name:"Hővisszanyerős szellőzés", tag:"KOMFORT", tagColor:C.purple, cost:"400 000 – 1 200 000 Ft", payback:"5–9 év", connects:[] });
-  if (recs.length === 0) recs.push({ priority:1, icon:"📊", name:"Okos termosztát + mérés", tag:"AZONNAL", tagColor:C.green, cost:"30 000 – 150 000 Ft", payback:"1–2 év", connects:[] });
-  return recs.sort((a,b) => a.priority - b.priority);
+  if (recs.length === 0) recs.push({ priority:1, icon:"📊", name:"Okos termosztát + mérés", tag:"AZONNAL", tagColor:C.green, cost:"30 000 – 150 000 Ft", payback:"1–2 év", connects:[], confidence:85 });
+
+  // Add confidence scores
+  const sorted = recs.sort((a,b) => a.priority - b.priority);
+  return sorted.map((r, i) => ({
+    ...r,
+    confidence: r.confidence || Math.max(95 - (i * 8) - (poorWallIns && r.name.includes("Napelem") ? 25 : 0), 40),
+    notYet: r.name === "Napelem rendszer" && (poorWallIns || poorRoofIns) ? "Előbb a szigetelés – nélküle 25-30%-kal kevesebbet termel" :
+            r.name === "Akkumulátor rendszer" && !recs.find(x => x.name === "Napelem rendszer") ? "Előbb napelemet érdemes telepíteni" :
+            r.name === "Hőszivattyú" && (poorWallIns || poorRoofIns) ? "Rossz szigetelésű házban sokat fogyaszt – előbb szigetelj" : null,
+    isTop: i === 0,
+  }));
 }
 function getCommercialRecs(answers) {
   const recs = [];
@@ -467,7 +526,10 @@ function getCommercialRecs(answers) {
 }
 // ── RESULTS ────────────────────────────────────────────────────────────────
 function ResultsView({ answers, flow, onRestart }) {
-  const recs = flow === "residential" ? getResidentialRecs(answers) : getCommercialRecs(answers);
+  const recs = (flow === "residential" ? getResidentialRecs(answers) : getCommercialRecs(answers)).map(r => ({
+    ...r,
+    roi: calcROI(answers, r)
+  }));
   const current = calcRating(answers, flow);
   const improved = improvedRating(current);
   const steps = ratingOrder.indexOf(current) - ratingOrder.indexOf(improved);
@@ -513,19 +575,92 @@ function ResultsView({ answers, flow, onRestart }) {
           <p style={{ fontSize:10, color:C.muted, marginTop:10, lineHeight:1.5 }}>* Tájékoztató jellegű becslés. Pontos értékhez energetikai tanúsító szakember szükséges.</p>
         </div>
       </div>
-      {/* Recs */}
-      <p style={{ fontSize:11, fontWeight:700, color:C.muted, letterSpacing:2, textTransform:"uppercase", marginBottom:12 }}>Ajánlott lépések</p>
-      {recs.map((rec, i) => (
-        <div key={rec.name} style={{ background:C.white, border:`1.5px solid ${C.grayMid}`, borderRadius:12, padding:"14px 16px", marginBottom:10, display:"flex", alignItems:"center", gap:12 }}>
-          <div style={{ width:42, height:42, borderRadius:10, background:rec.tagColor+"18", display:"flex", alignItems:"center", justifyContent:"center", fontSize:20, flexShrink:0 }}>{rec.icon}</div>
-          <div style={{ flex:1 }}>
-            <div style={{ marginBottom:3 }}>
-              <span style={{ fontSize:10, fontWeight:800, color:rec.tagColor, background:rec.tagColor+"18", padding:"2px 7px", borderRadius:4 }}>{rec.tag}</span>
-              <span style={{ fontSize:10, color:C.muted, marginLeft:6 }}>#{i+1}</span>
-            </div>
-            <div style={{ fontWeight:700, fontSize:14, color:C.text }}>{rec.name}</div>
-            <div style={{ fontSize:12, color:C.muted, marginTop:2 }}>{rec.cost} · {rec.payback}</div>
+      {/* TOP 1 kártya */}
+      {recs[0] && (
+        <div style={{ background:"linear-gradient(135deg,#1A1A1A,#2a2a2a)", borderRadius:14, padding:"18px 16px", marginBottom:16 }}>
+          <div style={{ fontSize:11, fontWeight:800, color:C.sun, letterSpacing:2, marginBottom:8 }}>⚡ HA CSAK 1 DOLGOT TESZEL</div>
+          <div style={{ fontSize:20, fontWeight:800, color:"#fff", marginBottom:6 }}>{recs[0].icon} {recs[0].name}</div>
+          <div style={{ fontSize:13, color:"#ccc", lineHeight:1.6, marginBottom:10 }}>
+            Ez a legfontosabb lépés a te épületed esetében. Minden más erre épül.
           </div>
+          {recs[0].roi && (
+            <div style={{ display:"flex", gap:8 }}>
+              <div style={{ background:"#ffffff18", borderRadius:8, padding:"8px 12px", flex:1 }}>
+                <div style={{ fontSize:10, color:"#aaa", marginBottom:2 }}>ÉVI MEGTAKARÍTÁS</div>
+                <div style={{ fontWeight:800, fontSize:14, color:C.sun }}>{formatFt(recs[0].roi.save)}</div>
+              </div>
+              <div style={{ background:"#ffffff18", borderRadius:8, padding:"8px 12px", flex:1 }}>
+                <div style={{ fontSize:10, color:"#aaa", marginBottom:2 }}>MEGTÉRÜLÉS</div>
+                <div style={{ fontWeight:800, fontSize:14, color:C.sun }}>{recs[0].roi.years} év</div>
+              </div>
+            </div>
+          )}
+        </div>
+      )}
+
+      {/* Mit ne csinálj még */}
+      {recs.some(r => r.notYet) && (
+        <div style={{ background:"#fff5f5", border:"1.5px solid #E0525222", borderRadius:12, padding:"14px 16px", marginBottom:16 }}>
+          <div style={{ fontSize:11, fontWeight:800, color:C.red, letterSpacing:1.5, marginBottom:8 }}>❌ MOST MÉG NE CSINÁLD</div>
+          {recs.filter(r => r.notYet).map(r => (
+            <div key={r.name} style={{ display:"flex", gap:10, marginBottom:6, alignItems:"flex-start" }}>
+              <span style={{ fontSize:16, flexShrink:0 }}>{r.icon}</span>
+              <div>
+                <div style={{ fontSize:13, fontWeight:700, color:C.text }}>{r.name}</div>
+                <div style={{ fontSize:12, color:C.red, marginTop:1 }}>{r.notYet}</div>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+
+      {/* Recs */}
+      <p style={{ fontSize:11, fontWeight:700, color:C.muted, letterSpacing:2, textTransform:"uppercase", marginBottom:12 }}>Összes ajánlott lépés</p>
+      {recs.map((rec, i) => (
+        <div key={rec.name} style={{ background:C.white, border:`1.5px solid ${C.grayMid}`, borderRadius:12, padding:"14px 16px", marginBottom:10 }}>
+          <div style={{ display:"flex", alignItems:"center", gap:12, marginBottom: rec.roi ? 10 : 0 }}>
+            <div style={{ width:42, height:42, borderRadius:10, background:rec.tagColor+"18", display:"flex", alignItems:"center", justifyContent:"center", fontSize:20, flexShrink:0 }}>{rec.icon}</div>
+            <div style={{ flex:1 }}>
+              <div style={{ marginBottom:3 }}>
+                <span style={{ fontSize:10, fontWeight:800, color:rec.tagColor, background:rec.tagColor+"18", padding:"2px 7px", borderRadius:4 }}>{rec.tag}</span>
+                <span style={{ fontSize:10, color:C.muted, marginLeft:6 }}>#{i+1}</span>
+              </div>
+              <div style={{ fontWeight:700, fontSize:14, color:C.text }}>{rec.name}</div>
+              {!rec.roi && <div style={{ fontSize:12, color:C.muted, marginTop:2 }}>{rec.cost} · {rec.payback}</div>}
+              {rec.confidence && (
+                <div style={{ marginTop:4, display:"flex", alignItems:"center", gap:6 }}>
+                  <div style={{ flex:1, height:4, background:C.grayMid, borderRadius:2, overflow:"hidden" }}>
+                    <div style={{ height:"100%", width:`${rec.confidence}%`, background: rec.confidence > 80 ? C.green : rec.confidence > 60 ? C.sun : C.orange, borderRadius:2 }} />
+                  </div>
+                  <span style={{ fontSize:10, color: rec.confidence > 80 ? C.green : rec.confidence > 60 ? C.sunDark : C.orange, fontWeight:700, flexShrink:0 }}>
+                    {rec.confidence}% illeszkedés
+                  </span>
+                </div>
+              )}
+            </div>
+          </div>
+          {rec.roi && (
+            <div style={{ display:"flex", gap:8, flexWrap:"wrap" }}>
+              <div style={{ background:C.grayLight, borderRadius:8, padding:"8px 12px", flex:1, minWidth:90 }}>
+                <div style={{ fontSize:10, color:C.muted, marginBottom:2 }}>BERUHÁZÁS</div>
+                <div style={{ fontWeight:700, fontSize:13, color:C.text }}>{formatFt(rec.roi.cost)}</div>
+              </div>
+              <div style={{ background:"#e8f5e9", borderRadius:8, padding:"8px 12px", flex:1, minWidth:90 }}>
+                <div style={{ fontSize:10, color:"#2a7a2a", marginBottom:2 }}>ÉVI MEGTAKARÍTÁS</div>
+                <div style={{ fontWeight:700, fontSize:13, color:"#1a6a1a" }}>{formatFt(rec.roi.save)}</div>
+              </div>
+              <div style={{ background:C.sunLight, borderRadius:8, padding:"8px 12px", flex:1, minWidth:90 }}>
+                <div style={{ fontSize:10, color:C.sunDark, marginBottom:2 }}>MEGTÉRÜLÉS</div>
+                <div style={{ fontWeight:700, fontSize:13, color:C.sunDark }}>{rec.roi.years} év</div>
+              </div>
+              {rec.roi.save * 10 > rec.roi.cost && (
+                <div style={{ background:"#e3f2fd", borderRadius:8, padding:"8px 12px", flex:"0 0 100%" }}>
+                  <div style={{ fontSize:10, color:"#1565c0", marginBottom:2 }}>10 ÉV ALATT NETTÓ NYERESÉG</div>
+                  <div style={{ fontWeight:800, fontSize:14, color:"#1565c0" }}>+{formatFt(rec.roi.save * 10 - rec.roi.cost)}</div>
+                </div>
+              )}
+            </div>
+          )}
         </div>
       ))}
       {/* Golden rule */}
@@ -654,6 +789,7 @@ export default function ResourceApp() {
   const blocks = flow ? BLOCKS[flow] : [];
   const visibleQuestions = questions.filter(q => {
     if (q.condition && !q.condition(answers)) return false;
+    if (flow === "commercial") return true;
     if (!detailedMode && q.basic !== true) return false;
     return true;
   });
