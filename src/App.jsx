@@ -524,6 +524,107 @@ function getCommercialRecs(answers) {
   if (recs.length === 0) recs.push({ priority:1, icon:"📊", name:"Energiaaudit + mérés", tag:"ELSŐ LÉPÉS", tagColor:C.green, cost:"150 000 – 400 000 Ft", payback:"Azonnal", connects:[] });
   return recs.sort((a,b) => a.priority - b.priority);
 }
+// ── SPONSORED PRODUCTS & PARTNERS ────────────────────────────────────────
+const SPONSORED_PRODUCTS = {
+  "Napelem rendszer": [
+    { name:"LONGi Hi-MO 6 napelem panel", price:"89 900 Ft/db", badge:"⭐ Szponzorált", url:"https://solarstore.hu", desc:"Prémium monokristályos, 25 év garancia" },
+    { name:"Huawei SUN2000 inverter", price:"145 000 Ft", badge:"🏆 Bestseller", url:"https://solarstore.hu", desc:"Intelligens, app vezérelhető" },
+  ],
+  "Hőszivattyú": [
+    { name:"Daikin Altherma 3 hőszivattyú", price:"Ajánlatkérés", badge:"⭐ Szponzorált", url:"https://klimagyar.hu", desc:"A+++ energiaosztály, 20 év élettartam" },
+  ],
+  "Hőszigetelés": [
+    { name:"Rockwool FRONTROCK MAX E", price:"4 200 Ft/m²", badge:"⭐ Szponzorált", url:"https://rockwool.com/hu", desc:"Homlokzati kőzetgyapot, A1 tűzállóság" },
+  ],
+  "Nyílászárócsere": [
+    { name:"Rehau GENEO háromrétegű ablak", price:"Ajánlatkérés", badge:"⭐ Szponzorált", url:"https://rehau.com/hu", desc:"Uf=0.86 W/m²K, passzívház minőség" },
+  ],
+  "Akkumulátor rendszer": [
+    { name:"BYD Battery-Box Premium HVS", price:"1 200 000 Ft", badge:"⭐ Szponzorált", url:"https://byd.com/hu", desc:"10 kWh, 10 év garancia" },
+  ],
+};
+
+const PARTNERS_BY_CATEGORY = {
+  "Napelem rendszer": [
+    { name:"Wagner Solar Kft.", city:"Budapest", rating:4.7, reviews:312, tag:"5000+ telepítés" },
+    { name:"Tiszta Energiák Kft.", city:"Budapest", rating:4.8, reviews:218, tag:"LONGi prémium partner" },
+    { name:"Rapid Solar Kft.", city:"Budapest", rating:4.6, reviews:156, tag:"Gyors kivitelezés" },
+  ],
+  "Hőszivattyú": [
+    { name:"Klímagyár", city:"Szeged", rating:4.7, reviews:189, tag:"Dél-Magyarország" },
+    { name:"Hatásfok Hungária Kft.", city:"Budapest", rating:4.8, reviews:134, tag:"Prémium szolgáltatás" },
+    { name:"AIR-TECH 99 Kft.", city:"Budapest", rating:4.8, reviews:201, tag:"20 év tapasztalat" },
+  ],
+  "Hőszigetelés": [
+    { name:"Baumit partner hálózat", city:"Országos", rating:4.6, reviews:445, tag:"Országos lefedettség" },
+    { name:"Sto Magyarország Kft.", city:"Budapest", rating:4.8, reviews:98, tag:"Prémium rendszerek" },
+  ],
+  "default": [
+    { name:"reSource Partner", city:"A te régiódban", rating:4.7, reviews:100, tag:"Minősített szakember" },
+  ]
+};
+
+function SponsoredProducts({ recName }) {
+  const products = SPONSORED_PRODUCTS[recName];
+  if (!products || products.length === 0) return null;
+  return (
+    <div style={{ marginTop:12, borderTop:`1px dashed ${C.grayMid}`, paddingTop:12 }}>
+      <div style={{ fontSize:10, fontWeight:700, color:C.muted, letterSpacing:1, marginBottom:8 }}>🛒 AJÁNLOTT TERMÉKEK</div>
+      {products.map((p, i) => (
+        <a key={i} href={p.url} target="_blank" rel="noopener noreferrer" style={{ textDecoration:"none", display:"block", background:C.grayLight, borderRadius:8, padding:"10px 12px", marginBottom:6, border:`1px solid ${C.grayMid}` }}>
+          <div style={{ display:"flex", justifyContent:"space-between", alignItems:"flex-start" }}>
+            <div style={{ flex:1 }}>
+              <div style={{ fontSize:11, color:C.sunDark, fontWeight:700, marginBottom:2 }}>{p.badge}</div>
+              <div style={{ fontSize:13, fontWeight:700, color:C.text }}>{p.name}</div>
+              <div style={{ fontSize:11, color:C.muted, marginTop:1 }}>{p.desc}</div>
+            </div>
+            <div style={{ fontSize:13, fontWeight:800, color:C.text, marginLeft:8, whiteSpace:"nowrap" }}>{p.price}</div>
+          </div>
+        </a>
+      ))}
+    </div>
+  );
+}
+
+function PartnerConfigurator({ recName, city }) {
+  const [requested, setRequested] = useState(false);
+  const [selected, setSelected] = useState([]);
+  const partners = PARTNERS_BY_CATEGORY[recName] || PARTNERS_BY_CATEGORY["default"];
+
+  const toggle = (name) => {
+    setSelected(prev => prev.includes(name) ? prev.filter(x => x !== name) : [...prev, name]);
+  };
+
+  if (requested) return (
+    <div style={{ marginTop:12, background:"#e8f5e9", borderRadius:10, padding:"12px 14px", border:"1px solid #3DAA7244" }}>
+      <div style={{ fontSize:13, fontWeight:800, color:"#1a6a1a" }}>✅ Ajánlatkérés elküldve!</div>
+      <div style={{ fontSize:12, color:"#2a7a2a", marginTop:4 }}>{selected.length} partner hamarosan felveszi veled a kapcsolatot.</div>
+    </div>
+  );
+
+  return (
+    <div style={{ marginTop:12, borderTop:`1px dashed ${C.grayMid}`, paddingTop:12 }}>
+      <div style={{ fontSize:10, fontWeight:700, color:C.muted, letterSpacing:1, marginBottom:8 }}>🏆 AJÁNLOTT SZAKEMBEREK – VÁLASSZ ÉS KÉRJ AJÁNLATOT</div>
+      {partners.map((p, i) => (
+        <div key={i} onClick={() => toggle(p.name)} style={{ display:"flex", alignItems:"center", gap:10, background:selected.includes(p.name) ? C.sunLight : C.grayLight, border:`1.5px solid ${selected.includes(p.name) ? C.sun : C.grayMid}`, borderRadius:8, padding:"10px 12px", marginBottom:6, cursor:"pointer", transition:"all 0.15s" }}>
+          <div style={{ width:18, height:18, borderRadius:4, border:`2px solid ${selected.includes(p.name) ? C.sun : C.grayMid}`, background:selected.includes(p.name) ? C.sun : "transparent", display:"flex", alignItems:"center", justifyContent:"center", fontSize:10, flexShrink:0, fontWeight:900 }}>
+            {selected.includes(p.name) ? "✓" : ""}
+          </div>
+          <div style={{ flex:1 }}>
+            <div style={{ fontSize:13, fontWeight:700, color:C.text }}>{p.name}</div>
+            <div style={{ fontSize:11, color:C.muted }}>{p.city} · ⭐ {p.rating} ({p.reviews} értékelés) · {p.tag}</div>
+          </div>
+        </div>
+      ))}
+      {selected.length > 0 && (
+        <button onClick={() => setRequested(true)} style={{ width:"100%", padding:"12px", background:C.sun, border:"none", borderRadius:10, cursor:"pointer", fontWeight:800, fontSize:14, color:C.text, marginTop:4 }}>
+          Ajánlatot kérek {selected.length} partnertől →
+        </button>
+      )}
+    </div>
+  );
+}
+
 // ── RESULTS ────────────────────────────────────────────────────────────────
 function ResultsView({ answers, flow, onRestart, detailedMode, setDetailedMode, setStep, setScreen }) {
   const recs = (flow === "residential" ? getResidentialRecs(answers) : getCommercialRecs(answers)).map(r => ({
