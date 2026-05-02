@@ -1,9 +1,9 @@
 import { useState, useEffect, useRef } from "react";
 const C = {
-  sun: "#F5C518", sunLight: "#FFFBEA", sunDark: "#C49A00",
-  gray: "#4A4A4A", grayLight: "#F7F7F5", grayMid: "#E0DED8",
-  white: "#FFFFFF", text: "#1A1A1A", muted: "#8A8A8A",
-  red: "#E05252", green: "#3DAA72", blue: "#3A7BD5", orange: "#F07C2A",
+  sun: "#4CAF50", sunLight: "#FFFBEA", sunDark: "#C49A00",
+  gray: "#4A4A4A", grayLight: "#F2F2F2", grayMid: "#E0DED8",
+  white: "#FFFFFF", text: "##1E1E1E", muted: "#8A8A8A",
+  red: "#E05252", green: "#2E7D32", blue: "#3A7BD5", orange: "#F07C2A",
   teal: "#2A9D8F", purple: "#7B5EA7",
 };
 const ratingColors = {
@@ -969,7 +969,7 @@ export default function ResourceApp() {
           </div>
           {/* Brand name */}
           <div>
-            <div style={{ fontFamily:"'DM Sans', sans-serif", fontSize:20, fontWeight:700, color:C.text, letterSpacing:"-0.3px", lineHeight:1 }}>
+            <div style={{ fontFamily:"'Poppins', sans-serif", fontSize:20, fontWeight:700, color:C.text, letterSpacing:"-0.3px", lineHeight:1 }}>
               <span style={{ fontWeight:300 }}>re</span><span style={{ fontWeight:700 }}>S</span><span style={{ fontWeight:300 }}>ource</span>
             </div>
             <div style={{ fontFamily:"'DM Sans', sans-serif", fontSize:11, color:C.muted, letterSpacing:"0.5px", marginTop:2 }}>app</div>
