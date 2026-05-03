@@ -192,10 +192,9 @@ function WaterCard({ answers }) {
           ))}
         </div>
 
-        <div style={{ background:"linear-gradient(135deg,#E8F8F5,#EBF5FB)", borderRadius:10, padding:"12px 14px", border:"1px solid #A8E6C544" }}>
-          <div style={{ fontSize:12, fontWeight:700, color:"#1A5276", marginBottom:4 }}>🏡 Complex Home vízrendszer</div>
-          <div style={{ fontSize:12, color:"#555", lineHeight:1.6 }}>
-            Egy Complex Home teljesen zárt vízkörrel működik: esővíz + kút + szürkevíz újrahasznosítás. Évente <strong>{(w.annualLiters/1000).toFixed(0)}m³</strong> vizet takarít meg a hálózatból és juttat vissza a talajba.
+        <div style={{ background:"#f0f8ff", borderRadius:10, padding:"12px 14px", border:"1px solid #A9D4F055" }}>
+          <div style={{ fontSize:11, color:"#666", lineHeight:1.6 }}>
+            💡 Az adatok a megadott <strong>{answers.r_city || "helyszín"}</strong> irányítószám alapján kerültek számításba – az ottani évi átlagos csapadékmennyiség és az épület tető mérete alapján.
           </div>
         </div>
       </div>
@@ -793,6 +792,30 @@ function ResultsView({ answers, flow, onRestart, detailedMode, setDetailedMode, 
     if (!contact.email.trim() && !contact.phone.trim()) { setContactError("Email vagy telefonszám szükséges!"); return; }
     setContactError("");
     setContactDone(true);
+
+    // Send lead data to Google Sheets via Make.com webhook
+    const leadData = {
+      nev: contact.name,
+      varos: contact.city,
+      utca: contact.street || "",
+      email: contact.email || "",
+      telefon: contact.phone || "",
+      epulet_tipus: answers.r_type || answers.c_type || "",
+      epulet_meret: answers.r_size || answers.c_size || "",
+      futes: (answers.r_heating || []).join(", "),
+      villany_szamla: answers.r_elecbill || "",
+      gaz_szamla: answers.r_gasbill || "",
+      flow: flow === "residential" ? "Lakóépület" : "Vállalkozás",
+      datum: new Date().toLocaleDateString("hu-HU"),
+      forras: "reSource App",
+    };
+
+    // Make.com webhook - cseréld ki a saját webhook URL-edre
+    fetch("https://hook.eu1.make.com/CSERÉLD_KI_A_WEBHOOK_URL-RE", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(leadData),
+    }).catch(() => {}); // Csendesen kezeli a hibát
   };
 
   const handleDownload = () => {
@@ -1010,8 +1033,21 @@ function ResultsView({ answers, flow, onRestart, detailedMode, setDetailedMode, 
           <div style={{ fontWeight:800, fontSize:16, color:C.text, marginBottom:6 }}>Kérd az ingyenes szakértői egyeztetést!</div>
           <p style={{ fontSize:13, color:C.gray, lineHeight:1.6, marginBottom:14 }}>Személyes segítséget kérsz? Vedd fel velünk a kapcsolatot és együtt megtaláljuk a legjobb megoldást.</p>
           <div style={{ display:"flex", gap:8 }}>
-            <input placeholder="email@cimed.hu" style={{ flex:1, padding:"11px 14px", border:`1.5px solid ${C.grayMid}`, borderRadius:10, fontSize:14, outline:"none", color:C.text }} />
-            <button style={{ padding:"11px 16px", background:C.sun, border:"none", borderRadius:10, cursor:"pointer", fontWeight:800, fontSize:14, color:C.text }}>→</button>
+            <input
+              placeholder="email@cimed.hu"
+              id="cta-email"
+              style={{ flex:1, padding:"11px 14px", border:`1.5px solid ${C.grayMid}`, borderRadius:10, fontSize:14, outline:"none", color:C.text, fontFamily:"inherit" }}
+            />
+            <button onClick={() => {
+              const email = document.getElementById("cta-email")?.value;
+              if (!email) return;
+              fetch("https://hook.eu1.make.com/CSERÉLD_KI_A_WEBHOOK_URL-RE", {
+                method:"POST",
+                headers:{"Content-Type":"application/json"},
+                body: JSON.stringify({ tipus:"Egyeztetés kérés", email, nev: contact.name || "", varos: contact.city || "", datum: new Date().toLocaleDateString("hu-HU") })
+              }).catch(()=>{});
+              alert("Köszönjük! Hamarosan felvesszük veled a kapcsolatot.");
+            }} style={{ padding:"11px 16px", background:C.sun, border:"none", borderRadius:10, cursor:"pointer", fontWeight:800, fontSize:14, color:C.white }}>→</button>
           </div>
         </div>
       </div>
