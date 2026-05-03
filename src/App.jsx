@@ -724,15 +724,7 @@ export default function ResourceApp() {
       <div style={{width:"100%",maxWidth:480}}>
 
         <div style={{display:"flex",alignItems:"center",gap:12,marginBottom:20}}>
-          <div style={{width:42,height:42,background:C.sun,borderRadius:10,display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0,boxShadow:"0 2px 12px #4CAF5033"}}>
-            <HouseLeafLogo size={26} color="#fff"/>
-          </div>
-          <div style={{display:"flex",flexDirection:"column",gap:0}}>
-            <div style={{fontFamily:font,fontSize:22,lineHeight:1.1,letterSpacing:"-0.5px"}}>
-              <span style={{fontWeight:700,color:C.sun}}>re</span><span style={{fontWeight:800,color:C.text}}>Source</span>
-            </div>
-            <div style={{fontSize:12,color:C.sun,fontWeight:700,letterSpacing:"1px",marginTop:1}}>app</div>
-          </div>
+          <img src="/logo.png" height={44} style={{objectFit:"contain"}} alt="reSource app"/>
         </div>
 
         <div style={{background:C.white,borderRadius:16,padding:"26px 22px",boxShadow:"0 2px 20px rgba(0,0,0,0.06)"}}>
