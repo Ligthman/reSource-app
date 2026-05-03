@@ -1024,6 +1024,13 @@ function ResultsView({ answers, flow, onRestart, detailedMode, setDetailedMode, 
 }
 // ── MAIN APP ───────────────────────────────────────────────────────────────
 export default function ResourceApp() {
+  // Load Google Fonts
+  useEffect(() => {
+    const link = document.createElement('link');
+    link.href = 'https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;700;800&family=Playfair+Display:wght@700;800&display=swap';
+    link.rel = 'stylesheet';
+    document.head.appendChild(link);
+  }, []);
   const [screen, setScreen] = useState("intro"); // intro | flowSelect | quiz | results
   const [flow, setFlow] = useState(null); // residential | commercial
   const [step, setStep] = useState(0);
@@ -1095,7 +1102,7 @@ export default function ResourceApp() {
   };
   const handleRestart = () => { setAnswers({}); setStep(0); setSelected([]); setFlow(null); setDetailedMode(false); setScreen("intro"); };
   return (
-    <div style={{ minHeight:"100vh", background:C.grayLight, fontFamily:"'Helvetica Neue', Arial, sans-serif", display:"flex", alignItems:"flex-start", justifyContent:"center", padding:"24px 16px 60px" }}>
+    <div style={{ minHeight:"100vh", background:C.grayLight, fontFamily:"'DM Sans', 'Helvetica Neue', Arial, sans-serif", display:"flex", alignItems:"flex-start", justifyContent:"center", padding:"24px 16px 60px" }}>
       <div style={{ width:"100%", maxWidth:480 }}>
         {/* Logo */}
         <div style={{ display:"flex", alignItems:"center", gap:12, marginBottom:22 }}>
