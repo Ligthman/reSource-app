@@ -1027,7 +1027,7 @@ export default function ResourceApp() {
   // Load Google Fonts
   useEffect(() => {
     const link = document.createElement('link');
-    link.href = 'https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;700;800&family=Playfair+Display:wght@700;800&display=swap';
+    link.href = 'https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap';
     link.rel = 'stylesheet';
     document.head.appendChild(link);
   }, []);
@@ -1102,35 +1102,28 @@ export default function ResourceApp() {
   };
   const handleRestart = () => { setAnswers({}); setStep(0); setSelected([]); setFlow(null); setDetailedMode(false); setScreen("intro"); };
   return (
-    <div style={{ minHeight:"100vh", background:C.grayLight, fontFamily:"'DM Sans', 'Helvetica Neue', Arial, sans-serif", display:"flex", alignItems:"flex-start", justifyContent:"center", padding:"24px 16px 60px" }}>
+    <div style={{ minHeight:"100vh", background:C.grayLight, fontFamily:"'Poppins', 'Helvetica Neue', Arial, sans-serif", display:"flex", alignItems:"flex-start", justifyContent:"center", padding:"24px 16px 60px" }}>
       <div style={{ width:"100%", maxWidth:480 }}>
         {/* Logo */}
         <div style={{ display:"flex", alignItems:"center", gap:12, marginBottom:22 }}>
-          {/* App icon: sun + power */}
-          <div style={{ width:42, height:42, background:C.sun, borderRadius:11, display:"flex", alignItems:"center", justifyContent:"center", flexShrink:0, boxShadow:"0 2px 8px #F5C51844" }}>
-            <svg width="26" height="26" viewBox="0 0 24 24" fill="none">
-              {/* Sun rays */}
-              {[0,30,60,90,120,150,180,210,240,270,300,330].map(angle => (
-                <line key={angle}
-                  x1={12 + 8.5*Math.cos(angle*Math.PI/180)}
-                  y1={12 + 8.5*Math.sin(angle*Math.PI/180)}
-                  x2={12 + 11*Math.cos(angle*Math.PI/180)}
-                  y2={12 + 11*Math.sin(angle*Math.PI/180)}
-                  stroke="#1A1A1A" strokeWidth="1.8" strokeLinecap="round"/>
-              ))}
-              {/* Sun circle */}
-              <circle cx="12" cy="12" r="7" fill="#1A1A1A"/>
-              {/* Power icon */}
-              <path d="M12 8.5v3" stroke="white" strokeWidth="1.6" strokeLinecap="round"/>
-              <path d="M9.5 10a3.5 3.5 0 1 0 5 0" stroke="white" strokeWidth="1.6" strokeLinecap="round" fill="none"/>
+          {/* App icon: green house with leaf */}
+          <div style={{ width:44, height:44, background:"#4CAF50", borderRadius:11, display:"flex", alignItems:"center", justifyContent:"center", flexShrink:0, boxShadow:"0 2px 12px #4CAF5044" }}>
+            <svg width="28" height="28" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+              {/* House roof */}
+              <polyline points="10,48 50,12 90,48" stroke="white" strokeWidth="8" strokeLinecap="round" strokeLinejoin="round" fill="none"/>
+              {/* House body */}
+              <rect x="22" y="48" width="56" height="40" rx="3" stroke="white" strokeWidth="8" fill="none"/>
+              {/* Leaf */}
+              <path d="M50,72 C50,72 35,62 38,48 C45,50 55,55 50,72Z" fill="white"/>
+              <path d="M50,72 C50,72 42,58 38,48" stroke="#4CAF50" strokeWidth="2.5" strokeLinecap="round"/>
             </svg>
           </div>
           {/* Brand name */}
           <div>
-            <div style={{ fontFamily:"'DM Sans', sans-serif", fontSize:20, fontWeight:700, color:C.text, letterSpacing:"-0.3px", lineHeight:1 }}>
-              <span style={{ fontWeight:300 }}>re</span><span style={{ fontWeight:700 }}>S</span><span style={{ fontWeight:300 }}>ource</span>
+            <div style={{ fontFamily:"'Poppins', sans-serif", fontSize:22, fontWeight:700, color:C.text, letterSpacing:"-0.5px", lineHeight:1 }}>
+              <span style={{ fontWeight:400, color:C.text }}>re</span><span style={{ fontWeight:800, color:C.sunDark }}>S</span><span style={{ fontWeight:400, color:C.text }}>ource</span>
             </div>
-            <div style={{ fontFamily:"'DM Sans', sans-serif", fontSize:11, color:C.muted, letterSpacing:"0.5px", marginTop:2 }}>app</div>
+            <div style={{ fontFamily:"'Poppins', sans-serif", fontSize:10, color:C.sun, letterSpacing:"2px", fontWeight:600, marginTop:2, textTransform:"lowercase" }}>app</div>
           </div>
         </div>
         <div style={{ background:C.white, borderRadius:18, padding:"26px 22px", boxShadow:"0 2px 24px rgba(0,0,0,0.07)" }}>
