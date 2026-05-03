@@ -811,7 +811,8 @@ function ResultsView({ answers, flow, onRestart, detailedMode, setDetailedMode, 
     };
 
     // Make.com webhook - cseréld ki a saját webhook URL-edre
-    fetch("https://hook.eu1.make.com/CSERÉLD_KI_A_WEBHOOK_URL-RE", {
+    fetch("https://hook.eu1.make.com/https://hook.eu1.make.com/2su278bawe5w9wahql83e669m2cmuv27
+", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(leadData),
@@ -1041,7 +1042,8 @@ function ResultsView({ answers, flow, onRestart, detailedMode, setDetailedMode, 
             <button onClick={() => {
               const email = document.getElementById("cta-email")?.value;
               if (!email) return;
-              fetch("https://hook.eu1.make.com/CSERÉLD_KI_A_WEBHOOK_URL-RE", {
+              fetch("https://hook.eu1.make.com/https://hook.eu1.make.com/vjb3mq2ee8xr9lkz4dyx3se7t41x3v8n
+", {
                 method:"POST",
                 headers:{"Content-Type":"application/json"},
                 body: JSON.stringify({ tipus:"Egyeztetés kérés", email, nev: contact.name || "", varos: contact.city || "", datum: new Date().toLocaleDateString("hu-HU") })
