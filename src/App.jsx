@@ -1,9 +1,9 @@
 import { useState, useEffect, useRef } from "react";
 const C = {
-  sun: "#F5C518", sunLight: "#FFFBEA", sunDark: "#C49A00",
-  gray: "#4A4A4A", grayLight: "#F7F7F5", grayMid: "#E0DED8",
-  white: "#FFFFFF", text: "#1A1A1A", muted: "#8A8A8A",
-  red: "#E05252", green: "#3DAA72", blue: "#3A7BD5", orange: "#F07C2A",
+  sun: "#4CAF50", sunLight: "#F1F8F1", sunDark: "#2E7D32",
+  gray: "#4A4A4A", grayLight: "#F2F2F2", grayMid: "#E0E0E0",
+  white: "#FFFFFF", text: "#1E1E1E", muted: "#8A8A8A",
+  red: "#E05252", green: "#4CAF50", blue: "#3A7BD5", orange: "#F07C2A",
   teal: "#2A9D8F", purple: "#7B5EA7",
 };
 const ratingColors = {
@@ -441,7 +441,7 @@ function generatePDF(answers, flow, currentRating, improvedRat, recs, contact = 
   /* HEADER */
   .header { display: flex; align-items: center; justify-content: space-between; padding-bottom: 22px; margin-bottom: 32px; border-bottom: 3px solid #F5C518; }
   .logo-wrap { display: flex; align-items: center; gap: 14px; }
-  .logo-icon { width: 46px; height: 46px; background: #F5C518; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 22px; font-weight: 900; color: #1A1A1A; }
+  .logo-icon { width: 46px; height: 46px; background: #4CAF50; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 22px; font-weight: 900; color: #FFFFFF; }
   .logo-name { font-size: 20px; font-weight: 800; letter-spacing: -0.5px; }
   .logo-sub { font-size: 11px; color: #999; margin-top: 1px; }
   .header-right { text-align: right; }
@@ -1027,9 +1027,11 @@ export default function ResourceApp() {
   // Load Google Fonts
   useEffect(() => {
     const link = document.createElement('link');
-    link.href = 'https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap';
+    link.href = 'https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap';
     link.rel = 'stylesheet';
     document.head.appendChild(link);
+    // Also update body font
+    document.body.style.fontFamily = "'Poppins', 'Helvetica Neue', Arial, sans-serif";
   }, []);
   const [screen, setScreen] = useState("intro"); // intro | flowSelect | quiz | results
   const [flow, setFlow] = useState(null); // residential | commercial
@@ -1131,14 +1133,14 @@ export default function ResourceApp() {
           {screen === "intro" && (
             <div>
               <div style={{ fontSize:42, marginBottom:14 }}>🏠</div>
-              <h1 style={{ fontSize:24, fontWeight:800, color:C.text, marginBottom:12, lineHeight:1.3, fontFamily:"'Playfair Display', Georgia, serif" }}>Tervezd meg épületed rendszerét</h1>
+              <h1 style={{ fontSize:24, fontWeight:800, color:C.text, marginBottom:12, lineHeight:1.3, fontFamily:"'Poppins', sans-serif" }}>Tervezd meg épületed rendszerét</h1>
               <p style={{ fontSize:14, color:C.gray, lineHeight:1.65, marginBottom:22 }}>Részletes kérdőív alapján személyre szabott javaslatokat kapsz – energetikai besorolással, letölthető összefoglalóval és lépésről lépésre tervvel.</p>
               <div style={{ display:"flex", gap:8, marginBottom:26, flexWrap:"wrap" }}>
                 {["⏱ 5–8 perc","🎯 Személyre szabott","⚡ Energetikai besorolás","⬇️ Letölthető összefoglaló"].map(tag => (
                   <span key={tag} style={{ fontSize:11, background:C.grayLight, color:C.gray, borderRadius:6, padding:"4px 10px", fontWeight:600 }}>{tag}</span>
                 ))}
               </div>
-              <button onClick={() => setScreen("flowSelect")} style={{ width:"100%", padding:"15px", background:C.sun, border:"none", borderRadius:12, cursor:"pointer", fontSize:16, fontWeight:800, color:C.text }}>
+              <button onClick={() => setScreen("flowSelect")} style={{ width:"100%", padding:"15px", background:C.sun, border:"none", borderRadius:12, cursor:"pointer", fontSize:16, fontWeight:800, color:C.white }}>
                 Kezdjük el →
               </button>
             </div>
