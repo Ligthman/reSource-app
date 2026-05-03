@@ -18,60 +18,31 @@ const ratingOrder = ["A+++","A++","A+","A","B","C","D","E","F","G"];
 
 function HouseLeafLogo({ size = 26, color = "#fff" }) {
   return (
-    <svg width={size} height={size} viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-      {/* House outline */}
-      <path d="M2 14L16 3L30 14V30H21V21H11V30H2V14Z"
-        stroke={color} strokeWidth="2.2" strokeLinejoin="round" fill="none"/>
-      {/* Chimney */}
-      <path d="M20 3V8" stroke={color} strokeWidth="2" strokeLinecap="round"/>
-      {/* Leaf - bigger and more visible */}
-      <path d="M11 24C11 24 12 17 18 15C18 15 19 21 15 24C15 24 17 24 20 21"
-        stroke={color} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" fill="none"/>
-      {/* Leaf stem */}
-      <path d="M15 24C13.5 21 18 15 18 15"
-        stroke={color} strokeWidth="1.3" strokeLinecap="round" fill="none"/>
+    <svg width={size} height={size} viewBox="0 0 32 32" fill="none">
+      <path d="M2 14L16 3L30 14V30H21V21H11V30H2V14Z" stroke={color} strokeWidth="2.2" strokeLinejoin="round" fill="none"/>
+      <path d="M11 24C11 24 12 17 18 15C18 15 19 21 15 24C17 24 20 21 20 21" stroke={color} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" fill="none"/>
+      <path d="M15 24C13.5 21 18 15 18 15" stroke={color} strokeWidth="1.3" strokeLinecap="round" fill="none"/>
     </svg>
   );
 }
 
 function calcROI(answers, rec) {
-  const sizeMap = {"40 m² alatt":35,"40–70 m²":55,"70–120 m²":95,"120–200 m²":160,"200 m² felett":220};
+  const sizeMap = {"40 m\u00b2 alatt":35,"40\u201370 m\u00b2":55,"70\u2013120 m\u00b2":95,"120\u2013200 m\u00b2":160,"200 m\u00b2 felett":220};
   const size = sizeMap[answers.r_size] || 80;
-  const gasBill = {"Nincs gáz":0,"0–15 000 Ft":8000,"15 000–40 000 Ft":25000,"40 000–80 000 Ft":60000,"80 000 Ft felett":100000};
-  const elecBill = {"0–10 000 Ft":5000,"10 000–25 000 Ft":17000,"25 000–50 000 Ft":37000,"50 000 Ft felett":65000};
+  const gasBill = {"Nincs g\u00e1z":0,"0\u201315 000 Ft":8000,"15 000\u201340 000 Ft":25000,"40 000\u201380 000 Ft":60000,"80 000 Ft felett":100000};
+  const elecBill = {"0\u201310 000 Ft":5000,"10 000\u201325 000 Ft":17000,"25 000\u201350 000 Ft":37000,"50 000 Ft felett":65000};
   const yearlyGas = (gasBill[answers.r_gasbill] || 0) * 12;
   const yearlyElec = (elecBill[answers.r_elecbill] || 17000) * 12;
   switch(rec.name) {
-    case "Hőszigetelés":
-    case "Hőszigetelés + Nyílászárócsere": {
-      const save = Math.round(yearlyGas*0.35+yearlyElec*0.15);
-      const cost = size<60?900000:size<120?1800000:2800000;
-      return {save,cost,years:Math.round(cost/Math.max(save,1))};
-    }
-    case "Napelem rendszer": {
-      const save = Math.round(yearlyElec*0.75);
-      const cost = size<60?1800000:size<120?2800000:3800000;
-      return {save,cost,years:Math.round(cost/Math.max(save,1))};
-    }
-    case "Napkollektor (melegvíz)": {
-      const save = Math.max(Math.round(yearlyGas*0.2+yearlyElec*0.1),60000);
-      return {save,cost:650000,years:Math.round(650000/save)};
-    }
-    case "Hőszivattyú": {
-      const save = Math.round(yearlyGas*0.7);
-      return {save,cost:2500000,years:Math.round(2500000/Math.max(save,1))};
-    }
-    case "Akkumulátor rendszer": {
-      const save = Math.round(yearlyElec*0.4);
-      return {save,cost:2000000,years:Math.round(2000000/Math.max(save,1))};
-    }
-    case "EV töltő": return {save:180000,cost:250000,years:1};
-    case "Távhő optimalizálás + egyedi szabályozás":
-      return {save:Math.round(yearlyGas*0.15+yearlyElec*0.1),cost:150000,years:2};
-    case "Panel hőszigetelés (EPS rendszer)": {
-      const save = Math.max(Math.round(yearlyGas*0.3+yearlyElec*0.1),80000);
-      return {save,cost:1200000,years:Math.round(1200000/save)};
-    }
+    case "H\u0151szigetel\u00e9s":
+    case "H\u0151szigetel\u00e9s + Ny\u00edl\u00e1sz\u00e1r\u00f3csere": { const s=Math.round(yearlyGas*0.35+yearlyElec*0.15); const c=size<60?900000:size<120?1800000:2800000; return {save:s,cost:c,years:Math.round(c/Math.max(s,1))}; }
+    case "Napelem rendszer": { const s=Math.round(yearlyElec*0.75); const c=size<60?1800000:size<120?2800000:3800000; return {save:s,cost:c,years:Math.round(c/Math.max(s,1))}; }
+    case "Napkollektor (melegv\u00edz)": { const s=Math.max(Math.round(yearlyGas*0.2+yearlyElec*0.1),60000); return {save:s,cost:650000,years:Math.round(650000/s)}; }
+    case "H\u0151szivatty\u00fa": { const s=Math.round(yearlyGas*0.7); return {save:s,cost:2500000,years:Math.round(2500000/Math.max(s,1))}; }
+    case "Akkumul\u00e1tor rendszer": { const s=Math.round(yearlyElec*0.4); return {save:s,cost:2000000,years:Math.round(2000000/Math.max(s,1))}; }
+    case "EV t\u00f6lt\u0151": return {save:180000,cost:250000,years:1};
+    case "T\u00e1vh\u0151 optimaliz\u00e1l\u00e1s + egyedi szab\u00e1lyoz\u00e1s": return {save:Math.round(yearlyGas*0.15+yearlyElec*0.1),cost:150000,years:2};
+    case "Panel h\u0151szigetel\u00e9s (EPS rendszer)": { const s=Math.max(Math.round(yearlyGas*0.3+yearlyElec*0.1),80000); return {save:s,cost:1200000,years:Math.round(1200000/s)}; }
     default: return null;
   }
 }
@@ -80,6 +51,84 @@ function formatFt(n) {
   if (n>=1000000) return (n/1000000).toFixed(1).replace('.0','')+' M Ft';
   if (n>=1000) return Math.round(n/1000)+' e Ft';
   return n+' Ft';
+}
+
+function calcWater(answers) {
+  const sizeMap = {"40 m\u00b2 alatt":35,"40\u201370 m\u00b2":55,"70\u2013120 m\u00b2":95,"120\u2013200 m\u00b2":160,"200 m\u00b2 felett":220};
+  const size = sizeMap[answers.r_size] || 80;
+  const roofArea = Math.round(size * 0.65);
+  const city = (answers.r_city || "").toLowerCase();
+  let rainfall = 550;
+  if (city.includes("budapest")||city.includes("1")) rainfall=580;
+  else if (city.includes("debrecen")||city.includes("4")) rainfall=520;
+  else if (city.includes("p\u00e9cs")||city.includes("7")) rainfall=640;
+  else if (city.includes("gy\u0151r")||city.includes("9")) rainfall=600;
+  else if (city.includes("miskolc")||city.includes("3")) rainfall=560;
+  else if (city.includes("sopron")) rainfall=680;
+  const runoff = answers.r_roof_type==="Laposteto (saj\u00e1t)"?0.85:0.80;
+  const annualLiters = Math.round(roofArea*rainfall*runoff);
+  const persons = {"1 f\u0151":1,"2 f\u0151":2,"3\u20134 f\u0151":3.5,"5+ f\u0151":5}[answers.r_persons]||2;
+  const replaceable = Math.round(persons*150*365*0.40);
+  const savings = Math.round(Math.min(annualLiters,replaceable)*0.35);
+  const tankSize = Math.max(Math.round(Math.min(annualLiters,replaceable)/6/1000)*1000,3000);
+  let droughtRisk="K\u00f6zepes", droughtColor="#E67E22";
+  if (rainfall<520){droughtRisk="Magas";droughtColor="#E74C3C";}
+  else if (rainfall>620){droughtRisk="Alacsony";droughtColor="#27AE60";}
+  return {roofArea,rainfall,annualLiters,replaceable,savings,tankSize,droughtRisk,droughtColor,
+    selfSufficiency:Math.round(Math.min(annualLiters/replaceable*100,100))};
+}
+
+function WaterCard({answers}) {
+  if (!answers.r_roof_type||answers.r_roof_type.includes("Nincs saját tető")) return null;
+  const w = calcWater(answers);
+  return (
+    <div style={{background:"linear-gradient(135deg,#EBF5FB,#E8F8F5)",border:"1.5px solid #A9D4F055",borderRadius:14,overflow:"hidden",marginBottom:14}}>
+      <div style={{padding:"14px 16px",background:"linear-gradient(135deg,#1A5276,#1A7A5E)",display:"flex",alignItems:"center",gap:12}}>
+        <span style={{fontSize:22}}>💧</span>
+        <div>
+          <div style={{fontWeight:700,fontSize:14,color:"#fff"}}>Vízgazdálkodási elemzés</div>
+          <div style={{fontSize:11,color:"#A8D8EA",marginTop:1}}>A te tetőd és régiód alapján számolva</div>
+        </div>
+      </div>
+      <div style={{padding:"14px 16px"}}>
+        <div style={{display:"flex",gap:8,flexWrap:"wrap",marginBottom:12}}>
+          {[
+            {label:"ÉVI GYŰJTHETŐ VÍZ",val:`${(w.annualLiters/1000).toFixed(0)}m³`,sub:`${w.annualLiters.toLocaleString()} liter`,color:"#1A5276"},
+            {label:"ÉVI MEGTAKARÍTÁS",val:formatFt(w.savings),sub:"vízdíj megtakarítás",color:"#1A7A5E"},
+            {label:"ÖNELLÁTÁS",val:`${w.selfSufficiency}%`,sub:"nem ivóvíz igény",color:"#1A5276"},
+          ].map(item=>(
+            <div key={item.label} style={{background:"#fff",borderRadius:10,padding:"12px 14px",flex:1,minWidth:90,border:"1px solid #A9D4F033"}}>
+              <div style={{fontSize:10,color:"#5D8AA8",fontWeight:700,marginBottom:4}}>{item.label}</div>
+              <div style={{fontSize:18,fontWeight:800,color:item.color}}>{item.val}</div>
+              <div style={{fontSize:11,color:"#888"}}>{item.sub}</div>
+            </div>
+          ))}
+        </div>
+        <div style={{background:"#fff",borderRadius:10,padding:"12px 14px",marginBottom:10,border:"1px solid #A9D4F033"}}>
+          <div style={{display:"flex",justifyContent:"space-between",marginBottom:6}}>
+            <span style={{fontSize:12,fontWeight:700,color:"#1A5276"}}>Évi csapadék a régiódban</span>
+            <span style={{fontSize:12,fontWeight:800,color:"#1A5276"}}>{w.rainfall} mm</span>
+          </div>
+          <div style={{height:8,background:"#E8F4FD",borderRadius:4,overflow:"hidden"}}>
+            <div style={{height:"100%",width:`${Math.round(w.rainfall/800*100)}%`,background:"linear-gradient(90deg,#3498DB,#1A5276)",borderRadius:4}}/>
+          </div>
+        </div>
+        <div style={{display:"flex",gap:8,marginBottom:12}}>
+          <div style={{background:w.droughtColor+"18",border:`1px solid ${w.droughtColor}44`,borderRadius:8,padding:"8px 12px",flex:1}}>
+            <div style={{fontSize:10,color:w.droughtColor,fontWeight:700,marginBottom:2}}>ASZÁLYKOCKÁZAT</div>
+            <div style={{fontSize:13,fontWeight:800,color:w.droughtColor}}>{w.droughtRisk}</div>
+          </div>
+          <div style={{background:"#E8F8F5",border:"1px solid #A8E6C544",borderRadius:8,padding:"8px 12px",flex:2}}>
+            <div style={{fontSize:10,color:"#1A7A5E",fontWeight:700,marginBottom:2}}>AJÁNLOTT TARTÁLYMÉRET</div>
+            <div style={{fontSize:13,fontWeight:800,color:"#1A7A5E"}}>{(w.tankSize/1000).toFixed(0)}.000 liter</div>
+          </div>
+        </div>
+        <div style={{fontSize:11,color:"#666",lineHeight:1.6,background:"#f0f8ff",borderRadius:8,padding:"10px 12px"}}>
+          Az adatok a megadott irányítószám alapján kerültek számításba – az ottani évi átlagos csapadékmennyiség és az épület tető mérete alapján.
+        </div>
+      </div>
+    </div>
+  );
 }
 
 const BLOCKS = {
@@ -167,62 +216,38 @@ const QUESTIONS = {
 
 function calcRating(answers, flow) {
   let score = 0;
-  const yearKey = flow==="residential"?"r_year":"c_year";
-  const year = answers[yearKey]||"";
+  const year = answers[flow==="residential"?"r_year":"c_year"]||"";
   if (year.includes("1960 előtt")||year.includes("1980 előtt")) score+=38;
   else if (year.includes("1960")||year.includes("1980")) score+=28;
   else if (year.includes("1980")||year.includes("2000")) score+=18;
   else if (year.includes("2000")||year.includes("2010")) score+=10;
   else score+=4;
   if (flow==="residential") {
-    const wallIns=answers.r_wall_ins||"";
-    if (wallIns.includes("Nincs")) score+=18;
-    else if (wallIns.includes("vékonyabb")) score+=8;
-    const roofIns=answers.r_roof_ins||"";
-    if (roofIns.includes("Nem")&&!roofIns.includes("tudom")) score+=10;
-    else if (roofIns.includes("vékony")) score+=5;
-    const win=answers.r_windows||"";
-    if (win.includes("Egyrétegű")) score+=18;
-    else if (win.includes("régebbi")) score+=10;
-    else if (win.includes("modern")) score+=4;
+    const wi=answers.r_wall_ins||""; if(wi.includes("Nincs"))score+=18; else if(wi.includes("vékonyabb"))score+=8;
+    const ri=answers.r_roof_ins||""; if(ri.includes("Nem")&&!ri.includes("tudom"))score+=10; else if(ri.includes("vékony"))score+=5;
+    const win=answers.r_windows||""; if(win.includes("Egyrétegű"))score+=18; else if(win.includes("régebbi"))score+=10; else if(win.includes("modern"))score+=4;
     const heat=answers.r_heating||[];
-    if (Array.isArray(heat)&&heat.some(h=>h.includes("Gázkazán")||h.includes("Kombi"))) score+=8;
-    if (Array.isArray(heat)&&heat.some(h=>h.includes("Hőszivattyú"))) score-=8;
-    const gas=answers.r_gasbill||"";
-    if (gas.includes("80 000")) score+=10;
-    else if (gas.includes("40 000")) score+=6;
+    if(Array.isArray(heat)&&heat.some(h=>h.includes("Gázkazán")||h.includes("Kombi")))score+=8;
+    if(Array.isArray(heat)&&heat.some(h=>h.includes("Hőszivattyú")))score-=8;
+    const gas=answers.r_gasbill||""; if(gas.includes("80 000"))score+=10; else if(gas.includes("40 000"))score+=6;
   } else {
-    const ins=answers.c_insulation||[];
-    if (Array.isArray(ins)&&ins.includes("Nincs szigetelés")) score+=20;
-    const win=answers.c_windows||"";
-    if (win.includes("Egyrétegű")) score+=15;
-    else if (win.includes("régebbi")) score+=8;
-    const gas=answers.c_gasbill||"";
-    if (gas.includes("500 000")) score+=12;
-    else if (gas.includes("150 000")) score+=7;
+    const ins=answers.c_insulation||[]; if(Array.isArray(ins)&&ins.includes("Nincs szigetelés"))score+=20;
+    const win=answers.c_windows||""; if(win.includes("Egyrétegű"))score+=15; else if(win.includes("régebbi"))score+=8;
+    const gas=answers.c_gasbill||""; if(gas.includes("500 000"))score+=12; else if(gas.includes("150 000"))score+=7;
   }
   score=Math.max(0,Math.min(100,score));
-  if (score<=8) return "A+++";
-  if (score<=16) return "A++";
-  if (score<=24) return "A+";
-  if (score<=32) return "A";
-  if (score<=42) return "B";
-  if (score<=52) return "C";
-  if (score<=62) return "D";
-  if (score<=72) return "E";
-  if (score<=82) return "F";
-  return "G";
+  if(score<=8)return"A+++"; if(score<=16)return"A++"; if(score<=24)return"A+"; if(score<=32)return"A";
+  if(score<=42)return"B"; if(score<=52)return"C"; if(score<=62)return"D"; if(score<=72)return"E"; if(score<=82)return"F"; return"G";
 }
 
 function improvedRating(current) {
-  const idx=ratingOrder.indexOf(current);
-  return ratingOrder[Math.max(0,idx-3)];
+  return ratingOrder[Math.max(0,ratingOrder.indexOf(current)-3)];
 }
 
 function getResidentialRecs(answers) {
   const recs=[];
   const own=answers.r_ownership==="Saját tulajdon";
-  const hasRoof=!["Nincs saját tető (lakás)"].includes(answers.r_roof_type);
+  const hasRoof=!answers.r_roof_type?.includes("Nincs saját tető");
   const goodDir=(answers.r_orientation||[]).some(o=>["Dél","Délkelet","Délnyugat"].includes(o));
   const oldBuilding=["1960 előtt","1960–1980","1980–2000"].includes(answers.r_year);
   const poorWallIns=(answers.r_wall_ins||"").includes("Nincs")||(answers.r_wall_ins||"").includes("vékonyabb");
@@ -238,19 +263,18 @@ function getResidentialRecs(answers) {
   const bigBudget=["2 000 000 – 5 000 000 Ft","5 000 000 Ft felett"].includes(answers.r_budget);
   const wantsIndep=(answers.r_goal||[]).includes("Energetikai függetlenség");
   const hasWater=["Nagy kert / rendszeres locsolás","Medence is van"].includes(answers.r_water);
-  if (oldBuilding&&(poorWallIns||poorRoofIns)) recs.push({priority:1,name:"Hőszigetelés",tag:"ELSŐ LÉPÉS",tagColor:C.red,cost:"800 000 – 3 000 000 Ft",payback:"5–10 év"});
-  if (isPanel&&poorWallIns) recs.push({priority:1,name:"Panel hőszigetelés (EPS rendszer)",tag:"PANEL SPECIFIKUS",tagColor:C.red,cost:"600 000 – 2 000 000 Ft",payback:"6–10 év"});
-  if (hasTavho) recs.push({priority:2,name:"Távhő optimalizálás + egyedi szabályozás",tag:"MEGTAKARÍTÁS",tagColor:C.orange,cost:"80 000 – 300 000 Ft",payback:"2–4 év"});
-  if (badWindows) recs.push({priority:1,name:"Nyílászárócsere",tag:"FONTOS",tagColor:C.orange,cost:"300 000 – 1 500 000 Ft",payback:"4–7 év"});
-  if (own&&hasRoof&&goodDir&&noSolar) recs.push({priority:poorWallIns?2:1,name:"Napelem rendszer",tag:highElec?"KIEMELT":"AJÁNLOTT",tagColor:C.sun,cost:"1 500 000 – 4 000 000 Ft",payback:"5–8 év"});
-  if (answers.r_hotwater!=="Napkollektor"&&own&&hasRoof) recs.push({priority:2,name:"Napkollektor (melegvíz)",tag:"GYORS MEGTÉRÜLÉS",tagColor:C.sunDark,cost:"400 000 – 900 000 Ft",payback:"4–7 év"});
-  if (gasHeat&&!poorWallIns&&bigBudget&&own) recs.push({priority:3,name:"Hőszivattyú",tag:highGas?"KIEMELT – MAGAS GÁZ":"HOSSZÚ TÁV",tagColor:highGas?C.red:C.blue,cost:"1 500 000 – 4 500 000 Ft",payback:"7–12 év"});
-  if (hasEV&&own) recs.push({priority:3,name:"EV töltő",tag:"PRAKTIKUS",tagColor:C.orange,cost:"150 000 – 400 000 Ft",payback:"Azonnali"});
-  if (wantsIndep&&bigBudget) recs.push({priority:4,name:"Akkumulátor rendszer",tag:"AUTONÓMIA",tagColor:C.sunDark,cost:"1 500 000 – 3 500 000 Ft",payback:"8–12 év"});
-  if (hasWater&&own) recs.push({priority:5,name:"Esővízgyűjtés",tag:"EGYSZERŰ START",tagColor:C.teal,cost:"50 000 – 300 000 Ft",payback:"3–6 év"});
-  if (recs.length===0) recs.push({priority:1,name:"Okos termosztát + mérés",tag:"AZONNAL",tagColor:C.sunDark,cost:"30 000 – 150 000 Ft",payback:"1–2 év",confidence:85});
-  const sorted=recs.sort((a,b)=>a.priority-b.priority);
-  return sorted.map((r,i)=>({
+  if(oldBuilding&&(poorWallIns||poorRoofIns))recs.push({priority:1,name:"Hőszigetelés",tag:"ELSŐ LÉPÉS",tagColor:C.red,cost:"800 000 – 3 000 000 Ft",payback:"5–10 év"});
+  if(isPanel&&poorWallIns)recs.push({priority:1,name:"Panel hőszigetelés (EPS rendszer)",tag:"PANEL SPECIFIKUS",tagColor:C.red,cost:"600 000 – 2 000 000 Ft",payback:"6–10 év"});
+  if(hasTavho)recs.push({priority:2,name:"Távhő optimalizálás + egyedi szabályozás",tag:"MEGTAKARÍTÁS",tagColor:C.orange,cost:"80 000 – 300 000 Ft",payback:"2–4 év"});
+  if(badWindows)recs.push({priority:1,name:"Nyílászárócsere",tag:"FONTOS",tagColor:C.orange,cost:"300 000 – 1 500 000 Ft",payback:"4–7 év"});
+  if(own&&hasRoof&&goodDir&&noSolar)recs.push({priority:poorWallIns?2:1,name:"Napelem rendszer",tag:highElec?"KIEMELT":"AJÁNLOTT",tagColor:C.sun,cost:"1 500 000 – 4 000 000 Ft",payback:"5–8 év"});
+  if(answers.r_hotwater!=="Napkollektor"&&own&&hasRoof)recs.push({priority:2,name:"Napkollektor (melegvíz)",tag:"GYORS MEGTÉRÜLÉS",tagColor:C.sunDark,cost:"400 000 – 900 000 Ft",payback:"4–7 év"});
+  if(gasHeat&&!poorWallIns&&bigBudget&&own)recs.push({priority:3,name:"Hőszivattyú",tag:highGas?"KIEMELT – MAGAS GÁZ":"HOSSZÚ TÁV",tagColor:highGas?C.red:C.blue,cost:"1 500 000 – 4 500 000 Ft",payback:"7–12 év"});
+  if(hasEV&&own)recs.push({priority:3,name:"EV töltő",tag:"PRAKTIKUS",tagColor:C.orange,cost:"150 000 – 400 000 Ft",payback:"Azonnali"});
+  if(wantsIndep&&bigBudget)recs.push({priority:4,name:"Akkumulátor rendszer",tag:"AUTONÓMIA",tagColor:C.sunDark,cost:"1 500 000 – 3 500 000 Ft",payback:"8–12 év"});
+  if(hasWater&&own)recs.push({priority:5,name:"Esővízgyűjtés",tag:"EGYSZERŰ START",tagColor:C.teal,cost:"50 000 – 300 000 Ft",payback:"3–6 év"});
+  if(recs.length===0)recs.push({priority:1,name:"Okos termosztát + mérés",tag:"AZONNAL",tagColor:C.sunDark,cost:"30 000 – 150 000 Ft",payback:"1–2 év",confidence:85});
+  return recs.sort((a,b)=>a.priority-b.priority).map((r,i)=>({
     ...r,
     confidence:r.confidence||Math.max(95-(i*8)-(poorWallIns&&r.name.includes("Napelem")?25:0),40),
     notYet:r.name==="Napelem rendszer"&&(poorWallIns||poorRoofIns)?"Előbb a szigetelés – nélküle 25–30%-kal kevesebbet termel":
@@ -270,26 +294,23 @@ function getCommercialRecs(answers) {
   const bigBudget=["5–20 M Ft","20 M Ft felett"].includes(answers.c_budget);
   const ins=answers.c_insulation||[];
   const poorIns=Array.isArray(ins)&&ins.includes("Nincs szigetelés");
-  if (poorIns) recs.push({priority:1,name:"Épületszigetelés",tag:"ALAP",tagColor:C.red,cost:"Egyedi felmérés",payback:"5–10 év"});
-  if (own&&hasRoof&&goodDir&&noSolar) recs.push({priority:poorIns?2:1,name:"Ipari / kereskedelmi napelem",tag:highElec?"KIEMELT":"AJÁNLOTT",tagColor:C.sun,cost:"3 000 000 – 20 000 000 Ft",payback:"4–7 év"});
-  if (highGas) recs.push({priority:2,name:"Hőszivattyú / kazáncsere",tag:"REZSIOPTIMALIZÁLÁS",tagColor:C.blue,cost:"Egyedi felmérés",payback:"5–10 év"});
-  if (!answers.c_bms||answers.c_bms==="Nincs") recs.push({priority:3,name:"Épületautomatizálás (BMS)",tag:"ESG + MEGTAKARÍTÁS",tagColor:C.teal,cost:"500 000 – 3 000 000 Ft",payback:"3–6 év"});
-  if (bigBudget) recs.push({priority:4,name:"Akkumulátor (kereskedelmi)",tag:"CSÚCSTELJ. KEZELÉS",tagColor:C.sunDark,cost:"5 000 000 – 30 000 000 Ft",payback:"6–10 év"});
-  if (answers.c_ev==="Van már"||answers.c_ev==="Tervezve") recs.push({priority:3,name:"Céges EV töltők",tag:"FLOTTA",tagColor:C.orange,cost:"300 000 – 2 000 000 Ft",payback:"Azonnali"});
-  if (recs.length===0) recs.push({priority:1,name:"Energiaaudit + mérés",tag:"ELSŐ LÉPÉS",tagColor:C.sunDark,cost:"150 000 – 400 000 Ft",payback:"Azonnal"});
+  if(poorIns)recs.push({priority:1,name:"Épületszigetelés",tag:"ALAP",tagColor:C.red,cost:"Egyedi felmérés",payback:"5–10 év"});
+  if(own&&hasRoof&&goodDir&&noSolar)recs.push({priority:poorIns?2:1,name:"Ipari / kereskedelmi napelem",tag:highElec?"KIEMELT":"AJÁNLOTT",tagColor:C.sun,cost:"3 000 000 – 20 000 000 Ft",payback:"4–7 év"});
+  if(highGas)recs.push({priority:2,name:"Hőszivattyú / kazáncsere",tag:"REZSIOPTIMALIZÁLÁS",tagColor:C.blue,cost:"Egyedi felmérés",payback:"5–10 év"});
+  if(!answers.c_bms||answers.c_bms==="Nincs")recs.push({priority:3,name:"Épületautomatizálás (BMS)",tag:"ESG + MEGTAKARÍTÁS",tagColor:C.teal,cost:"500 000 – 3 000 000 Ft",payback:"3–6 év"});
+  if(bigBudget)recs.push({priority:4,name:"Akkumulátor (kereskedelmi)",tag:"CSÚCSTELJ. KEZELÉS",tagColor:C.sunDark,cost:"5 000 000 – 30 000 000 Ft",payback:"6–10 év"});
+  if(answers.c_ev==="Van már"||answers.c_ev==="Tervezve")recs.push({priority:3,name:"Céges EV töltők",tag:"FLOTTA",tagColor:C.orange,cost:"300 000 – 2 000 000 Ft",payback:"Azonnali"});
+  if(recs.length===0)recs.push({priority:1,name:"Energiaaudit + mérés",tag:"ELSŐ LÉPÉS",tagColor:C.sunDark,cost:"150 000 – 400 000 Ft",payback:"Azonnal"});
   return recs.sort((a,b)=>a.priority-b.priority);
 }
 
 function generatePDF(answers,flow,currentRating,improvedRat,recs,contact={}) {
   const date=new Date().toLocaleDateString("hu-HU");
-  const typeKey=flow==="residential"?"r_type":"c_type";
-  const sizeKey=flow==="residential"?"r_size":"c_size";
-  const buildingType=answers[typeKey]||"–";
-  const size=answers[sizeKey]||"–";
-  const currentColor=ratingColors[currentRating]||"#888";
-  const improvedColor=ratingColors[improvedRat]||"#888";
-  const currentPct=Math.round(((ratingOrder.length-1-ratingOrder.indexOf(currentRating))/(ratingOrder.length-1))*100);
-  const improvedPct=Math.round(((ratingOrder.length-1-ratingOrder.indexOf(improvedRat))/(ratingOrder.length-1))*100);
+  const buildingType=answers[flow==="residential"?"r_type":"c_type"]||"–";
+  const size=answers[flow==="residential"?"r_size":"c_size"]||"–";
+  const cC=ratingColors[currentRating]||"#888"; const iC=ratingColors[improvedRat]||"#888";
+  const cP=Math.round(((ratingOrder.length-1-ratingOrder.indexOf(currentRating))/(ratingOrder.length-1))*100);
+  const iP=Math.round(((ratingOrder.length-1-ratingOrder.indexOf(improvedRat))/(ratingOrder.length-1))*100);
   const steps=ratingOrder.indexOf(currentRating)-ratingOrder.indexOf(improvedRat);
   const recRows=recs.map(r=>`<tr><td style="padding:10px 14px;font-size:13px;border-bottom:1px solid #f0f0f0;"><strong>${r.name}</strong></td><td style="padding:10px 14px;font-size:13px;color:#555;border-bottom:1px solid #f0f0f0;">${r.cost}</td><td style="padding:10px 14px;font-size:13px;color:#555;border-bottom:1px solid #f0f0f0;">${r.payback}</td></tr>`).join("");
   const html=`<!DOCTYPE html><html lang="hu"><head><meta charset="UTF-8"><title>reSource</title>
@@ -298,11 +319,6 @@ function generatePDF(answers,flow,currentRating,improvedRat,recs,contact={}) {
 @media print{body{-webkit-print-color-adjust:exact;print-color-adjust:exact;}.no-print{display:none!important;}}
 .page{max-width:760px;margin:0 auto;padding:48px 44px;}
 .header{display:flex;align-items:center;justify-content:space-between;padding-bottom:22px;margin-bottom:32px;border-bottom:3px solid #4CAF50;}
-.logo-icon{width:46px;height:46px;background:#4CAF50;border-radius:10px;display:flex;align-items:center;justify-content:center;}
-.logo-name{font-size:20px;font-weight:700;margin-left:14px;}
-.logo-sub{font-size:11px;color:#999;}
-.doc-title{font-size:13px;font-weight:700;text-align:right;}
-.doc-date{font-size:12px;color:#999;text-align:right;margin-top:2px;}
 .hero{background:#E8F5E9;border-radius:14px;padding:24px 26px;margin-bottom:28px;}
 .hero-title{font-size:24px;font-weight:700;margin-bottom:4px;}
 .hero-sub{font-size:14px;color:#555;}
@@ -313,32 +329,23 @@ function generatePDF(answers,flow,currentRating,improvedRat,recs,contact={}) {
 .rating-box{background:#F9FDF9;border:1.5px solid #4CAF5044;border-radius:14px;padding:22px 24px;margin-bottom:28px;}
 .rating-title{font-size:11px;font-weight:800;color:#2E7D32;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:18px;}
 .rating-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;}
-.rating-label{font-size:13px;color:#555;font-weight:600;}
 .rating-badge{font-size:18px;font-weight:900;padding:3px 14px;border-radius:7px;}
 .bar-bg{height:8px;background:#E0E0E0;border-radius:4px;overflow:hidden;margin-bottom:16px;}
 .bar-fill{height:100%;border-radius:4px;background:linear-gradient(90deg,#cc2222,#f09000,#d4d400,#6abf3d,#1a7a1a);}
 .improve-badge{display:inline-block;background:#E8F5E9;color:#1a6a1a;border:1px solid #4CAF5044;border-radius:8px;padding:7px 16px;font-size:13px;font-weight:700;margin-top:4px;}
-.recs-title{font-size:14px;font-weight:700;margin-bottom:12px;}
 .recs-table{width:100%;border-collapse:collapse;margin-bottom:26px;}
 .recs-table thead{background:#F2F2F2;}
 .recs-table th{padding:10px 14px;font-size:10px;text-align:left;color:#999;font-weight:700;text-transform:uppercase;letter-spacing:.8px;}
 .rule-box{background:#F2F2F2;border-radius:12px;padding:16px 20px;margin-bottom:28px;}
-.rule-title{font-size:13px;font-weight:700;margin-bottom:6px;}
-.rule-box p{font-size:13px;color:#555;line-height:1.7;}
 .footer{border-top:2px solid #4CAF50;padding-top:18px;display:flex;justify-content:space-between;align-items:center;}
-.footer-name{font-size:13px;font-weight:800;}
-.footer-contact{font-size:11px;color:#999;margin-top:2px;}
-.footer-right{text-align:right;font-size:11px;color:#999;}
-.disclaimer{font-size:10px;color:#bbb;margin-top:18px;line-height:1.6;}
-.print-btn-wrap{text-align:center;padding:24px 0 8px;}
 .print-btn{background:#4CAF50;border:none;border-radius:12px;padding:14px 36px;font-size:16px;font-weight:700;color:#fff;cursor:pointer;font-family:inherit;}
 </style></head><body><div class="page">
 <div class="header">
-  <div style="display:flex;align-items:center;">
-    <div class="logo-icon"><svg width="28" height="28" viewBox="0 0 32 32" fill="none"><path d="M3 15L16 4L29 15V29H21V21H11V29H3V15Z" stroke="white" stroke-width="2.5" stroke-linejoin="round" fill="none"/><path d="M14 21C14 21 15 16 20 15C20 15 20 20 17 22" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg></div>
-    <div class="logo-name"><span style="font-weight:300">re</span><span style="font-weight:700">Source</span> <span style="font-size:13px;color:#999;font-weight:400">app</span><div class="logo-sub">resourcestrategist.com</div></div>
+  <div style="display:flex;align-items:center;gap:14px;">
+    <img src="/logo.png" height="46" style="object-fit:contain;" alt="reSource app"/>
+    <div style="font-size:11px;color:#999;">resourcestrategist.com</div>
   </div>
-  <div><div class="doc-title">Épület Energetikai Összefoglaló</div><div class="doc-date">${date}</div></div>
+  <div style="text-align:right;"><div style="font-size:13px;font-weight:700;">Épület Energetikai Összefoglaló</div><div style="font-size:12px;color:#999;margin-top:2px;">${date}</div></div>
 </div>
 <div class="hero">
   <div class="hero-title">Az épületed energetikai terve</div>
@@ -353,21 +360,21 @@ function generatePDF(answers,flow,currentRating,improvedRat,recs,contact={}) {
 </div>
 <div class="rating-box">
   <div class="rating-title">Energetikai Besorolás</div>
-  <div class="rating-row"><span class="rating-label">Jelenlegi</span><span class="rating-badge" style="color:${currentColor};background:${currentColor}18">${currentRating}</span></div>
-  <div class="bar-bg"><div class="bar-fill" style="width:${currentPct}%"></div></div>
-  <div class="rating-row"><span class="rating-label">Felújítás után</span><span class="rating-badge" style="color:${improvedColor};background:${improvedColor}18">${improvedRat}</span></div>
-  <div class="bar-bg"><div class="bar-fill" style="width:${improvedPct}%"></div></div>
+  <div class="rating-row"><span style="font-size:13px;color:#555;font-weight:600;">Jelenlegi</span><span class="rating-badge" style="color:${cC};background:${cC}18">${currentRating}</span></div>
+  <div class="bar-bg"><div class="bar-fill" style="width:${cP}%"></div></div>
+  <div class="rating-row"><span style="font-size:13px;color:#555;font-weight:600;">Felújítás után</span><span class="rating-badge" style="color:${iC};background:${iC}18">${improvedRat}</span></div>
+  <div class="bar-bg"><div class="bar-fill" style="width:${iP}%"></div></div>
   <div class="improve-badge">${steps} kategóriás javulás érhető el az ajánlott lépésekkel</div>
 </div>
-<div class="recs-title">Ajánlott fejlesztési lépések – prioritási sorrendben</div>
+<div style="font-size:14px;font-weight:700;margin-bottom:12px;">Ajánlott fejlesztési lépések – prioritási sorrendben</div>
 <table class="recs-table"><thead><tr><th>Rendszer</th><th>Beruházás</th><th>Megtérülés</th></tr></thead><tbody>${recRows}</tbody></table>
-<div class="rule-box"><div class="rule-title">Az arany szabály</div><p>Először csökkentsd a veszteségeket (szigetelés, nyílászárók), aztán termeld az energiát (napelem, napkollektor), végül tárold (akkumulátor).</p></div>
+<div class="rule-box"><div style="font-size:13px;font-weight:700;margin-bottom:6px;">Az arany szabály</div><p style="font-size:13px;color:#555;line-height:1.7;">Először csökkentsd a veszteségeket (szigetelés, nyílászárók), aztán termeld az energiát (napelem, napkollektor), végül tárold (akkumulátor).</p></div>
 <div class="footer">
-  <div><div class="footer-name">reSource app</div><div class="footer-contact">hello@resourcestrategist.com · resourcestrategist.com</div></div>
-  <div class="footer-right">© 2025 reSource</div>
+  <div><div style="font-size:13px;font-weight:800;">reSource app</div><div style="font-size:11px;color:#999;margin-top:2px;">hello@resourcestrategist.com · resourcestrategist.com</div></div>
+  <div style="text-align:right;font-size:11px;color:#999;">© 2025 reSource</div>
 </div>
-<div class="disclaimer">* Tájékoztató jellegű becslés. Pontos energetikai tanúsítványhoz tanúsító szakember bevonása szükséges.</div>
-<div class="print-btn-wrap no-print"><button class="print-btn" onclick="window.print()">Mentés PDF-ként</button></div>
+<div style="font-size:10px;color:#bbb;margin-top:18px;line-height:1.6;">* Tájékoztató jellegű becslés. Pontos energetikai tanúsítványhoz tanúsító szakember bevonása szükséges.</div>
+<div style="text-align:center;padding:24px 0 8px;" class="no-print"><button class="print-btn" onclick="window.print()">Mentés PDF-ként</button></div>
 </div></body></html>`;
   const win=window.open("","_blank");
   if(win){win.document.write(html);win.document.close();}
@@ -398,7 +405,7 @@ function QuizOption({label,selected,onClick,multi}) {
   return (
     <button onClick={onClick} onMouseEnter={()=>setHover(true)} onMouseLeave={()=>setHover(false)}
       style={{padding:"12px 16px",background:selected?C.sunLight:hover?"#F5FAF5":C.white,border:`1.5px solid ${selected?C.sun:hover?C.sun+"66":C.grayMid}`,borderRadius:8,cursor:"pointer",textAlign:"left",fontSize:14,color:C.text,fontWeight:selected?600:400,display:"flex",alignItems:"center",gap:12,width:"100%",transition:"all 0.15s",fontFamily:"'Poppins',sans-serif"}}>
-      <div style={{width:18,height:18,borderRadius:multi?4:"50%",border:`2px solid ${selected?C.sun:C.grayMid}`,background:selected?C.sun:"transparent",flexShrink:0,display:"flex",alignItems:"center",justifyContent:"center",fontSize:10,color:"#fff",fontWeight:900,transition:"all 0.15s"}}>
+      <div style={{width:18,height:18,borderRadius:multi?4:"50%",border:`2px solid ${selected?C.sun:C.grayMid}`,background:selected?C.sun:"transparent",flexShrink:0,display:"flex",alignItems:"center",justifyContent:"center",fontSize:10,color:"#fff",fontWeight:900}}>
         {selected&&(multi?"✓":"●")}
       </div>
       {label}
@@ -408,8 +415,7 @@ function QuizOption({label,selected,onClick,multi}) {
 
 function RatingBar({label,rating}) {
   const color=ratingColors[rating]||"#888";
-  const idx=ratingOrder.indexOf(rating);
-  const pct=Math.round(((ratingOrder.length-1-idx)/(ratingOrder.length-1))*100);
+  const pct=Math.round(((ratingOrder.length-1-ratingOrder.indexOf(rating))/(ratingOrder.length-1))*100);
   return (
     <div style={{marginBottom:10}}>
       <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:5}}>
@@ -433,26 +439,17 @@ function ResultsView({answers,flow,onRestart,detailedMode,setDetailedMode,setSte
   const [contactDone,setContactDone]=useState(false);
   const [contactError,setContactError]=useState("");
 
-  const sendToWebhook=(data)=>{
-    fetch(CONTACT_WEBHOOK,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(data)}).catch(()=>{});
-  };
-
   const handleContactSubmit=()=>{
     if(!contact.name.trim()){setContactError("Kérjük add meg a neved!");return;}
     if(!contact.city?.trim()){setContactError("Kérjük add meg az irányítószámot és várost!");return;}
     if(!contact.email.trim()&&!contact.phone.trim()){setContactError("Email vagy telefonszám szükséges!");return;}
-    setContactError("");
-    setContactDone(true);
-    sendToWebhook({
-      nev:contact.name,varos:contact.city,utca:contact.street||"",
-      email:contact.email||"",telefon:contact.phone||"",
-      epulet_tipus:answers.r_type||answers.c_type||"",
-      epulet_meret:answers.r_size||answers.c_size||"",
-      futes:(answers.r_heating||[]).join(", "),
-      villany_szamla:answers.r_elecbill||"",gaz_szamla:answers.r_gasbill||"",
-      flow:flow==="residential"?"Lakóépület":"Vállalkozás",
-      datum:new Date().toLocaleDateString("hu-HU"),forras:"reSource App",
-    });
+    setContactError("");setContactDone(true);
+    fetch(CONTACT_WEBHOOK,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({
+      nev:contact.name,varos:contact.city,utca:contact.street||"",email:contact.email||"",telefon:contact.phone||"",
+      epulet_tipus:answers.r_type||answers.c_type||"",epulet_meret:answers.r_size||answers.c_size||"",
+      futes:(answers.r_heating||[]).join(", "),villany_szamla:answers.r_elecbill||"",gaz_szamla:answers.r_gasbill||"",
+      flow:flow==="residential"?"Lakóépület":"Vállalkozás",datum:new Date().toLocaleDateString("hu-HU"),forras:"reSource App",
+    })}).catch(()=>{});
   };
 
   const handleDownload=()=>{
@@ -578,6 +575,9 @@ function ResultsView({answers,flow,onRestart,detailedMode,setDetailedMode,setSte
         </div>
       </div>
 
+      {/* VÍZGAZDÁLKODÁS */}
+      <WaterCard answers={{...answers, r_city: contact.city}}/>
+
       <div style={{background:C.grayLight,borderRadius:10,padding:"14px 16px",marginBottom:14}}>
         <div style={{fontSize:12,fontWeight:700,color:C.text,marginBottom:5}}>Az arany szabály</div>
         <p style={{fontSize:12,color:C.gray,lineHeight:1.7,margin:0}}>Először csökkentsd a veszteségeket (szigetelés, ablakok), aztán termeld az energiát (napelem), végül tárold (akkumulátor).</p>
@@ -686,11 +686,7 @@ export default function ResourceApp() {
   };
 
   const toggleOpt=(opt)=>{
-    if(!isMulti){
-      setAnswers(prev=>({...prev,[q.id]:opt}));
-      setTimeout(()=>advance(),160);
-      return;
-    }
+    if(!isMulti){setAnswers(prev=>({...prev,[q.id]:opt}));setTimeout(()=>advance(),160);return;}
     const excl=["Semmi nincs felújítva","Nincs szomszéd","Nem releváns"];
     setSelected(prev=>{
       if(excl.some(e=>opt.includes(e))) return [opt];
@@ -699,22 +695,9 @@ export default function ResourceApp() {
     });
   };
 
-  const confirmMulti=()=>{
-    if(selected.length===0) return;
-    setAnswers(prev=>({...prev,[q.id]:selected}));
-    advance();
-  };
-
-  const confirmFreetext=()=>{
-    setAnswers(prev=>({...prev,[q.id]:freetext}));
-    advance();
-  };
-
-  const handleBack=()=>{
-    if(step===0) setScreen("flowSelect");
-    else setStep(s=>s-1);
-  };
-
+  const confirmMulti=()=>{if(selected.length===0)return;setAnswers(prev=>({...prev,[q.id]:selected}));advance();};
+  const confirmFreetext=()=>{setAnswers(prev=>({...prev,[q.id]:freetext}));advance();};
+  const handleBack=()=>{if(step===0)setScreen("flowSelect");else setStep(s=>s-1);};
   const handleRestart=()=>{setAnswers({});setStep(0);setSelected([]);setFlow(null);setDetailedMode(false);setScreen("intro");};
 
   const font="'Poppins','Helvetica Neue',Arial,sans-serif";
@@ -723,7 +706,7 @@ export default function ResourceApp() {
     <div style={{minHeight:"100vh",background:C.grayLight,fontFamily:font,display:"flex",alignItems:"flex-start",justifyContent:"center",padding:"24px 16px 60px"}}>
       <div style={{width:"100%",maxWidth:480}}>
 
-        <div style={{display:"flex",alignItems:"center",gap:12,marginBottom:20}}>
+        <div style={{marginBottom:20}}>
           <img src="/logo.png" height={44} style={{objectFit:"contain"}} alt="reSource app"/>
         </div>
 
