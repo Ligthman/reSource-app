@@ -65,7 +65,7 @@ function calcWater(answers) {
   else if (city.includes("gy\u0151r")||city.includes("9")) rainfall=600;
   else if (city.includes("miskolc")||city.includes("3")) rainfall=560;
   else if (city.includes("sopron")) rainfall=680;
-  const runoff = answers.r_roof_type==="Laposteto (saj\u00e1t)"?0.85:0.80;
+  const runoff = answers.r_roof_type==="Lapostető (saj\u00e1t)"?0.85:0.80;
   const annualLiters = Math.round(roofArea*rainfall*runoff);
   const persons = {"1 f\u0151":1,"2 f\u0151":2,"3\u20134 f\u0151":3.5,"5+ f\u0151":5}[answers.r_persons]||2;
   const replaceable = Math.round(persons*150*365*0.40);
