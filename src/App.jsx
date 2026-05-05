@@ -1,3 +1,4 @@
+"use client";
 import { useState, useEffect } from "react";
 
 const C = {
@@ -87,7 +88,7 @@ function WaterCard({answers}) {
         <span style={{fontSize:22}}>💧</span>
         <div>
           <div style={{fontWeight:700,fontSize:14,color:"#fff"}}>Vízgazdálkodási elemzés</div>
-          <div style={{fontSize:11,color:"#A8D8EA",marginTop:1}}>A te tetőd és régiód alapján számolva</div>
+          <div style={{fontSize:11,color:"#A8D8EA",marginTop:1}}>Tetőfelület és megadott irányítószám alapján becsülve</div>
         </div>
       </div>
       <div style={{padding:"14px 16px"}}>
@@ -124,7 +125,7 @@ function WaterCard({answers}) {
           </div>
         </div>
         <div style={{fontSize:11,color:"#666",lineHeight:1.6,background:"#f0f8ff",borderRadius:8,padding:"10px 12px"}}>
-          Az adatok a megadott irányítószám alapján kerültek számításba – az ottani évi átlagos csapadékmennyiség és az épület tető mérete alapján.
+          Az adatok becslések: a megadott irányítószám/település, az átlagos csapadékmennyiség és az épület becsült tetőfelülete alapján készülnek.
         </div>
       </div>
     </div>
@@ -150,6 +151,7 @@ const BLOCKS = {
 const QUESTIONS = {
   residential: [
     {id:"r_type",block:"epulet",q:"Milyen típusú az épület?",multi:false,opts:["Önálló családi ház","Ikerház","Sorház","Társasházi lakás – téglaépület","Panellakás / panel épület","Tanya / vidéki birtok","Nyaraló"],basic:true},
+    {id:"r_zip",block:"epulet",q:"Melyik irányítószámon vagy településen van az épület?",multi:false,opts:[],freetext:true,basic:true},
     {id:"r_attached",block:"epulet",q:"Hány oldalon érintkezik más épülettel?",multi:false,opts:["Sehol – teljesen önálló","1 oldalon (ikerház)","2 oldalon (sorközi)","Több oldalon (társasház)"]},
     {id:"r_neighbors",block:"epulet",q:"Van-e szomszéd fal / szomszéd lakás?",multi:true,opts:["Felső szomszéd van","Alsó szomszéd van","Oldalsó szomszéd","Nincs szomszéd","Nem releváns"]},
     {id:"r_size",block:"epulet",q:"Mekkora az alapterület?",multi:false,opts:["40 m² alatt","40–70 m²","70–120 m²","120–200 m²","200 m² felett"],basic:true},
@@ -576,7 +578,7 @@ function ResultsView({answers,flow,onRestart,detailedMode,setDetailedMode,setSte
       </div>
 
       {/* VÍZGAZDÁLKODÁS */}
-      <WaterCard answers={{...answers, r_city: contact.city}}/>
+      {flow === "residential" && <WaterCard answers={{...answers, r_city: answers.r_zip || contact.city}} />}
 
       <div style={{background:C.grayLight,borderRadius:10,padding:"14px 16px",marginBottom:14}}>
         <div style={{fontSize:12,fontWeight:700,color:C.text,marginBottom:5}}>Az arany szabály</div>
