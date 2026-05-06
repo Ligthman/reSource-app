@@ -446,12 +446,86 @@ function ResultsView({answers,flow,onRestart,detailedMode,setDetailedMode,setSte
     if(!contact.city?.trim()){setContactError("Kérjük add meg az irányítószámot és várost!");return;}
     if(!contact.email.trim()&&!contact.phone.trim()){setContactError("Email vagy telefonszám szükséges!");return;}
     setContactError("");setContactDone(true);
-    fetch(CONTACT_WEBHOOK,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({
-      nev:contact.name,varos:contact.city,utca:contact.street||"",email:contact.email||"",telefon:contact.phone||"",
-      epulet_tipus:answers.r_type||answers.c_type||"",epulet_meret:answers.r_size||answers.c_size||"",
-      futes:(answers.r_heating||[]).join(", "),villany_szamla:answers.r_elecbill||"",gaz_szamla:answers.r_gasbill||"",
-      flow:flow==="residential"?"Lakóépület":"Vállalkozás",datum:new Date().toLocaleDateString("hu-HU"),forras:"reSource App",
-    })}).catch(()=>{});
+
+fetch(CONTACT_WEBHOOK, {
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify({
+    lead_id: "RS-" + Date.now(),
+    datum: new Date().toLocaleString("hu-HU"),
+    forras: "reSource App",
+
+    nev: contact.name,
+    email: contact.email || "",
+    telefon: contact.phone || "",
+    varos: answers.r_zip || contact.city || "",
+    utca: contact.street || "",
+
+    flow: flow === "residential" ? "Lakóépület" : "Vállalkozás",
+
+    epulet_tipus: answers.r_type || answers.c_type || "",
+    epulet_meret: answers.r_size || answers.c_size || "",
+    epitesi_ev: answers.r_year || answers.c_year || "",
+    falazat: answers.r_material || answers.c_material || "",
+    teto_tipus: answers.r_roof_type || answers.c_roof_type || "",
+    nyilaszarok: answers.r_windows || answers.c_windows || "",
+
+    futes: Array.isArray(answers.r_heating)
+      ? answers.r_heating.join(", ")
+      : Array.isArray(answers.c_heating)
+      ? answers.c_heating.join(", ")
+      : "",
+
+    melegviz: answers.r_hotwater || answers.c_hotwater || "",
+    gaz_szamla: answers.r_gasbill || answers.c_gasbill || "",
+    villany_szamla: answers.r_elecbill || answers.c_elecbill || "",
+
+    napelem: answers.r_solar_pv || answers.c_solar || "",
+    akkumulátor: answers.r_battery || answers.c_battery || "",
+    elektromos_auto: answers.r_ev || answers.c_ev || "",
+
+    nagyobb_vizfogyasztas: answers.r_water || "",
+    kert_zoldfelulet: answers.r_land || "",
+    ontozes: answers.r_water || "",
+    esovizgyujtes: answers.r_rainwater || "",
+
+    cel: Array.isArray(answers.r_goal)
+      ? answers.r_goal.join(", ")
+      : Array.isArray(answers.c_goal)
+      ? answers.c_goal.join(", ")
+      : "",
+
+    koltsegkeret: answers.r_budget || answers.c_budget || "",
+    idotav: answers.r_horizon || answers.c_horizon || "",
+    megjegyzes: answers.r_notes || answers.c_notes || "",
+
+    jelenlegi_besorolas: current,
+    felujitas_utani_besorolas: improved,
+
+    ajanlott_elso_lepes: recs[0]?.name || "",
+    ajanlott_lepesek: recs.map((r) => r.name).join(", "),
+
+    vizgazdalkodas:
+      flow === "residential" &&
+      answers.r_roof_type &&
+      !answers.r_roof_type.includes("Nincs saját tető")
+        ? "Van vízgazdálkodási becslés"
+        : "Nem releváns",
+
+    kert_mikroklima_ajanlas:
+      flow === "residential" && answers.r_land && answers.r_land !== "Nincs (lakás)"
+        ? "Kert / zöldfelület fejlesztés vizsgálható"
+        : "Nem releváns",
+
+    ajanlott_partner_kategoria: recs[0]?.name || "",
+
+    lead_statusz: "Új lead",
+    partner_statusz: "Nincs partnerhez rendelve",
+    jutalek_statusz: "Nem releváns",
+    utolso_frissites: new Date().toLocaleString("hu-HU"),
+    belso_megjegyzes: "Appból érkezett automatikus lead"
+  })
+}).catch(() => {});
   };
 
   const handleDownload=()=>{
