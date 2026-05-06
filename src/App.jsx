@@ -9,7 +9,7 @@ const C = {
   teal: "#00695C", purple: "#4527A0",
 };
 
-const CONTACT_WEBHOOK = "https://hook.eu1.make.com/vjb3mq2ee8xr9lkz4dyx3se7t41x3v8n";
+const CONTACT_WEBHOOK = "https://hook.eu1.make.com/lsu9uh21a5adryscrbb1dugri9ddxuca";
 
 const ratingColors = {
   "A+++":"#1a7a1a","A++":"#2a9a2a","A+":"#3daa3d","A":"#6abf3d",
