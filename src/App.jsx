@@ -782,9 +782,6 @@ export default function ResourceApp() {
     <div style={{minHeight:"100vh",background:C.grayLight,fontFamily:font,display:"flex",alignItems:"flex-start",justifyContent:"center",padding:"24px 16px 60px"}}>
       <div style={{width:"100%",maxWidth:480}}>
 
-        <div style={{marginBottom:20}}>
-          <img src="/logo.png" height={44} style={{objectFit:"contain"}} alt="reSource app"/>
-        </div>
 
         <div style={{background:C.white,borderRadius:16,padding:"26px 22px",boxShadow:"0 2px 20px rgba(0,0,0,0.06)"}}>
 
