@@ -1023,14 +1023,97 @@ export default function ResourceApp() {
               )}
               <h2 style={{fontSize:17,fontWeight:700,color:C.text,marginBottom:18,lineHeight:1.4}}>{q.q}</h2>
               {isFreetext?(
-                <>
-                  <textarea value={freetext} onChange={e=>setFreetext(e.target.value)} placeholder="Ide írhatod a megjegyzésedet…" rows={4}
-                    style={{width:"100%",padding:"12px 14px",border:`1.5px solid ${C.grayMid}`,borderRadius:8,fontSize:14,color:C.text,resize:"vertical",outline:"none",fontFamily:font}}/>
-                  <button onClick={confirmFreetext}
-                    style={{marginTop:12,width:"100%",padding:"13px",background:C.sun,border:"none",borderRadius:8,cursor:"pointer",fontWeight:700,fontSize:14,color:"#fff",fontFamily:font}}>
-                    {freetext?"Mentés és tovább":"Kihagyom"}
-                  </button>
-                </>
+               <>
+  {q.id === "r_zip" ? (
+    <>
+      <input
+        value={freetext}
+        onChange={e=>setFreetext(e.target.value)}
+        placeholder="Pl. 1117 Budapest vagy 7621 Pécs"
+        style={{
+          width:"100%",
+          padding:"14px 16px",
+          border:`1.5px solid ${C.grayMid}`,
+          borderRadius:10,
+          fontSize:15,
+          color:C.text,
+          outline:"none",
+          fontFamily:font,
+          background:C.white
+        }}
+      />
+
+      <div style={{
+        fontSize:11,
+        color:C.muted,
+        lineHeight:1.5,
+        marginTop:8,
+        marginBottom:12
+      }}>
+        Ezt a vízgazdálkodási és regionális partnerajánlások pontosításához használjuk.
+      </div>
+
+      <button
+        onClick={confirmFreetext}
+        disabled={!freetext.trim()}
+        style={{
+          marginTop:4,
+          width:"100%",
+          padding:"13px",
+          background:freetext.trim()?C.sun:C.grayMid,
+          border:"none",
+          borderRadius:8,
+          cursor:freetext.trim()?"pointer":"default",
+          fontWeight:700,
+          fontSize:14,
+          color:freetext.trim()?"#fff":C.muted,
+          fontFamily:font
+        }}
+      >
+        Tovább
+      </button>
+    </>
+  ) : (
+    <>
+      <textarea
+        value={freetext}
+        onChange={e=>setFreetext(e.target.value)}
+        placeholder="Ide írhatod a megjegyzésedet…"
+        rows={4}
+        style={{
+          width:"100%",
+          padding:"12px 14px",
+          border:`1.5px solid ${C.grayMid}`,
+          borderRadius:8,
+          fontSize:14,
+          color:C.text,
+          resize:"vertical",
+          outline:"none",
+          fontFamily:font
+        }}
+      />
+
+      <button
+        onClick={confirmFreetext}
+        style={{
+          marginTop:12,
+          width:"100%",
+          padding:"13px",
+          background:C.sun,
+          border:"none",
+          borderRadius:8,
+          cursor:"pointer",
+          fontWeight:700,
+          fontSize:14,
+          color:"#fff",
+          fontFamily:font
+        }}
+      >
+        {freetext ? "Mentés és tovább" : "Kihagyom"}
+      </button>
+    </>
+  )}
+</>
               ):(
                 <>
                   <div style={{display:"flex",flexDirection:"column",gap:8}}>
