@@ -847,13 +847,13 @@ export default function ResourceApp() {
       flexWrap:"wrap",
       justifyContent:"center"
     }}>
-      {[
-        "Rövid felmérés: 2–3 perc",
-        "Részletes: 5–6 perc",
-        "Személyre szabott",
-        "Partnerajánlás",
-        "Letölthető PDF"
-      ].map(tag=>(
+     {[
+  "Ingyenes",
+  "2–3 perc alatt elindítható",
+  "Személyre szabott javaslat",
+  "Partnerajánlás",
+  "Letölthető összefoglaló"
+].map(tag=>(
         <span
           key={tag}
           style={{
