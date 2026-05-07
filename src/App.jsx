@@ -441,11 +441,38 @@ function ResultsView({answers,flow,onRestart,detailedMode,setDetailedMode,setSte
   const [contactDone,setContactDone]=useState(false);
   const [contactError,setContactError]=useState("");
 
-  const handleContactSubmit=()=>{
-    if(!contact.name.trim()){setContactError("Kérjük add meg a neved!");return;}
-    if(!contact.city?.trim()){setContactError("Kérjük add meg az irányítószámot és várost!");return;}
-    if(!contact.email.trim()&&!contact.phone.trim()){setContactError("Email vagy telefonszám szükséges!");return;}
-    setContactError("");setContactDone(true);
+ const handleContactSubmit=()=>{
+  const email = contact.email.trim();
+  const phone = contact.phone.trim();
+  const phoneDigits = phone.replace(/\D/g,"");
+
+  if(!contact.name.trim()){
+    setContactError("Kérjük add meg a neved!");
+    return;
+  }
+
+  if(!contact.city?.trim()){
+    setContactError("Kérjük add meg az irányítószámot és várost!");
+    return;
+  }
+
+  if(!email && !phone){
+    setContactError("Email vagy telefonszám szükséges!");
+    return;
+  }
+
+  if(email && !email.includes("@")){
+    setContactError("Kérjük valós email címet adj meg.");
+    return;
+  }
+
+  if(phone && phoneDigits.length < 8){
+    setContactError("Kérjük valós telefonszámot adj meg.");
+    return;
+  }
+
+  setContactError("");
+  setContactDone(true);
 
 fetch(CONTACT_WEBHOOK, {
   method: "POST",
