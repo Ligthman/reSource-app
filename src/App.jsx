@@ -1050,7 +1050,7 @@ export default function ResourceApp() {
         marginTop:8,
         marginBottom:12
       }}>
-        Ezt a vízgazdálkodási és regionális partnerajánlások pontosításához használjuk.
+        Ezt a vízgazdálkodási becslés és regionális partnerajánlások pontosításához használjuk.
       </div>
 
       <button
