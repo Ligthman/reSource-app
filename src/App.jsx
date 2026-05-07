@@ -151,7 +151,7 @@ const BLOCKS = {
 const QUESTIONS = {
   residential: [
     {id:"r_type",block:"epulet",q:"Milyen típusú az épület?",multi:false,opts:["Önálló családi ház","Ikerház","Sorház","Társasházi lakás – téglaépület","Panellakás / panel épület","Tanya / vidéki birtok","Nyaraló"],basic:true},
-    {id:"r_zip",block:"epulet",q:"Melyik irányítószámon vagy településen van az épület?",multi:false,opts:[],freetext:true,basic:true},
+    {id:"r_zip",block:"epulet",q:"Melyik településen vagy irányítószámon van az épület?",multi:false,opts:[],freetext:true,basic:true},
     {id:"r_attached",block:"epulet",q:"Hány oldalon érintkezik más épülettel?",multi:false,opts:["Sehol – teljesen önálló","1 oldalon (ikerház)","2 oldalon (sorközi)","Több oldalon (társasház)"]},
     {id:"r_neighbors",block:"epulet",q:"Van-e szomszéd fal / szomszéd lakás?",multi:true,opts:["Felső szomszéd van","Alsó szomszéd van","Oldalsó szomszéd","Nincs szomszéd","Nem releváns"]},
     {id:"r_size",block:"epulet",q:"Mekkora az alapterület?",multi:false,opts:["40 m² alatt","40–70 m²","70–120 m²","120–200 m²","200 m² felett"],basic:true},
