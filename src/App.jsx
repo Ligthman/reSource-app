@@ -677,21 +677,63 @@ fetch(CONTACT_WEBHOOK, {
         </div>
         <div style={{padding:"16px"}}>
           {!contactDone?(
-            <>
-              <div style={{display:"flex",flexDirection:"column",gap:10,marginBottom:10}}>
-                <input placeholder="Neved *" value={contact.name} onChange={e=>setContact(p=>({...p,name:e.target.value}))} style={{...inp,borderColor:contactError&&!contact.name.trim()?C.red:C.grayMid}}/>
-                <input placeholder="Irányítószám és város *" value={contact.city} onChange={e=>setContact(p=>({...p,city:e.target.value}))} style={{...inp,borderColor:contactError&&!contact.city?.trim()?C.red:C.grayMid}}/>
-                <input placeholder="Utca, házszám" value={contact.street} onChange={e=>setContact(p=>({...p,street:e.target.value}))} style={inp}/>
-                <input placeholder="Email cím" value={contact.email} onChange={e=>setContact(p=>({...p,email:e.target.value}))} style={inp}/>
-                <input placeholder="Telefonszám" value={contact.phone} onChange={e=>setContact(p=>({...p,phone:e.target.value}))} style={inp}/>
-              </div>
-              {contactError&&<div style={{fontSize:12,color:C.red,marginBottom:8}}>{contactError}</div>}
-              <button onClick={handleContactSubmit}
-                style={{width:"100%",padding:"13px",background:C.sun,border:"none",borderRadius:8,cursor:"pointer",fontWeight:700,fontSize:14,color:"#fff",fontFamily:"'Poppins',sans-serif"}}>
-                Összefoglaló megnyitása
-              </button>
-              <div style={{fontSize:11,color:C.muted,textAlign:"center",marginTop:8}}>Adataidat csak a reSource kezeli.</div>
-            </>
+           <div style={{display:"flex",flexDirection:"column",gap:10,marginBottom:10}}>
+  <input
+    placeholder="Neved *"
+    value={contact.name}
+    onChange={e=>setContact(p=>({...p,name:e.target.value}))}
+    style={{
+      ...inp,
+      borderColor:contactError&&!contact.name.trim()?C.red:C.grayMid
+    }}
+  />
+
+  <input
+    placeholder="Irányítószám és város *"
+    value={contact.city}
+    onChange={e=>setContact(p=>({...p,city:e.target.value}))}
+    style={{
+      ...inp,
+      borderColor:contactError&&!contact.city?.trim()?C.red:C.grayMid
+    }}
+  />
+
+  <input
+    placeholder="Utca, házszám"
+    value={contact.street}
+    onChange={e=>setContact(p=>({...p,street:e.target.value}))}
+    style={inp}
+  />
+
+  <input
+    type="email"
+    inputMode="email"
+    placeholder="Email cím"
+    value={contact.email}
+    onChange={e=>setContact(p=>({...p,email:e.target.value}))}
+    style={{
+      ...inp,
+      borderColor:contactError&&contact.email&&!contact.email.includes("@")?C.red:C.grayMid
+    }}
+  />
+
+  <input
+    type="tel"
+    inputMode="tel"
+    placeholder="+36 30 123 4567"
+    value={contact.phone}
+    onChange={e=>setContact(p=>({...p,phone:e.target.value}))}
+    onFocus={()=>{
+      if(!contact.phone.trim()){
+        setContact(p=>({...p,phone:"+36 "}));
+      }
+    }}
+    style={{
+      ...inp,
+      borderColor:contactError&&contact.phone&&contact.phone.replace(/\D/g,"").length<8?C.red:C.grayMid
+    }}
+  />
+</div>
           ):(
             <>
               <div style={{background:C.sunLight,borderRadius:8,padding:"10px 14px",marginBottom:12,fontSize:13,color:C.sunDark,fontWeight:600}}>
