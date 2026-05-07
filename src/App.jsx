@@ -797,7 +797,7 @@ export default function ResourceApp() {
         src="/logo.png"
         alt="reSource app"
         style={{
-          width:"220px",
+          width:"240px",
           maxWidth:"85%",
           height:"auto",
           objectFit:"contain"
