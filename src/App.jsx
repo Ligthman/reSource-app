@@ -826,6 +826,20 @@ export default function ResourceApp() {
   Válaszolj néhány egyszerű kérdésre, és megmutatjuk, milyen energia-, víz- és zöldfelületi fejlesztésekkel érdemes kezdened. A végén kapsz egy személyre szabott összefoglalót és partnerajánlást is.
 </p>
 
+<div style={{
+  background:C.sunLight,
+  border:`1px solid ${C.sun}33`,
+  color:C.sunDark,
+  borderRadius:10,
+  padding:"10px 12px",
+  fontSize:13,
+  fontWeight:700,
+  marginBottom:18,
+  textAlign:"center"
+}}>
+  A felmérés ingyenes, és nem jár kötelezettséggel.
+</div>
+    
     <div style={{
       display:"flex",
       gap:8,
