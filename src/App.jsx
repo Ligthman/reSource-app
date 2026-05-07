@@ -813,7 +813,7 @@ export default function ResourceApp() {
   lineHeight:1.18,
   textAlign:"center"
 }}>
-  Tedd otthonod korszerűbbé és értékállóbbá
+  Tedd otthonod korszerűbbé és értékesebbé
 </h1>
 
 <p style={{
