@@ -879,31 +879,117 @@ export default function ResourceApp() {
   </div>
 )}
 
-          {screen==="flowSelect"&&(
-            <div>
-              <h2 style={{fontSize:18,fontWeight:700,color:C.text,marginBottom:6}}>Milyen épületről van szó?</h2>
-              <p style={{fontSize:13,color:C.muted,marginBottom:20}}>A kérdések ettől függően változnak.</p>
-              {[
-                {id:"residential",label:"Lakóépület",desc:"Ház, lakás, tanya, nyaraló"},
-                {id:"commercial",label:"Vállalkozás / Üzlet",desc:"Iroda, üzlet, üzem, raktár"},
-              ].map(f=>(
-                <button key={f.id} onClick={()=>{setFlow(f.id);setStep(0);setAnswers({});setScreen("quiz");}}
-                  style={{width:"100%",padding:"16px",background:C.white,border:`1.5px solid ${C.grayMid}`,borderRadius:12,cursor:"pointer",textAlign:"left",marginBottom:10,display:"flex",alignItems:"center",gap:14,fontFamily:font,transition:"all 0.15s"}}
-                  onMouseEnter={e=>{e.currentTarget.style.borderColor=C.sun;e.currentTarget.style.background=C.sunLight;}}
-                  onMouseLeave={e=>{e.currentTarget.style.borderColor=C.grayMid;e.currentTarget.style.background=C.white;}}>
-                  <div style={{width:44,height:44,borderRadius:10,background:C.sunLight,display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}>
-                    <HouseLeafLogo size={24} color={C.sun}/>
-                  </div>
-                  <div>
-                    <div style={{fontWeight:700,fontSize:15,color:C.text}}>{f.label}</div>
-                    <div style={{fontSize:12,color:C.muted,marginTop:2}}>{f.desc}</div>
-                  </div>
-                  <div style={{marginLeft:"auto",color:C.muted,fontSize:18}}>›</div>
-                </button>
-              ))}
-              <button onClick={()=>setScreen("intro")} style={{background:"none",border:"none",color:C.muted,fontSize:13,cursor:"pointer",padding:"8px 0",fontFamily:font}}>← Vissza</button>
+         {screen==="flowSelect"&&(
+  <div>
+    <h2 style={{
+      fontSize:20,
+      fontWeight:700,
+      color:C.text,
+      marginBottom:8,
+      lineHeight:1.3
+    }}>
+      Milyen épületről van szó?
+    </h2>
+
+    <p style={{
+      fontSize:13,
+      color:C.muted,
+      marginBottom:20,
+      lineHeight:1.6
+    }}>
+      Válaszd ki, hogy lakóépületet vagy vállalkozási ingatlant szeretnél felmérni.
+    </p>
+
+    {[
+      {
+        id:"residential",
+        label:"Lakóépület",
+        desc:"Családi ház, lakás, tanya vagy nyaraló",
+        badge:"Otthon"
+      },
+      {
+        id:"commercial",
+        label:"Vállalkozás / Üzlet",
+        desc:"Iroda, üzlet, üzem, raktár vagy vendéglátóhely",
+        badge:"Cég"
+      },
+    ].map(f=>(
+      <button
+        key={f.id}
+        onClick={()=>{setFlow(f.id);setStep(0);setAnswers({});setScreen("quiz");}}
+        style={{
+          width:"100%",
+          padding:"17px 16px",
+          background:C.white,
+          border:`1.5px solid ${C.grayMid}`,
+          borderRadius:12,
+          cursor:"pointer",
+          textAlign:"left",
+          marginBottom:10,
+          display:"flex",
+          alignItems:"center",
+          gap:14,
+          fontFamily:font,
+          transition:"all 0.15s"
+        }}
+        onMouseEnter={e=>{
+          e.currentTarget.style.borderColor=C.sun;
+          e.currentTarget.style.background=C.sunLight;
+        }}
+        onMouseLeave={e=>{
+          e.currentTarget.style.borderColor=C.grayMid;
+          e.currentTarget.style.background=C.white;
+        }}
+      >
+        <div style={{flex:1}}>
+          <div style={{display:"flex",alignItems:"center",gap:8,marginBottom:4}}>
+            <div style={{fontWeight:700,fontSize:15,color:C.text}}>
+              {f.label}
             </div>
-          )}
+            <span style={{
+              fontSize:10,
+              color:C.sunDark,
+              background:C.sunLight,
+              border:`1px solid ${C.sun}33`,
+              borderRadius:999,
+              padding:"2px 8px",
+              fontWeight:600
+            }}>
+              {f.badge}
+            </span>
+          </div>
+          <div style={{fontSize:12,color:C.muted,lineHeight:1.5}}>
+            {f.desc}
+          </div>
+        </div>
+
+        <div style={{
+          marginLeft:"auto",
+          color:C.sun,
+          fontSize:20,
+          fontWeight:600
+        }}>
+          ›
+        </div>
+      </button>
+    ))}
+
+    <button
+      onClick={()=>setScreen("intro")}
+      style={{
+        background:"none",
+        border:"none",
+        color:C.muted,
+        fontSize:13,
+        cursor:"pointer",
+        padding:"8px 0",
+        fontFamily:font
+      }}
+    >
+      ← Vissza
+    </button>
+  </div>
+)}
 
           {screen==="quiz"&&q&&(
             <div>
