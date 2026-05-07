@@ -758,7 +758,9 @@ fetch(CONTACT_WEBHOOK, {
       {!detailedMode&&(
         <div style={{background:C.sunLight,border:`1.5px solid ${C.sun}44`,borderRadius:12,padding:"16px",marginBottom:14}}>
           <div style={{fontSize:13,fontWeight:700,color:C.text,marginBottom:4}}>Pontosabb eredményt szeretnél?</div>
-          <p style={{fontSize:12,color:C.muted,lineHeight:1.6,marginBottom:12}}>A részletes felmérés (+8–10 perc) még pontosabb ajánlásokat ad.</p>
+         <p style={{fontSize:12,color:C.muted,lineHeight:1.6,marginBottom:12}}>
+  A részletes felmérés további 5–6 perc, és pontosabb ajánlásokat ad.
+</p>
           <button onClick={()=>{setDetailedMode(true);setStep(14);setScreen("quiz");}}
             style={{width:"100%",padding:"12px",background:C.sun,border:"none",borderRadius:8,cursor:"pointer",fontWeight:700,fontSize:14,color:"#fff",fontFamily:"'Poppins',sans-serif"}}>
             Részletesebb felmérés indítása
