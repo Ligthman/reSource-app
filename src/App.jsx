@@ -805,7 +805,7 @@ export default function ResourceApp() {
       />
     </div>
 
-   <h1 style={{
+  <h1 style={{
   fontSize:26,
   fontWeight:800,
   color:C.text,
@@ -813,7 +813,7 @@ export default function ResourceApp() {
   lineHeight:1.18,
   textAlign:"center"
 }}>
-  Tudd meg ingyen, mivel csökkentheted az otthonod költségeit
+  Tedd otthonod korszerűbbé és értékállóbbá
 </h1>
 
 <p style={{
@@ -823,7 +823,7 @@ export default function ResourceApp() {
   marginBottom:18,
   textAlign:"center"
 }}>
-  Válaszolj néhány egyszerű kérdésre, és megmutatjuk, milyen energia-, víz- és zöldfelületi fejlesztésekkel érdemes kezdened. A végén kapsz egy személyre szabott összefoglalót és partnerajánlást is.
+  Néhány egyszerű kérdés alapján megmutatjuk, milyen energia-, víz- és zöldfelületi fejlesztésekkel érdemes kezdened. A cél egy tudatosabban működő, komfortosabb otthon, amely hosszú távon értékesebb is lehet.
 </p>
 
 <div style={{
@@ -837,7 +837,7 @@ export default function ResourceApp() {
   marginBottom:18,
   textAlign:"center"
 }}>
-  A felmérés ingyenes, és nem jár kötelezettséggel.
+  Ingyenes felmérés, személyre szabott összefoglalóval és partnerajánlással.
 </div>
     
     <div style={{
