@@ -805,26 +805,26 @@ export default function ResourceApp() {
       />
     </div>
 
-    <h1 style={{
-      fontSize:23,
-      fontWeight:700,
-      color:C.text,
-      marginBottom:12,
-      lineHeight:1.3,
-      textAlign:"center"
-    }}>
-      Tervezd meg otthonod energia-, víz- és zöldfelületi fejlesztéseit
-    </h1>
+   <h1 style={{
+  fontSize:26,
+  fontWeight:800,
+  color:C.text,
+  marginBottom:12,
+  lineHeight:1.18,
+  textAlign:"center"
+}}>
+  Tudd meg ingyen, mivel csökkentheted az otthonod költségeit
+</h1>
 
-    <p style={{
-      fontSize:14,
-      color:C.gray,
-      lineHeight:1.7,
-      marginBottom:22,
-      textAlign:"center"
-    }}>
-      Tölts ki egy rövid épületfelmérést, és megmutatjuk, milyen fejlesztésekkel érdemes kezdened. Energetikai besorolást, megtérülési becslést, vízgazdálkodási javaslatot és partnerajánlást is kapsz.
-    </p>
+<p style={{
+  fontSize:15,
+  color:C.gray,
+  lineHeight:1.65,
+  marginBottom:18,
+  textAlign:"center"
+}}>
+  Válaszolj néhány egyszerű kérdésre, és megmutatjuk, milyen energia-, víz- és zöldfelületi fejlesztésekkel érdemes kezdened. A végén kapsz egy személyre szabott összefoglalót és partnerajánlást is.
+</p>
 
     <div style={{
       display:"flex",
