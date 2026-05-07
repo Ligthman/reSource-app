@@ -885,7 +885,7 @@ export default function ResourceApp() {
         fontFamily:font
       }}
     >
-      Felmérés indítása
+      Ingyenes Felmérés indítása
     </button>
   </div>
 )}
