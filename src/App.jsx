@@ -679,7 +679,76 @@ fetch(CONTACT_WEBHOOK, {
       </div>
 
       {/* VÍZGAZDÁLKODÁS */}
-      {flow === "residential" && <WaterCard answers={{...answers, r_city: answers.r_zip || contact.city}} />}
+      {flow === "residential" && (
+  <>
+    <WaterCard answers={{...answers, r_city: answers.r_zip || contact.city}} />
+
+    {answers.r_roof_type && !answers.r_roof_type.includes("Nincs saját tető") && (
+      <div style={{
+        background:C.white,
+        border:`1.5px solid ${C.grayMid}`,
+        borderRadius:12,
+        overflow:"hidden",
+        marginBottom:14
+      }}>
+        <div style={{
+          background:"linear-gradient(135deg,#EBF5FB,#E8F8F5)",
+          padding:"12px 16px",
+          borderBottom:`1px solid ${C.grayMid}`
+        }}>
+          <div style={{
+            fontSize:11,
+            fontWeight:700,
+            color:"#1A5276",
+            letterSpacing:1.5,
+            textTransform:"uppercase"
+          }}>
+            Vízgazdálkodási partner
+          </div>
+        </div>
+
+        <div style={{padding:"14px 16px"}}>
+          <div style={{
+            fontSize:14,
+            fontWeight:700,
+            color:C.text,
+            marginBottom:6
+          }}>
+            Esővízgyűjtéshez és öntözéshez is ajánlható szakember
+          </div>
+
+          <p style={{
+            fontSize:13,
+            color:C.gray,
+            lineHeight:1.6,
+            marginBottom:12
+          }}>
+            A tető és a megadott település alapján nálad érdemes lehet vízgyűjtési, öntözési vagy víztakarékos kertmegoldást is vizsgálni. Ehhez külön, erre szakosodott partnert is tudunk ajánlani.
+          </p>
+
+          <div style={{
+            display:"flex",
+            gap:8,
+            flexWrap:"wrap"
+          }}>
+            {["Esővízgyűjtés","Öntözés","Víztakarékos kert"].map(tag=>(
+              <span key={tag} style={{
+                fontSize:11,
+                background:"#E8F8F5",
+                color:"#1A7A5E",
+                borderRadius:999,
+                padding:"5px 10px",
+                fontWeight:700
+              }}>
+                {tag}
+              </span>
+            ))}
+          </div>
+        </div>
+      </div>
+    )}
+  </>
+)}
 
       <div style={{background:C.grayLight,borderRadius:10,padding:"14px 16px",marginBottom:14}}>
         <div style={{fontSize:12,fontWeight:700,color:C.text,marginBottom:5}}>Az arany szabály</div>
