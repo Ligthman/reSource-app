@@ -789,23 +789,95 @@ export default function ResourceApp() {
         <div style={{background:C.white,borderRadius:16,padding:"26px 22px",boxShadow:"0 2px 20px rgba(0,0,0,0.06)"}}>
 
           {screen==="intro"&&(
-            <div>
-              <div style={{width:52,height:52,background:C.sunLight,borderRadius:14,display:"flex",alignItems:"center",justifyContent:"center",marginBottom:16}}>
-                <HouseLeafLogo size={30} color={C.sun}/>
-              </div>
-              <h1 style={{fontSize:22,fontWeight:700,color:C.text,marginBottom:10,lineHeight:1.3}}>Tervezd meg épületed energetikai rendszerét</h1>
-              <p style={{fontSize:14,color:C.gray,lineHeight:1.7,marginBottom:22}}>Kérdőív alapján személyre szabott javaslatokat kapsz – energetikai besorolással, valós megtérülési számokkal és letölthető összefoglalóval.</p>
-              <div style={{display:"flex",gap:8,marginBottom:26,flexWrap:"wrap"}}>
-                {["5–8 perc","Személyre szabott","Energetikai besorolás","Letölthető PDF"].map(tag=>(
-                  <span key={tag} style={{fontSize:11,background:C.grayLight,color:C.gray,borderRadius:6,padding:"4px 10px",fontWeight:500}}>{tag}</span>
-                ))}
-              </div>
-              <button onClick={()=>setScreen("flowSelect")}
-                style={{width:"100%",padding:"14px",background:C.sun,border:"none",borderRadius:10,cursor:"pointer",fontSize:15,fontWeight:700,color:"#fff",fontFamily:font}}>
-                Felmérés indítása
-              </button>
-            </div>
-          )}
+  <div style={{textAlign:"center"}}>
+
+    <div style={{
+      display:"flex",
+      justifyContent:"center",
+      marginBottom:22
+    }}>
+      <img
+        src="/logo.png"
+        alt="reSource app"
+        style={{
+          width:"220px",
+          maxWidth:"85%",
+          height:"auto",
+          objectFit:"contain"
+        }}
+      />
+    </div>
+
+    <h1 style={{
+      fontSize:23,
+      fontWeight:700,
+      color:C.text,
+      marginBottom:12,
+      lineHeight:1.3,
+      textAlign:"center"
+    }}>
+      Tervezd meg otthonod energia-, víz- és zöldfelületi fejlesztéseit
+    </h1>
+
+    <p style={{
+      fontSize:14,
+      color:C.gray,
+      lineHeight:1.7,
+      marginBottom:22,
+      textAlign:"center"
+    }}>
+      Tölts ki egy rövid épületfelmérést, és megmutatjuk, milyen fejlesztésekkel érdemes kezdened. Energetikai besorolást, megtérülési becslést, vízgazdálkodási javaslatot és partnerajánlást is kapsz.
+    </p>
+
+    <div style={{
+      display:"flex",
+      gap:8,
+      marginBottom:26,
+      flexWrap:"wrap",
+      justifyContent:"center"
+    }}>
+      {[
+        "Rövid felmérés: 2–3 perc",
+        "Részletes: 5–6 perc",
+        "Személyre szabott",
+        "Partnerajánlás",
+        "Letölthető PDF"
+      ].map(tag=>(
+        <span
+          key={tag}
+          style={{
+            fontSize:11,
+            background:C.grayLight,
+            color:C.gray,
+            borderRadius:6,
+            padding:"5px 10px",
+            fontWeight:500
+          }}
+        >
+          {tag}
+        </span>
+      ))}
+    </div>
+
+    <button
+      onClick={()=>setScreen("flowSelect")}
+      style={{
+        width:"100%",
+        padding:"14px",
+        background:C.sun,
+        border:"none",
+        borderRadius:10,
+        cursor:"pointer",
+        fontSize:15,
+        fontWeight:700,
+        color:"#fff",
+        fontFamily:font
+      }}
+    >
+      Felmérés indítása
+    </button>
+  </div>
+)}
 
           {screen==="flowSelect"&&(
             <div>
