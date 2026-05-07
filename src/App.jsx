@@ -774,178 +774,151 @@ fetch(CONTACT_WEBHOOK, {
           <div style={{fontSize:12,color:C.muted}}>Add meg adataidat – emailben is elküldjük, és partnert is ajánlunk.</div>
         </div>
         <div style={{padding:"16px"}}>
-         {!contactDone ? (
-  <>
-    <div style={{display:"flex",flexDirection:"column",gap:10,marginBottom:12}}>
-      <input
-        placeholder="Neved *"
-        value={contact.name}
-        onChange={e=>setContact(p=>({...p,name:e.target.value}))}
-        style={{
-          ...inp,
-          borderColor:contactError&&!contact.name.trim()?C.red:C.grayMid
-        }}
-      />
+  {!contactDone ? (
+    <>
+      <div style={{display:"flex",flexDirection:"column",gap:10,marginBottom:12}}>
+        <input
+          placeholder="Neved *"
+          value={contact.name}
+          onChange={e=>setContact(p=>({...p,name:e.target.value}))}
+          style={{
+            ...inp,
+            borderColor:contactError&&!contact.name.trim()?C.red:C.grayMid
+          }}
+        />
 
-      <input
-        placeholder="Irányítószám és város *"
-        value={contact.city}
-        onChange={e=>setContact(p=>({...p,city:e.target.value}))}
-        style={{
-          ...inp,
-          borderColor:contactError&&!contact.city?.trim()?C.red:C.grayMid
-        }}
-      />
+        <input
+          placeholder="Irányítószám és város *"
+          value={contact.city}
+          onChange={e=>setContact(p=>({...p,city:e.target.value}))}
+          style={{
+            ...inp,
+            borderColor:contactError&&!contact.city?.trim()?C.red:C.grayMid
+          }}
+        />
 
-      <input
-        placeholder="Utca, házszám"
-        value={contact.street}
-        onChange={e=>setContact(p=>({...p,street:e.target.value}))}
-        style={inp}
-      />
+        <input
+          placeholder="Utca, házszám"
+          value={contact.street}
+          onChange={e=>setContact(p=>({...p,street:e.target.value}))}
+          style={inp}
+        />
 
-      <input
-        type="email"
-        inputMode="email"
-        placeholder="Email cím"
-        value={contact.email}
-        onChange={e=>setContact(p=>({...p,email:e.target.value}))}
-        style={{
-          ...inp,
-          borderColor:contactError&&contact.email&&!contact.email.includes("@")?C.red:C.grayMid
-        }}
-      />
+        <input
+          type="email"
+          inputMode="email"
+          placeholder="Email cím"
+          value={contact.email}
+          onChange={e=>setContact(p=>({...p,email:e.target.value}))}
+          style={{
+            ...inp,
+            borderColor:contactError&&contact.email&&!contact.email.includes("@")?C.red:C.grayMid
+          }}
+        />
 
-      <input
-        type="tel"
-        inputMode="tel"
-        placeholder="+36 30 123 4567"
-        value={contact.phone}
-        onChange={e=>setContact(p=>({...p,phone:e.target.value}))}
-        onFocus={()=>{
-          if(!contact.phone.trim()){
-            setContact(p=>({...p,phone:"+36 "}));
-          }
-        }}
-        style={{
-          ...inp,
-          borderColor:contactError&&contact.phone&&contact.phone.replace(/\D/g,"").length<8?C.red:C.grayMid
-        }}
-      />
-    </div>
-    {contactError && (
-  <div style={{fontSize:12,color:C.red,marginBottom:10}}>
-    {contactError}
-  </div>
-)}
-
-<button
-  onClick={handleContactSubmit}
-  style={{
-    width:"100%",
-    padding:"14px",
-    background:C.sun,
-    border:"none",
-    borderRadius:10,
-    cursor:"pointer",
-    fontWeight:800,
-    fontSize:15,
-    color:"#fff",
-    fontFamily:"'Poppins',sans-serif",
-    marginTop:4
-  }}
->
-  Összefoglaló megnyitása
-</button>
-
-<div style={{
-  fontSize:11,
-  color:C.muted,
-  textAlign:"center",
-  marginTop:10,
-  lineHeight:1.5
-}}>
-  Adataidat csak a reSource kezeli. Az összefoglalót az appban tudod PDF-ként menteni.
-</div>
-
-    {contactError && (
-      <div style={{fontSize:12,color:C.red,marginBottom:10}}>
-        {contactError}
+        <input
+          type="tel"
+          inputMode="tel"
+          placeholder="+36 30 123 4567"
+          value={contact.phone}
+          onChange={e=>setContact(p=>({...p,phone:e.target.value}))}
+          onFocus={()=>{
+            if(!contact.phone.trim()){
+              setContact(p=>({...p,phone:"+36 "}));
+            }
+          }}
+          style={{
+            ...inp,
+            borderColor:contactError&&contact.phone&&contact.phone.replace(/\D/g,"").length<8?C.red:C.grayMid
+          }}
+        />
       </div>
-    )}
 
-    <button
-      onClick={handleContactSubmit}
-      style={{
-        width:"100%",
-        padding:"14px",
-        background:C.sun,
-        border:"none",
-        borderRadius:10,
-        cursor:"pointer",
-        fontWeight:800,
-        fontSize:15,
-        color:"#fff",
-        fontFamily:"'Poppins',sans-serif",
-        marginTop:4
-      }}
-    >
-      Összefoglaló megnyitása
-    </button>
+      {contactError && (
+        <div style={{fontSize:12,color:C.red,marginBottom:10}}>
+          {contactError}
+        </div>
+      )}
 
-    <div style={{
-      fontSize:11,
-      color:C.muted,
-      textAlign:"center",
-      marginTop:10,
-      lineHeight:1.5
-    }}>
-      Adataidat csak a reSource kezeli. Az összefoglalót az appban tudod PDF-ként menteni.
-    </div>
-  </>
-) : (
-  <>
-    <div style={{
-      background:C.sunLight,
-      borderRadius:8,
-      padding:"10px 14px",
-      marginBottom:12,
-      fontSize:13,
-      color:C.sunDark,
-      fontWeight:600,
-      lineHeight:1.5
-    }}>
-      Köszönöm, {contact.name}! Az összefoglalód elkészült.
-    </div>
+      <button
+        type="button"
+        onClick={handleContactSubmit}
+        style={{
+          width:"100%",
+          padding:"15px",
+          background:C.sun,
+          border:"none",
+          borderRadius:10,
+          cursor:"pointer",
+          fontWeight:800,
+          fontSize:15,
+          color:"#fff",
+          fontFamily:"'Poppins',sans-serif",
+          marginTop:4,
+          display:"block"
+        }}
+      >
+        Összefoglaló megnyitása
+      </button>
 
-    <button
-      onClick={handleDownload}
-      disabled={downloading}
-      style={{
-        width:"100%",
-        padding:"14px",
-        background:downloading?C.grayMid:C.sun,
-        border:"none",
-        borderRadius:10,
-        cursor:downloading?"default":"pointer",
-        fontWeight:800,
-        fontSize:15,
-        color:"#fff",
-        fontFamily:"'Poppins',sans-serif"
-      }}
-    >
-      {downloading ? "Megnyitás..." : "PDF letöltése / nyomtatása"}
-    </button>
+      <div style={{
+        fontSize:11,
+        color:C.muted,
+        textAlign:"center",
+        marginTop:10,
+        lineHeight:1.5
+      }}>
+        Adataidat csak a reSource kezeli. Az összefoglalót az appban tudod PDF-ként menteni.
+      </div>
+    </>
+  ) : (
+    <>
+      <div style={{
+        background:C.sunLight,
+        borderRadius:8,
+        padding:"10px 14px",
+        marginBottom:12,
+        fontSize:13,
+        color:C.sunDark,
+        fontWeight:600,
+        lineHeight:1.5
+      }}>
+        Köszönöm, {contact.name}! Az összefoglalód elkészült.
+      </div>
 
-    <div style={{
-      fontSize:11,
-      color:C.muted,
-      textAlign:"center",
-      marginTop:10,
-      lineHeight:1.5
-    }}>
-      A mentéshez válaszd a nyomtatás / PDF mentés opciót.
-    </div>
+      <button
+        type="button"
+        onClick={handleDownload}
+        disabled={downloading}
+        style={{
+          width:"100%",
+          padding:"15px",
+          background:downloading?C.grayMid:C.sun,
+          border:"none",
+          borderRadius:10,
+          cursor:downloading?"default":"pointer",
+          fontWeight:800,
+          fontSize:15,
+          color:"#fff",
+          fontFamily:"'Poppins',sans-serif",
+          display:"block"
+        }}
+      >
+        {downloading ? "Megnyitás..." : "PDF letöltése / nyomtatása"}
+      </button>
+
+      <div style={{
+        fontSize:11,
+        color:C.muted,
+        textAlign:"center",
+        marginTop:10,
+        lineHeight:1.5
+      }}>
+        A mentéshez válaszd a nyomtatás / PDF mentés opciót.
+      </div>
+    </>
+  )}
+</div>
   </>
 )}
   />
