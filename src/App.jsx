@@ -833,6 +833,40 @@ fetch(CONTACT_WEBHOOK, {
         }}
       />
     </div>
+    {contactError && (
+  <div style={{fontSize:12,color:C.red,marginBottom:10}}>
+    {contactError}
+  </div>
+)}
+
+<button
+  onClick={handleContactSubmit}
+  style={{
+    width:"100%",
+    padding:"14px",
+    background:C.sun,
+    border:"none",
+    borderRadius:10,
+    cursor:"pointer",
+    fontWeight:800,
+    fontSize:15,
+    color:"#fff",
+    fontFamily:"'Poppins',sans-serif",
+    marginTop:4
+  }}
+>
+  Összefoglaló megnyitása
+</button>
+
+<div style={{
+  fontSize:11,
+  color:C.muted,
+  textAlign:"center",
+  marginTop:10,
+  lineHeight:1.5
+}}>
+  Adataidat csak a reSource kezeli. Az összefoglalót az appban tudod PDF-ként menteni.
+</div>
 
     {contactError && (
       <div style={{fontSize:12,color:C.red,marginBottom:10}}>
