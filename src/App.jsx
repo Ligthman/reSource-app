@@ -755,6 +755,105 @@ fetch(CONTACT_WEBHOOK, {
         <p style={{fontSize:12,color:C.gray,lineHeight:1.7,margin:0}}>Először csökkentsd a veszteségeket (szigetelés, ablakok), aztán termeld az energiát (napelem), végül tárold (akkumulátor).</p>
       </div>
 
+<div style={{
+  background:C.white,
+  border:`1.5px solid ${C.grayMid}`,
+  borderRadius:12,
+  overflow:"hidden",
+  marginBottom:14
+}}>
+  <div style={{
+    background:C.sunLight,
+    padding:"12px 16px",
+    borderBottom:`1px solid ${C.grayMid}`
+  }}>
+    <div style={{
+      fontSize:11,
+      fontWeight:700,
+      color:C.sunDark,
+      letterSpacing:1.5,
+      textTransform:"uppercase"
+    }}>
+      Támogatási és finanszírozási irányok
+    </div>
+  </div>
+
+  <div style={{padding:"14px 16px"}}>
+    <div style={{
+      fontSize:14,
+      fontWeight:700,
+      color:C.text,
+      marginBottom:6
+    }}>
+      {flow === "residential"
+        ? "Lakóépületnél érdemes lehet támogatási lehetőségeket is ellenőrizni"
+        : "Vállalkozási ingatlannál érdemes lehet pályázati vagy finanszírozási lehetőségeket keresni"
+      }
+    </div>
+
+    <p style={{
+      fontSize:13,
+      color:C.gray,
+      lineHeight:1.65,
+      marginBottom:12
+    }}>
+      {flow === "residential"
+        ? "A javasolt fejlesztésekhez bizonyos esetekben elérhetők lehetnek állami, uniós, önkormányzati vagy kedvezményes finanszírozási lehetőségek. A jogosultság függ az ingatlan típusától, építési évétől, helyétől, a beruházás műszaki tartalmától és az aktuális feltételektől."
+        : "Céges ingatlanoknál energetikai korszerűsítési, energiahatékonysági, megújuló energiás vagy fenntarthatósági pályázati lehetőségek is szóba jöhetnek. A jogosultságot minden esetben az aktuális kiírások és a vállalkozás adatai alapján kell ellenőrizni."
+      }
+    </p>
+
+    <div style={{
+      display:"flex",
+      gap:8,
+      flexWrap:"wrap",
+      marginBottom:12
+    }}>
+      {(flow === "residential"
+        ? [
+            "Energetikai felújítás",
+            "Napelem / akkumulátor",
+            "Fűtéskorszerűsítés",
+            "Szigetelés",
+            "Vízgazdálkodás",
+            "Kedvezményes hitel"
+          ]
+        : [
+            "Céges energetika",
+            "Megújuló energia",
+            "Energiahatékonyság",
+            "Telephelyfejlesztés",
+            "Fenntarthatóság",
+            "Pályázati előszűrés"
+          ]
+      ).map(tag=>(
+        <span key={tag} style={{
+          fontSize:11,
+          background:C.grayLight,
+          color:C.gray,
+          borderRadius:999,
+          padding:"5px 10px",
+          fontWeight:600
+        }}>
+          {tag}
+        </span>
+      ))}
+    </div>
+
+    <div style={{
+      fontSize:11,
+      color:C.muted,
+      lineHeight:1.5,
+      background:C.grayLight,
+      borderRadius:8,
+      padding:"10px 12px"
+    }}>
+      Fontos: a reSource nem garantál támogatást. A konkrét jogosultságot minden esetben
+      aktuális pályázati, banki vagy szakértői ellenőrzéssel kell megerősíteni.
+    </div>
+  </div>
+</div>
+      
       {!detailedMode&&(
         <div style={{background:C.sunLight,border:`1.5px solid ${C.sun}44`,borderRadius:12,padding:"16px",marginBottom:14}}>
           <div style={{fontSize:13,fontWeight:700,color:C.text,marginBottom:4}}>Pontosabb eredményt szeretnél?</div>
