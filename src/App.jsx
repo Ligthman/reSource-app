@@ -482,6 +482,10 @@ fetch(CONTACT_WEBHOOK, {
     datum: new Date().toLocaleString("hu-HU"),
     forras: "reSource App",
 
+tamogatasi_irany: flow === "residential"
+  ? "Lakossági energetikai / otthonfelújítási lehetőségek ellenőrizendők"
+  : "Céges energetikai / pályázati lehetőségek ellenőrizendők",
+    
     nev: contact.name,
     email: contact.email || "",
     telefon: contact.phone || "",
