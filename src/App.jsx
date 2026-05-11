@@ -441,7 +441,10 @@ function ResultsView({answers,flow,onRestart,detailedMode,setDetailedMode,setSte
   const [contactDone,setContactDone]=useState(false);
   const [contactError,setContactError]=useState("");
 
- const handleContactSubmit=()=>{
+  const [privacyAccepted, setPrivacyAccepted] = useState(false);
+  const [newsletterAccepted, setNewsletterAccepted] = useState(false);
+
+  const handleContactSubmit=()=>{
   const email = contact.email.trim();
   const phone = contact.phone.trim();
   const phoneDigits = phone.replace(/\D/g,"");
