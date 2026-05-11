@@ -566,7 +566,7 @@ tamogatasi_irany: flow === "residential"
     partner_statusz: "Nincs partnerhez rendelve",
     jutalek_statusz: "Nem releváns",
     utolso_frissites: new Date().toLocaleString("hu-HU"),
-    belso_megjegyzes: "Appból érkezett automatikus lead"
+    belso_megjegyzes: `Appból érkezett automatikus lead. Adatkezelés elfogadva: ${privacyAccepted ? "Igen" : "Nem"}. Hírlevél feliratkozás: ${newsletterAccepted ? "Igen" : "Nem"}. Hírlevél dátuma: ${newsletterAccepted ? new Date().toLocaleString("hu-HU") : "Nem iratkozott fel"}.`,
   })
 }).catch(() => {});
   };
