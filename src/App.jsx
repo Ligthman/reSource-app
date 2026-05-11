@@ -454,6 +454,11 @@ function ResultsView({answers,flow,onRestart,detailedMode,setDetailedMode,setSte
     return;
   }
 
+if(!privacyAccepted){
+  setContactError("Az adatkezelési hozzájárulás elfogadása kötelező az összefoglaló elküldéséhez.");
+  return;
+}
+    
   if(!contact.city?.trim()){
     setContactError("Kérjük add meg az irányítószámot és várost!");
     return;
@@ -484,6 +489,10 @@ fetch(CONTACT_WEBHOOK, {
     lead_id: "RS-" + Date.now(),
     datum: new Date().toLocaleString("hu-HU"),
     forras: "reSource App",
+
+    adatkezeles_elfogadva: privacyAccepted ? "Igen" : "Nem",
+hirlevel_feliratkozas: newsletterAccepted ? "Igen" : "Nem",
+hirlevel_datum: newsletterAccepted ? new Date().toLocaleString("hu-HU") : "",
 
 tamogatasi_irany: flow === "residential"
   ? "Lakossági energetikai / otthonfelújítási lehetőségek ellenőrizendők"
@@ -945,6 +954,70 @@ tamogatasi_irany: flow === "residential"
           />
         </div>
 
+<div style={{
+  display:"flex",
+  flexDirection:"column",
+  gap:10,
+  marginTop:4,
+  marginBottom:12
+}}>
+  <label style={{
+    display:"flex",
+    gap:10,
+    alignItems:"flex-start",
+    fontSize:11,
+    color:C.gray,
+    lineHeight:1.5,
+    cursor:"pointer"
+  }}>
+    <input
+      type="checkbox"
+      checked={privacyAccepted}
+      onChange={e=>setPrivacyAccepted(e.target.checked)}
+      style={{marginTop:2, flexShrink:0}}
+    />
+    <span>
+      Elfogadom, hogy a reSource a megadott adataimat a felmérés kiértékelése,
+      az összefoglaló elküldése és esetleges partnerajánlás céljából kezelje. *
+    </span>
+  </label>
+
+  <label style={{
+    display:"flex",
+    gap:10,
+    alignItems:"flex-start",
+    fontSize:11,
+    color:C.gray,
+    lineHeight:1.5,
+    cursor:"pointer"
+  }}>
+    <input
+      type="checkbox"
+      checked={newsletterAccepted}
+      onChange={e=>setNewsletterAccepted(e.target.checked)}
+      style={{marginTop:2, flexShrink:0}}
+    />
+    <span>
+      Szeretnék reSource híreket, hasznos otthonfejlesztési tippeket és támogatási
+      lehetőségekről szóló értesítéseket kapni emailben.
+    </span>
+  </label>
+
+  <div style={{
+    fontSize:10,
+    color:C.muted,
+    lineHeight:1.5,
+    background:C.grayLight,
+    borderRadius:8,
+    padding:"10px 12px"
+  }}>
+    A megadott adatokat kizárólag a reSource felmérés feldolgozásához, az összefoglaló
+    elküldéséhez, valamint hozzájárulásod esetén partnerajánlás és hírlevél küldése
+    céljából használjuk. A hírlevélről bármikor leiratkozhatsz. A részletes adatkezelési
+    tájékoztató hamarosan elérhető lesz.
+  </div>
+</div>
+        
         {contactError && (
           <div style={{fontSize:12,color:C.red,marginBottom:10}}>
             {contactError}
@@ -979,7 +1052,7 @@ tamogatasi_irany: flow === "residential"
           marginTop:10,
           lineHeight:1.5
         }}>
-          Adataidat csak a reSource kezeli. Az összefoglalót az appban tudod PDF-ként menteni.
+          Az összefoglalót az appban tudod PDF-ként menteni. A hírlevél feliratkozás opcionális.
         </div>
       </>
     ) : (
