@@ -1254,23 +1254,9 @@ export default function ResourceApp() {
 
   const font="'Poppins','Helvetica Neue',Arial,sans-serif";
 
-  const [showSplash, setShowSplash] = useState(true);
-  const [splashLeaving, setSplashLeaving] = useState(false);
+ 
 
-  useEffect(() => {
-    const holdTimer = setTimeout(() => {
-      setSplashLeaving(true);
-    }, 5000);
-
-    const removeTimer = setTimeout(() => {
-      setShowSplash(false);
-    }, 5800);
-
-    return () => {
-      clearTimeout(holdTimer);
-      clearTimeout(removeTimer);
-    };
-  }, []);
+  
 
   useEffect(()=>{
     const s=document.createElement("style");
@@ -1394,81 +1380,7 @@ export default function ResourceApp() {
       overflowX:"hidden"
     }}>
 
-      {showSplash && (
-        <div style={{
-          position:"fixed",
-          inset:0,
-          zIndex:9999,
-          background:"#FFFFFF",
-          display:"flex",
-          alignItems:"center",
-          justifyContent:"center",
-          fontFamily:font,
-          overflow:"hidden",
-          opacity:splashLeaving ? 0 : 1,
-          transition:"opacity 0.8s ease",
-          pointerEvents:"none"
-        }}>
-          <div style={{
-            width:"100%",
-            minHeight:"100svh",
-            display:"flex",
-            flexDirection:"column",
-            alignItems:"center",
-            justifyContent:"center",
-            padding:"20px 8px"
-          }}>
-
-            <img
-              src="/logo.png"
-              alt="reSource app"
-              style={{
-                width:"112vw",
-                maxWidth:"900px",
-                height:"auto",
-                objectFit:"contain",
-                marginTop:"-90px",
-                marginBottom:"105px",
-                display:"block"
-              }}
-            />
-
-            <div style={{
-              textAlign:"center",
-              lineHeight:1.25
-            }}>
-              <div style={{
-                fontSize:"clamp(56px, 13vw, 86px)",
-                fontWeight:900,
-                color:"#202124",
-                marginBottom:"22px",
-                letterSpacing:"2px"
-              }}>
-                FELMÉR
-              </div>
-
-              <div style={{
-                fontSize:"clamp(56px, 13vw, 86px)",
-                fontWeight:900,
-                color:"#63B35B",
-                marginBottom:"22px",
-                letterSpacing:"2px"
-              }}>
-                JAVASOL
-              </div>
-
-              <div style={{
-                fontSize:"clamp(56px, 13vw, 86px)",
-                fontWeight:900,
-                color:"#A9A9A9",
-                letterSpacing:"2px"
-              }}>
-                ÖSSZEKÖT
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
+     
 
 
       <div style={{width:"100%",maxWidth:480}}>
@@ -1484,15 +1396,16 @@ export default function ResourceApp() {
       marginBottom:22
     }}>
       <img
-        src="/logo.png"
-        alt="reSource app"
-        style={{
-          width:"300px",
-          maxWidth:"85%",
-          height:"auto",
-          objectFit:"contain"
-        }}
-      />
+  src="/logo.png"
+  alt="reSource app"
+  style={{
+    width:"420px",
+    maxWidth:"100%",
+    height:"auto",
+    objectFit:"contain",
+    display:"block"
+  }}
+/>
     </div>
 
   <h1 style={{
