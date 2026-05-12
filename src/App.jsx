@@ -80,59 +80,181 @@ function calcWater(answers) {
 }
 
 function WaterCard({answers}) {
-  if (!answers.r_roof_type||answers.r_roof_type.includes("Nincs saját tető")) return null;
-  const w = calcWater(answers);
-  return (
-    return (
-  <div style={{
-    minHeight: "100dvh",
-    background: "#FFFFFF",
-    fontFamily: font
-  }}>
+  if (!answers.r_roof_type || answers.r_roof_type.includes("Nincs saját tető")) return null;
 
-    IDE TEDD BE A SPLASH KÓDOT
-    <div style={{background:"linear-gradient(135deg,#EBF5FB,#E8F8F5)",border:"1.5px solid #A9D4F055",borderRadius:14,overflow:"hidden",marginBottom:14}}>
-      <div style={{padding:"14px 16px",background:"linear-gradient(135deg,#1A5276,#1A7A5E)",display:"flex",alignItems:"center",gap:12}}>
+  const w = calcWater(answers);
+
+  return (
+    <div style={{
+      background:"linear-gradient(135deg,#EBF5FB,#E8F8F5)",
+      border:"1.5px solid #A9D4F055",
+      borderRadius:14,
+      overflow:"hidden",
+      marginBottom:14
+    }}>
+      <div style={{
+        padding:"14px 16px",
+        background:"linear-gradient(135deg,#1A5276,#1A7A5E)",
+        display:"flex",
+        alignItems:"center",
+        gap:12
+      }}>
         <span style={{fontSize:22}}>💧</span>
         <div>
-          <div style={{fontWeight:700,fontSize:14,color:"#fff"}}>Vízgazdálkodási elemzés</div>
-          <div style={{fontSize:11,color:"#A8D8EA",marginTop:1}}>Tetőfelület és megadott irányítószám alapján becsülve</div>
+          <div style={{fontWeight:700,fontSize:14,color:"#fff"}}>
+            Vízgazdálkodási elemzés
+          </div>
+          <div style={{fontSize:11,color:"#A8D8EA",marginTop:1}}>
+            Tetőfelület és megadott irányítószám alapján becsülve
+          </div>
         </div>
       </div>
+
       <div style={{padding:"14px 16px"}}>
         <div style={{display:"flex",gap:8,flexWrap:"wrap",marginBottom:12}}>
           {[
-            {label:"ÉVI GYŰJTHETŐ VÍZ",val:`${(w.annualLiters/1000).toFixed(0)}m³`,sub:`${w.annualLiters.toLocaleString()} liter`,color:"#1A5276"},
-            {label:"ÉVI MEGTAKARÍTÁS",val:formatFt(w.savings),sub:"vízdíj megtakarítás",color:"#1A7A5E"},
-            {label:"ÖNELLÁTÁS",val:`${w.selfSufficiency}%`,sub:"nem ivóvíz igény",color:"#1A5276"},
+            {
+              label:"ÉVI GYŰJTHETŐ VÍZ",
+              val:`${(w.annualLiters/1000).toFixed(0)}m³`,
+              sub:`${w.annualLiters.toLocaleString()} liter`,
+              color:"#1A5276"
+            },
+            {
+              label:"ÉVI MEGTAKARÍTÁS",
+              val:formatFt(w.savings),
+              sub:"vízdíj megtakarítás",
+              color:"#1A7A5E"
+            },
+            {
+              label:"ÖNELLÁTÁS",
+              val:`${w.selfSufficiency}%`,
+              sub:"nem ivóvíz igény",
+              color:"#1A5276"
+            },
           ].map(item=>(
-            <div key={item.label} style={{background:"#fff",borderRadius:10,padding:"12px 14px",flex:1,minWidth:90,border:"1px solid #A9D4F033"}}>
-              <div style={{fontSize:10,color:"#5D8AA8",fontWeight:700,marginBottom:4}}>{item.label}</div>
-              <div style={{fontSize:18,fontWeight:800,color:item.color}}>{item.val}</div>
-              <div style={{fontSize:11,color:"#888"}}>{item.sub}</div>
+            <div key={item.label} style={{
+              background:"#fff",
+              borderRadius:10,
+              padding:"12px 14px",
+              flex:1,
+              minWidth:90,
+              border:"1px solid #A9D4F033"
+            }}>
+              <div style={{
+                fontSize:10,
+                color:"#5D8AA8",
+                fontWeight:700,
+                marginBottom:4
+              }}>
+                {item.label}
+              </div>
+              <div style={{
+                fontSize:18,
+                fontWeight:800,
+                color:item.color
+              }}>
+                {item.val}
+              </div>
+              <div style={{fontSize:11,color:"#888"}}>
+                {item.sub}
+              </div>
             </div>
           ))}
         </div>
-        <div style={{background:"#fff",borderRadius:10,padding:"12px 14px",marginBottom:10,border:"1px solid #A9D4F033"}}>
-          <div style={{display:"flex",justifyContent:"space-between",marginBottom:6}}>
-            <span style={{fontSize:12,fontWeight:700,color:"#1A5276"}}>Évi csapadék a régiódban</span>
-            <span style={{fontSize:12,fontWeight:800,color:"#1A5276"}}>{w.rainfall} mm</span>
+
+        <div style={{
+          background:"#fff",
+          borderRadius:10,
+          padding:"12px 14px",
+          marginBottom:10,
+          border:"1px solid #A9D4F033"
+        }}>
+          <div style={{
+            display:"flex",
+            justifyContent:"space-between",
+            marginBottom:6
+          }}>
+            <span style={{fontSize:12,fontWeight:700,color:"#1A5276"}}>
+              Évi csapadék a régiódban
+            </span>
+            <span style={{fontSize:12,fontWeight:800,color:"#1A5276"}}>
+              {w.rainfall} mm
+            </span>
           </div>
-          <div style={{height:8,background:"#E8F4FD",borderRadius:4,overflow:"hidden"}}>
-            <div style={{height:"100%",width:`${Math.round(w.rainfall/800*100)}%`,background:"linear-gradient(90deg,#3498DB,#1A5276)",borderRadius:4}}/>
+
+          <div style={{
+            height:8,
+            background:"#E8F4FD",
+            borderRadius:4,
+            overflow:"hidden"
+          }}>
+            <div style={{
+              height:"100%",
+              width:`${Math.round(w.rainfall/800*100)}%`,
+              background:"linear-gradient(90deg,#3498DB,#1A5276)",
+              borderRadius:4
+            }}/>
           </div>
         </div>
+
         <div style={{display:"flex",gap:8,marginBottom:12}}>
-          <div style={{background:w.droughtColor+"18",border:`1px solid ${w.droughtColor}44`,borderRadius:8,padding:"8px 12px",flex:1}}>
-            <div style={{fontSize:10,color:w.droughtColor,fontWeight:700,marginBottom:2}}>ASZÁLYKOCKÁZAT</div>
-            <div style={{fontSize:13,fontWeight:800,color:w.droughtColor}}>{w.droughtRisk}</div>
+          <div style={{
+            background:w.droughtColor+"18",
+            border:`1px solid ${w.droughtColor}44`,
+            borderRadius:8,
+            padding:"8px 12px",
+            flex:1
+          }}>
+            <div style={{
+              fontSize:10,
+              color:w.droughtColor,
+              fontWeight:700,
+              marginBottom:2
+            }}>
+              ASZÁLYKOCKÁZAT
+            </div>
+            <div style={{
+              fontSize:13,
+              fontWeight:800,
+              color:w.droughtColor
+            }}>
+              {w.droughtRisk}
+            </div>
           </div>
-          <div style={{background:"#E8F8F5",border:"1px solid #A8E6C544",borderRadius:8,padding:"8px 12px",flex:2}}>
-            <div style={{fontSize:10,color:"#1A7A5E",fontWeight:700,marginBottom:2}}>AJÁNLOTT TARTÁLYMÉRET</div>
-            <div style={{fontSize:13,fontWeight:800,color:"#1A7A5E"}}>{(w.tankSize/1000).toFixed(0)}.000 liter</div>
+
+          <div style={{
+            background:"#E8F8F5",
+            border:"1px solid #A8E6C544",
+            borderRadius:8,
+            padding:"8px 12px",
+            flex:2
+          }}>
+            <div style={{
+              fontSize:10,
+              color:"#1A7A5E",
+              fontWeight:700,
+              marginBottom:2
+            }}>
+              AJÁNLOTT TARTÁLYMÉRET
+            </div>
+            <div style={{
+              fontSize:13,
+              fontWeight:800,
+              color:"#1A7A5E"
+            }}>
+              {(w.tankSize/1000).toFixed(0)}.000 liter
+            </div>
           </div>
         </div>
-        <div style={{fontSize:11,color:"#666",lineHeight:1.6,background:"#f0f8ff",borderRadius:8,padding:"10px 12px"}}>
+
+        <div style={{
+          fontSize:11,
+          color:"#666",
+          lineHeight:1.6,
+          background:"#f0f8ff",
+          borderRadius:8,
+          padding:"10px 12px"
+        }}>
           Az adatok becslések: a megadott irányítószám/település, az átlagos csapadékmennyiség és az épület becsült tetőfelülete alapján készülnek.
         </div>
       </div>
@@ -1129,25 +1251,58 @@ export default function ResourceApp() {
   const [selected,setSelected]=useState([]);
   const [freetext,setFreetext]=useState("");
   const [detailedMode,setDetailedMode]=useState(false);
+
+  const font="'Poppins','Helvetica Neue',Arial,sans-serif";
+
   const [showSplash, setShowSplash] = useState(true);
+  const [splashLeaving, setSplashLeaving] = useState(false);
 
-useEffect(() => {
-  const timer = setTimeout(() => {
-    setShowSplash(false);
-  }, 3200);
+  useEffect(() => {
+    const holdTimer = setTimeout(() => {
+      setSplashLeaving(true);
+    }, 5000);
 
-  return () => clearTimeout(timer);
-}, []);
-  
+    const removeTimer = setTimeout(() => {
+      setShowSplash(false);
+    }, 5800);
+
+    return () => {
+      clearTimeout(holdTimer);
+      clearTimeout(removeTimer);
+    };
+  }, []);
+
   useEffect(()=>{
     const s=document.createElement("style");
-    s.textContent=`@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap'); *{box-sizing:border-box;margin:0;padding:0;} button:focus{outline:none;}`;
+    s.textContent=`
+      @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap');
+
+      * {
+        box-sizing:border-box;
+        margin:0;
+        padding:0;
+      }
+
+      html, body {
+        margin:0;
+        padding:0;
+        width:100%;
+        min-height:100%;
+        overflow-x:hidden;
+        background:${C.grayLight};
+      }
+
+      button:focus {
+        outline:none;
+      }
+    `;
     document.head.appendChild(s);
     return ()=>document.head.removeChild(s);
   },[]);
 
   const questions=flow?QUESTIONS[flow]:[];
   const blocks=flow?BLOCKS[flow]:[];
+
   const visibleQuestions=questions.filter(q=>{
     if(q.condition&&!q.condition(answers)) return false;
     if(flow==="commercial") return true;
@@ -1159,9 +1314,15 @@ useEffect(() => {
     if(screen==="quiz"&&visibleQuestions[step]){
       const q=visibleQuestions[step];
       const cur=answers[q.id];
-      if(q.freetext){setFreetext(cur||"");setSelected([]);}
-      else if(q.multi){setSelected(Array.isArray(cur)?cur:[]);}
-      else{setSelected(cur?[cur]:[]);}
+
+      if(q.freetext){
+        setFreetext(cur||"");
+        setSelected([]);
+      } else if(q.multi){
+        setSelected(Array.isArray(cur)?cur:[]);
+      } else {
+        setSelected(cur?[cur]:[]);
+      }
     }
   },[step,screen,flow]);
 
@@ -1178,151 +1339,115 @@ useEffect(() => {
   };
 
   const toggleOpt=(opt)=>{
-    if(!isMulti){setAnswers(prev=>({...prev,[q.id]:opt}));setTimeout(()=>advance(),160);return;}
+    if(!isMulti){
+      setAnswers(prev=>({...prev,[q.id]:opt}));
+      setTimeout(()=>advance(),160);
+      return;
+    }
+
     const excl=["Semmi nincs felújítva","Nincs szomszéd","Nem releváns"];
+
     setSelected(prev=>{
       if(excl.some(e=>opt.includes(e))) return [opt];
       const base=prev.filter(x=>!excl.some(e=>x.includes(e)));
-      return base.includes(opt)?base.filter(x=>x!==opt):[...base,opt];
+      return base.includes(opt)
+        ? base.filter(x=>x!==opt)
+        : [...base,opt];
     });
   };
 
-  const confirmMulti=()=>{if(selected.length===0)return;setAnswers(prev=>({...prev,[q.id]:selected}));advance();};
-  const confirmFreetext=()=>{setAnswers(prev=>({...prev,[q.id]:freetext}));advance();};
-  const handleBack=()=>{if(step===0)setScreen("flowSelect");else setStep(s=>s-1);};
-  const handleRestart=()=>{setAnswers({});setStep(0);setSelected([]);setFlow(null);setDetailedMode(false);setScreen("intro");};
-
-  const font="'Poppins','Helvetica Neue',Arial,sans-serif";
-const [showSplash, setShowSplash] = useState(true);
-const [splashLeaving, setSplashLeaving] = useState(false);
-
-useEffect(() => {
-  const holdTimer = setTimeout(() => {
-    setSplashLeaving(true);
-  }, 4500);
-
-  const removeTimer = setTimeout(() => {
-    setShowSplash(false);
-  }, 5300);
-
-  return () => {
-    clearTimeout(holdTimer);
-    clearTimeout(removeTimer);
+  const confirmMulti=()=>{
+    if(selected.length===0)return;
+    setAnswers(prev=>({...prev,[q.id]:selected}));
+    advance();
   };
-}, []);
-  
- {showSplash && (
-  <div style={{
-    position: "fixed",
-    inset: 0,
-    zIndex: 9999,
-    minHeight: "100dvh",
-    background: "#FFFFFF",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    fontFamily: font,
-    overflow: "hidden",
-    opacity: splashLeaving ? 0 : 1,
-    transition: "opacity 0.7s ease"
-  }}>
-    ...
-  </div>
-)}
-      <div style={{
-        width: "100%",
-        minHeight: "100dvh",
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        justifyContent: "center",
-        padding: "48px 24px",
-        transform: splashLeaving ? "scale(0.98)" : "scale(1)",
-        transition: "transform 0.7s ease"
-      }}>
 
-        <img
-          src="/logo.png"
-          alt="reSource app"
-          style={{
-            width: "82%",
-            maxWidth: "460px",
-            marginBottom: "110px",
-            objectFit: "contain"
-          }}
-        />
+  const confirmFreetext=()=>{
+    setAnswers(prev=>({...prev,[q.id]:freetext}));
+    advance();
+  };
 
-        <div style={{
-          textAlign: "center",
-          lineHeight: 1.45
-        }}>
-          <div style={{
-            fontSize: "42px",
-            fontWeight: 900,
-            color: "#202124",
-            marginBottom: "18px",
-            letterSpacing: "1px"
-          }}>
-            FELMÉR
-          </div>
+  const handleBack=()=>{
+    if(step===0)setScreen("flowSelect");
+    else setStep(s=>s-1);
+  };
 
-          <div style={{
-            fontSize: "42px",
-            fontWeight: 900,
-            color: "#63B35B",
-            marginBottom: "18px",
-            letterSpacing: "1px"
-          }}>
-            JAVASOL
-          </div>
-
-          <div style={{
-            fontSize: "42px",
-            fontWeight: 900,
-            color: "#A9A9A9",
-            letterSpacing: "1px"
-          }}>
-            ÖSSZEKÖT
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
-      <style>
-        {`
-          @keyframes splashFadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-          }
-
-          @keyframes wordOne {
-            0% { opacity: 0; transform: translateY(8px); }
-            15% { opacity: 1; transform: translateY(0); }
-            100% { opacity: 1; transform: translateY(0); }
-          }
-
-          @keyframes wordTwo {
-            0%, 28% { opacity: 0; transform: translateY(8px); }
-            45% { opacity: 1; transform: translateY(0); }
-            100% { opacity: 1; transform: translateY(0); }
-          }
-
-          @keyframes wordThree {
-            0%, 58% { opacity: 0; transform: translateY(8px); }
-            75% { opacity: 1; transform: translateY(0); }
-            100% { opacity: 1; transform: translateY(0); }
-          }
-        `}
-      </style>
-    </div>
-  );
-}
+  const handleRestart=()=>{
+    setAnswers({});
+    setStep(0);
+    setSelected([]);
+    setFlow(null);
+    setDetailedMode(false);
+    setScreen("intro");
+  };
 
 return (
-    <div style={{minHeight:"100vh",background:C.grayLight,fontFamily:font,display:"flex",alignItems:"flex-start",justifyContent:"center",padding:"24px 16px 60px"}}>
-      <div style={{width:"100%",maxWidth:480}}>
+    <div style={{
+      minHeight:"100svh",
+      background:C.grayLight,
+      fontFamily:font,
+      display:"flex",
+      alignItems:"flex-start",
+      justifyContent:"center",
+      padding:"24px 16px 60px",
+      position:"relative",
+      overflowX:"hidden"
+    }}>
 
+     
+
+            <img
+              src="/logo.png"
+              alt="reSource app"
+              style={{
+                width:"112vw",
+                maxWidth:"900px",
+                height:"auto",
+                objectFit:"contain",
+                marginTop:"-90px",
+                marginBottom:"105px",
+                display:"block"
+              }}
+            />
+
+            <div style={{
+              textAlign:"center",
+              lineHeight:1.25
+            }}>
+              <div style={{
+                fontSize:"clamp(56px, 13vw, 86px)",
+                fontWeight:900,
+                color:"#202124",
+                marginBottom:"22px",
+                letterSpacing:"2px"
+              }}>
+                FELMÉR
+              </div>
+
+              <div style={{
+                fontSize:"clamp(56px, 13vw, 86px)",
+                fontWeight:900,
+                color:"#63B35B",
+                marginBottom:"22px",
+                letterSpacing:"2px"
+              }}>
+                JAVASOL
+              </div>
+
+              <div style={{
+                fontSize:"clamp(56px, 13vw, 86px)",
+                fontWeight:900,
+                color:"#A9A9A9",
+                letterSpacing:"2px"
+              }}>
+                ÖSSZEKÖT
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      <div style={{width:"100%",maxWidth:480}}>
 
         <div style={{background:C.white,borderRadius:16,padding:"26px 22px",boxShadow:"0 2px 20px rgba(0,0,0,0.06)"}}>
 
