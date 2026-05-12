@@ -1381,7 +1381,7 @@ export default function ResourceApp() {
     setScreen("intro");
   };
 
-return (
+ return (
     <div style={{
       minHeight:"100svh",
       background:C.grayLight,
@@ -1394,7 +1394,30 @@ return (
       overflowX:"hidden"
     }}>
 
-     
+      {showSplash && (
+        <div style={{
+          position:"fixed",
+          inset:0,
+          zIndex:9999,
+          background:"#FFFFFF",
+          display:"flex",
+          alignItems:"center",
+          justifyContent:"center",
+          fontFamily:font,
+          overflow:"hidden",
+          opacity:splashLeaving ? 0 : 1,
+          transition:"opacity 0.8s ease",
+          pointerEvents:"none"
+        }}>
+          <div style={{
+            width:"100%",
+            minHeight:"100svh",
+            display:"flex",
+            flexDirection:"column",
+            alignItems:"center",
+            justifyContent:"center",
+            padding:"20px 8px"
+          }}>
 
             <img
               src="/logo.png"
@@ -1446,6 +1469,7 @@ return (
           </div>
         </div>
       )}
+
 
       <div style={{width:"100%",maxWidth:480}}>
 
