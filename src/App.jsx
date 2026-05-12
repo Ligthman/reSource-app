@@ -1121,7 +1121,16 @@ export default function ResourceApp() {
   const [selected,setSelected]=useState([]);
   const [freetext,setFreetext]=useState("");
   const [detailedMode,setDetailedMode]=useState(false);
+  const [showSplash, setShowSplash] = useState(true);
 
+useEffect(() => {
+  const timer = setTimeout(() => {
+    setShowSplash(false);
+  }, 3200);
+
+  return () => clearTimeout(timer);
+}, []);
+  
   useEffect(()=>{
     const s=document.createElement("style");
     s.textContent=`@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap'); *{box-sizing:border-box;margin:0;padding:0;} button:focus{outline:none;}`;
@@ -1177,7 +1186,104 @@ export default function ResourceApp() {
 
   const font="'Poppins','Helvetica Neue',Arial,sans-serif";
 
+  if (showSplash) {
   return (
+     <div style={{
+      minHeight:"100vh",
+      background:"#FFFFFF",
+      display:"flex",
+      alignItems:"center",
+      justifyContent:"center",
+      fontFamily:"'Poppins','Helvetica Neue',Arial,sans-serif",
+      overflow:"hidden"
+    }}>
+      <div style={{
+        textAlign:"center",
+        animation:"splashFadeIn 0.6s ease forwards"
+      }}>
+        <img
+          src="/logo.png"
+          alt="reSource app"
+          style={{
+            width:"230px",
+            maxWidth:"78%",
+            height:"auto",
+            objectFit:"contain",
+            marginBottom:34
+          }}
+        />
+
+        <div style={{
+          display:"flex",
+          flexDirection:"column",
+          gap:10,
+          alignItems:"center"
+        }}>
+          <div style={{
+            fontSize:22,
+            fontWeight:800,
+            color:"#1E1E1E",
+            letterSpacing:0.4,
+            animation:"wordOne 3s ease forwards"
+          }}>
+            Felmér
+          </div>
+
+          <div style={{
+            fontSize:22,
+            fontWeight:800,
+            color:"#4CAF50",
+            letterSpacing:0.4,
+            opacity:0,
+            animation:"wordTwo 3s ease forwards"
+          }}>
+            Javasol
+          </div>
+
+          <div style={{
+            fontSize:22,
+            fontWeight:800,
+            color:"#1E1E1E",
+            letterSpacing:0.4,
+            opacity:0,
+            animation:"wordThree 3s ease forwards"
+          }}>
+            Összeköt
+          </div>
+        </div>
+      </div>
+
+      <style>
+        {`
+          @keyframes splashFadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+          }
+
+          @keyframes wordOne {
+            0% { opacity: 0; transform: translateY(8px); }
+            15% { opacity: 1; transform: translateY(0); }
+            100% { opacity: 1; transform: translateY(0); }
+          }
+
+          @keyframes wordTwo {
+            0%, 28% { opacity: 0; transform: translateY(8px); }
+            45% { opacity: 1; transform: translateY(0); }
+            100% { opacity: 1; transform: translateY(0); }
+          }
+
+          @keyframes wordThree {
+            0%, 58% { opacity: 0; transform: translateY(8px); }
+            75% { opacity: 1; transform: translateY(0); }
+            100% { opacity: 1; transform: translateY(0); }
+          }
+        `}
+      </style>
+    </div>
+  );
+}
+
+return (
     <div style={{minHeight:"100vh",background:C.grayLight,fontFamily:font,display:"flex",alignItems:"flex-start",justifyContent:"center",padding:"24px 16px 60px"}}>
       <div style={{width:"100%",maxWidth:480}}>
 
