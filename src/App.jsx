@@ -83,6 +83,14 @@ function WaterCard({answers}) {
   if (!answers.r_roof_type||answers.r_roof_type.includes("Nincs saját tető")) return null;
   const w = calcWater(answers);
   return (
+    return (
+  <div style={{
+    minHeight: "100dvh",
+    background: "#FFFFFF",
+    fontFamily: font
+  }}>
+
+    IDE TEDD BE A SPLASH KÓDOT
     <div style={{background:"linear-gradient(135deg,#EBF5FB,#E8F8F5)",border:"1.5px solid #A9D4F055",borderRadius:14,overflow:"hidden",marginBottom:14}}>
       <div style={{padding:"14px 16px",background:"linear-gradient(135deg,#1A5276,#1A7A5E)",display:"flex",alignItems:"center",gap:12}}>
         <span style={{fontSize:22}}>💧</span>
@@ -1191,11 +1199,11 @@ const [splashLeaving, setSplashLeaving] = useState(false);
 useEffect(() => {
   const holdTimer = setTimeout(() => {
     setSplashLeaving(true);
-  }, 2500);
+  }, 4500);
 
   const removeTimer = setTimeout(() => {
     setShowSplash(false);
-  }, 3200);
+  }, 5300);
 
   return () => {
     clearTimeout(holdTimer);
