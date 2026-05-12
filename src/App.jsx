@@ -1185,74 +1185,102 @@ useEffect(() => {
   const handleRestart=()=>{setAnswers({});setStep(0);setSelected([]);setFlow(null);setDetailedMode(false);setScreen("intro");};
 
   const font="'Poppins','Helvetica Neue',Arial,sans-serif";
+const [showSplash, setShowSplash] = useState(true);
+const [splashLeaving, setSplashLeaving] = useState(false);
 
-  if (showSplash) {
-  return (
-     <div style={{
-      minHeight:"100vh",
-      background:"#FFFFFF",
-      display:"flex",
-      alignItems:"center",
-      justifyContent:"center",
-      fontFamily:"'Poppins','Helvetica Neue',Arial,sans-serif",
-      overflow:"hidden"
-    }}>
+useEffect(() => {
+  const holdTimer = setTimeout(() => {
+    setSplashLeaving(true);
+  }, 2500);
+
+  const removeTimer = setTimeout(() => {
+    setShowSplash(false);
+  }, 3200);
+
+  return () => {
+    clearTimeout(holdTimer);
+    clearTimeout(removeTimer);
+  };
+}, []);
+  
+ {showSplash && (
+  <div style={{
+    position: "fixed",
+    inset: 0,
+    zIndex: 9999,
+    minHeight: "100dvh",
+    background: "#FFFFFF",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    fontFamily: font,
+    overflow: "hidden",
+    opacity: splashLeaving ? 0 : 1,
+    transition: "opacity 0.7s ease"
+  }}>
+    ...
+  </div>
+)}
       <div style={{
-        textAlign:"center",
-        animation:"splashFadeIn 0.6s ease forwards"
+        width: "100%",
+        minHeight: "100dvh",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+        padding: "48px 24px",
+        transform: splashLeaving ? "scale(0.98)" : "scale(1)",
+        transition: "transform 0.7s ease"
       }}>
+
         <img
           src="/logo.png"
           alt="reSource app"
           style={{
-            width:"230px",
-            maxWidth:"78%",
-            height:"auto",
-            objectFit:"contain",
-            marginBottom:34
+            width: "82%",
+            maxWidth: "460px",
+            marginBottom: "110px",
+            objectFit: "contain"
           }}
         />
 
         <div style={{
-          display:"flex",
-          flexDirection:"column",
-          gap:10,
-          alignItems:"center"
+          textAlign: "center",
+          lineHeight: 1.45
         }}>
           <div style={{
-            fontSize:22,
-            fontWeight:800,
-            color:"#1E1E1E",
-            letterSpacing:0.4,
-            animation:"wordOne 3s ease forwards"
+            fontSize: "42px",
+            fontWeight: 900,
+            color: "#202124",
+            marginBottom: "18px",
+            letterSpacing: "1px"
           }}>
-            Felmér
+            FELMÉR
           </div>
 
           <div style={{
-            fontSize:22,
-            fontWeight:800,
-            color:"#4CAF50",
-            letterSpacing:0.4,
-            opacity:0,
-            animation:"wordTwo 3s ease forwards"
+            fontSize: "42px",
+            fontWeight: 900,
+            color: "#63B35B",
+            marginBottom: "18px",
+            letterSpacing: "1px"
           }}>
-            Javasol
+            JAVASOL
           </div>
 
           <div style={{
-            fontSize:22,
-            fontWeight:800,
-            color:"#1E1E1E",
-            letterSpacing:0.4,
-            opacity:0,
-            animation:"wordThree 3s ease forwards"
+            fontSize: "42px",
+            fontWeight: 900,
+            color: "#A9A9A9",
+            letterSpacing: "1px"
           }}>
-            Összeköt
+            ÖSSZEKÖT
           </div>
         </div>
       </div>
-
+    </div>
+  );
+}
       <style>
         {`
           @keyframes splashFadeIn {
