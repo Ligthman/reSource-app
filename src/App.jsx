@@ -808,6 +808,7 @@ fetch(CONTACT_WEBHOOK, {
     adatkezeles_elfogadva: privacyAccepted ? "Igen" : "Nem",
 hirlevel_feliratkozas: newsletterAccepted ? "Igen" : "Nem",
 hirlevel_datum: newsletterAccepted ? new Date().toLocaleString("hu-HU") : "",
+    hol_hallott_rolunk: contact.source || "",
 
 tamogatasi_irany: flow === "residential"
   ? "Lakossági energetikai / otthonfelújítási lehetőségek ellenőrizendők"
