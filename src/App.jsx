@@ -344,6 +344,191 @@ const QUESTIONS = {
     {id:"c_horizon",block:"celok",q:"Döntési időtáv?",multi:false,opts:["3 hónapon belül","6–12 hónap","1–3 év","Csak tájékozódom"]},
     {id:"c_notes",block:"celok",q:"Egyéb megjegyzés, különleges adottság?",multi:false,opts:[],freetext:true},
   ],
+  multiunit: [
+  {
+    id:"m_zip",
+    type:"text",
+    q:"Melyik településen vagy irányítószámon van az épület?"
+  },
+  {
+    id:"m_type",
+    type:"single",
+    q:"Milyen típusú épületről van szó?",
+    options:[
+      "Panelház",
+      "Hagyományos társasház",
+      "Tégla társasház",
+      "Vegyes szerkezetű társasház",
+      "Lakópark / társasházi épületegyüttes",
+      "Egyéb"
+    ]
+  },
+  {
+    id:"m_units",
+    type:"single",
+    q:"Körülbelül hány lakás van az épületben?",
+    options:[
+      "1–10 lakás",
+      "11–30 lakás",
+      "31–60 lakás",
+      "61–100 lakás",
+      "100+ lakás",
+      "Nem tudom pontosan"
+    ]
+  },
+  {
+    id:"m_floors",
+    type:"single",
+    q:"Hány szintes az épület?",
+    options:[
+      "1–3 szint",
+      "4–5 szint",
+      "6–10 szint",
+      "10+ szint",
+      "Nem tudom"
+    ]
+  },
+  {
+    id:"m_age",
+    type:"single",
+    q:"Mikor épült nagyjából az épület?",
+    options:[
+      "1950 előtt",
+      "1950–1979",
+      "1980–1999",
+      "2000–2010",
+      "2010 után",
+      "Nem tudom"
+    ]
+  },
+  {
+    id:"m_renovated",
+    type:"multi",
+    q:"Milyen felújítás történt már az épületen?",
+    options:[
+      "Homlokzati szigetelés",
+      "Tetőszigetelés",
+      "Nyílászárócsere",
+      "Fűtéskorszerűsítés",
+      "Lépcsőházi világítás korszerűsítése",
+      "Napelemes rendszer",
+      "Gépészeti felújítás",
+      "Nem volt jelentős felújítás",
+      "Nem tudom"
+    ]
+  },
+  {
+    id:"m_heating",
+    type:"single",
+    q:"Milyen fűtési rendszer működik az épületben?",
+    options:[
+      "Távhő",
+      "Központi kazán",
+      "Egyedi gázfűtés lakásonként",
+      "Elektromos fűtés",
+      "Vegyes rendszer",
+      "Nem tudom"
+    ]
+  },
+  {
+    id:"m_metering",
+    type:"multi",
+    q:"Van-e mérés vagy szabályozás a fűtésnél / fogyasztásnál?",
+    options:[
+      "Egyedi hőmennyiségmérés",
+      "Radiátorszelepek / termosztatikus szelepek",
+      "Okosmérés",
+      "Közös mérés",
+      "Nincs egyedi mérés",
+      "Nem tudom"
+    ]
+  },
+  {
+    id:"m_roof",
+    type:"single",
+    q:"Milyen a tető állapota / hasznosíthatósága?",
+    options:[
+      "Jó állapotú lapostető",
+      "Felújítandó lapostető",
+      "Magastető",
+      "Nem alkalmas napelemre",
+      "Nem tudom"
+    ]
+  },
+  {
+    id:"m_green",
+    type:"multi",
+    q:"Milyen külső vagy közös zöldfelület tartozik az épülethez?",
+    options:[
+      "Belső udvar",
+      "Közös kert",
+      "Parkoló / burkolt udvar",
+      "Zöldtető lehetősége",
+      "Nincs érdemi zöldfelület",
+      "Nem tudom"
+    ]
+  },
+  {
+    id:"m_water",
+    type:"multi",
+    q:"Érdekes lehet vízgazdálkodási fejlesztés?",
+    options:[
+      "Esővízgyűjtés",
+      "Öntözőrendszer",
+      "Zöldfelület vízmegtartása",
+      "Burkolt felületek csapadékvíz-kezelése",
+      "Szürkevíz-hasznosítás",
+      "Nem releváns",
+      "Nem tudom"
+    ]
+  },
+  {
+    id:"m_goal",
+    type:"multi",
+    q:"Mi lenne a legfontosabb cél?",
+    options:[
+      "Közös költségek csökkentése",
+      "Energiahatékonyság javítása",
+      "Fűtési költség csökkentése",
+      "Épület állapotának javítása",
+      "Ingatlanérték növelése",
+      "Közös terek korszerűsítése",
+      "Zöldfelület / udvar fejlesztése",
+      "Pályázati / támogatási lehetőség keresése"
+    ]
+  },
+  {
+    id:"m_decision",
+    type:"single",
+    q:"Milyen döntési helyzetben van a ház?",
+    options:[
+      "Csak tájékozódunk",
+      "Közös képviselőként keresek lehetőségeket",
+      "Lakóként javasolnám a háznak",
+      "Már van közgyűlési szándék",
+      "Már keresünk kivitelezőt / szakértőt",
+      "Nem tudom"
+    ]
+  },
+  {
+    id:"m_budget",
+    type:"single",
+    q:"Van-e becsült költségkeret?",
+    options:[
+      "Még nincs",
+      "1–5 millió Ft",
+      "5–20 millió Ft",
+      "20–50 millió Ft",
+      "50 millió Ft felett",
+      "Pályázattól / finanszírozástól függ"
+    ]
+  },
+  {
+    id:"m_note",
+    type:"text",
+    q:"Van bármi fontos megjegyzés az épületről vagy a lakóközösségről?"
+  }
+],
 };
 
 function calcRating(answers, flow) {
@@ -626,7 +811,9 @@ hirlevel_datum: newsletterAccepted ? new Date().toLocaleString("hu-HU") : "",
 
 tamogatasi_irany: flow === "residential"
   ? "Lakossági energetikai / otthonfelújítási lehetőségek ellenőrizendők"
-  : "Céges energetikai / pályázati lehetőségek ellenőrizendők",
+  : flow === "commercial"
+    ? "Céges energetikai / pályázati lehetőségek ellenőrizendők"
+    : "Társasházi / panelházi energetikai, pályázati és finanszírozási lehetőségek ellenőrizendők",
     
     nev: contact.name,
     email: contact.email || "",
@@ -634,15 +821,34 @@ tamogatasi_irany: flow === "residential"
     varos: answers.r_zip || contact.city || "",
     utca: contact.street || "",
 
-    flow: flow === "residential" ? "Lakóépület" : "Vállalkozás",
+    flow: flow === "residential"
+  ? "Lakóépület"
+  : flow === "commercial"
+    ? "Vállalkozás"
+    : "Társasház / Panelház",
 
-    epulet_tipus: answers.r_type || answers.c_type || "",
+    epulet_tipus: answers.r_type || answers.c_type || answers.m_type || "",
     epulet_meret: answers.r_size || answers.c_size || "",
     epitesi_ev: answers.r_year || answers.c_year || "",
     falazat: answers.r_material || answers.c_material || "",
     teto_tipus: answers.r_roof_type || answers.c_roof_type || "",
     nyilaszarok: answers.r_windows || answers.c_windows || "",
 
+tarsashaz_tipus: answers.m_type || "",
+lakasok_szama: answers.m_units || "",
+szintek_szama: answers.m_floors || "",
+epitesi_idoszak: answers.m_age || "",
+tarsashazi_felujitasok: (answers.m_renovated || []).join(", "),
+tarsashazi_futes: answers.m_heating || "",
+meres_szabalyozas: (answers.m_metering || []).join(", "),
+teto_allapot: answers.m_roof || "",
+kozos_zoldfelulet: (answers.m_green || []).join(", "),
+tarsashazi_vizgazdalkodas: (answers.m_water || []).join(", "),
+tarsashazi_celok: (answers.m_goal || []).join(", "),
+dontesi_helyzet: answers.m_decision || "",
+tarsashazi_koltsegkeret: answers.m_budget || "",
+tarsashazi_megjegyzes: answers.m_note || "",
+    
     futes: Array.isArray(answers.r_heating)
       ? answers.r_heating.join(", ")
       : Array.isArray(answers.c_heating)
@@ -679,16 +885,25 @@ tamogatasi_irany: flow === "residential"
     ajanlott_lepesek: recs.map((r) => r.name).join(", "),
 
     vizgazdalkodas:
-      flow === "residential" &&
-      answers.r_roof_type &&
-      !answers.r_roof_type.includes("Nincs saját tető")
-        ? "Van vízgazdálkodási becslés"
-        : "Nem releváns",
+  flow === "residential" &&
+  answers.r_roof_type &&
+  !answers.r_roof_type.includes("Nincs saját tető")
+    ? "Van vízgazdálkodási becslés"
+    : flow === "multiunit" &&
+      (
+        answers.m_water?.length > 0 ||
+        answers.m_green?.length > 0 ||
+        answers.m_roof
+      )
+      ? "Társasházi / panelházi vízgazdálkodási lehetőség vizsgálható"
+      : "Nem releváns",
 
     kert_mikroklima_ajanlas:
-      flow === "residential" && answers.r_land && answers.r_land !== "Nincs (lakás)"
-        ? "Kert / zöldfelület fejlesztés vizsgálható"
-        : "Nem releváns",
+  flow === "residential" && answers.r_land && answers.r_land !== "Nincs (lakás)"
+    ? "Kert / zöldfelület fejlesztés vizsgálható"
+    : flow === "multiunit" && answers.m_green && !answers.m_green.includes("Nincs érdemi zöldfelület")
+      ? "Társasházi közös zöldfelület / mikroklíma fejlesztés vizsgálható"
+      : "Nem releváns",
 
     ajanlott_partner_kategoria: recs[0]?.name || "",
 
@@ -825,9 +1040,14 @@ tamogatasi_irany: flow === "residential"
       </div>
 
       {/* VÍZGAZDÁLKODÁS */}
-      {flow === "residential" && (
+     {(flow === "residential" || flow === "multiunit") && (
   <>
-    <WaterCard answers={{...answers, r_city: answers.r_zip || contact.city}} />
+    <WaterCard answers={{
+      ...answers,
+      r_city: answers.r_zip || answers.m_zip || contact.city,
+      r_roof_type: answers.r_roof_type || answers.m_roof,
+      r_land: answers.r_land || answers.m_green
+    }} />
 
     {answers.r_roof_type && !answers.r_roof_type.includes("Nincs saját tető") && (
       <div style={{
@@ -931,10 +1151,12 @@ tamogatasi_irany: flow === "residential"
       color:C.text,
       marginBottom:6
     }}>
-      {flow === "residential"
-        ? "Lakóépületnél érdemes lehet támogatási lehetőségeket is ellenőrizni"
-        : "Vállalkozási ingatlannál érdemes lehet pályázati vagy finanszírozási lehetőségeket keresni"
-      }
+     {flow === "residential"
+  ? "Lakóépületnél érdemes lehet támogatási lehetőségeket is ellenőrizni"
+  : flow === "commercial"
+    ? "Vállalkozási ingatlannál érdemes lehet pályázati vagy finanszírozási lehetőségeket keresni"
+    : "Társasháznál / panelháznál érdemes lehet energetikai, pályázati vagy kedvezményes finanszírozási lehetőségeket ellenőrizni"
+}
     </div>
 
     <p style={{
@@ -943,10 +1165,12 @@ tamogatasi_irany: flow === "residential"
       lineHeight:1.65,
       marginBottom:12
     }}>
-      {flow === "residential"
-        ? "A javasolt fejlesztésekhez bizonyos esetekben elérhetők lehetnek állami, uniós, önkormányzati vagy kedvezményes finanszírozási lehetőségek. A jogosultság függ az ingatlan típusától, építési évétől, helyétől, a beruházás műszaki tartalmától és az aktuális feltételektől."
-        : "Céges ingatlanoknál energetikai korszerűsítési, energiahatékonysági, megújuló energiás vagy fenntarthatósági pályázati lehetőségek is szóba jöhetnek. A jogosultságot minden esetben az aktuális kiírások és a vállalkozás adatai alapján kell ellenőrizni."
-      }
+     {flow === "residential"
+  ? "A javasolt fejlesztésekhez bizonyos esetekben elérhetők állami, uniós, önkormányzati vagy kedvezményes finanszírozási lehetőségek."
+  : flow === "commercial"
+    ? "Céges ingatlanoknál energetikai korszerűsítési, energiahatékonysági, megújuló energiás vagy fenntarthatósági pályázati lehetőségek is szóba jöhetnek."
+    : "Társasházaknál és panelházaknál energetikai korszerűsítési, közösségi döntést igénylő, pályázati vagy kedvezményes finanszírozási lehetőségek is relevánsak lehetnek."
+}
     </p>
 
     <div style={{
@@ -1514,20 +1738,26 @@ export default function ResourceApp() {
       Válaszd ki, hogy lakóépületet vagy vállalkozási ingatlant szeretnél felmérni.
     </p>
 
-    {[
-      {
-        id:"residential",
-        label:"Lakóépület",
-        desc:"Családi ház, lakás, tanya vagy nyaraló",
-        badge:"Otthon"
-      },
-      {
-        id:"commercial",
-        label:"Vállalkozás / Üzlet",
-        desc:"Iroda, üzlet, üzem, raktár vagy vendéglátóhely",
-        badge:"Cég"
-      },
-    ].map(f=>(
+   {[
+  {
+    id:"residential",
+    label:"Lakóépület",
+    desc:"Családi ház, lakás, tanya vagy nyaraló",
+    badge:"Otthon"
+  },
+  {
+    id:"commercial",
+    label:"Vállalkozás / Üzlet",
+    desc:"Iroda, üzlet, üzem, raktár vagy vendéglátóhely",
+    badge:"Cég"
+  },
+  {
+    id:"multiunit",
+    label:"Társasház / Panelház",
+    desc:"Társasház, panelház, lakóközösség vagy közös képviselői felmérés",
+    badge:"Közösség"
+  },
+].map(f=>(
       <button
         key={f.id}
         onClick={()=>{setFlow(f.id);setStep(0);setAnswers({});setScreen("quiz");}}
