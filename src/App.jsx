@@ -838,17 +838,17 @@ tamogatasi_irany: flow === "residential"
 tarsashaz_tipus: answers.m_type || "",
 lakasok_szama: answers.m_units || "",
 szintek_szama: answers.m_floors || "",
-epitesi_idoszak: answers.m_age || "",
-tarsashazi_felujitasok: (answers.m_renovated || []).join(", "),
+epitesi_idoszak: answers.m_year || "",
+tarsashazi_felujitasok: Array.isArray(answers.m_renovations) ? answers.m_renovations.join(", ") : "",
 tarsashazi_futes: answers.m_heating || "",
-meres_szabalyozas: (answers.m_metering || []).join(", "),
+meres_szabalyozas: Array.isArray(answers.m_metering) ? answers.m_metering.join(", ") : "",
 teto_allapot: answers.m_roof || "",
-kozos_zoldfelulet: (answers.m_green || []).join(", "),
-tarsashazi_vizgazdalkodas: (answers.m_water || []).join(", "),
-tarsashazi_celok: (answers.m_goal || []).join(", "),
+kozos_zoldfelulet: Array.isArray(answers.m_green) ? answers.m_green.join(", ") : "",
+tarsashazi_vizgazdalkodas: Array.isArray(answers.m_water) ? answers.m_water.join(", ") : "",
+tarsashazi_celok: Array.isArray(answers.m_goal) ? answers.m_goal.join(", ") : "",
 dontesi_helyzet: answers.m_decision || "",
 tarsashazi_koltsegkeret: answers.m_budget || "",
-tarsashazi_megjegyzes: answers.m_note || "",
+tarsashazi_megjegyzes: answers.m_notes || "",
     
     futes: Array.isArray(answers.r_heating)
       ? answers.r_heating.join(", ")
@@ -869,15 +869,17 @@ tarsashazi_megjegyzes: answers.m_note || "",
     ontozes: answers.r_water || "",
     esovizgyujtes: answers.r_rainwater || "",
 
-    cel: Array.isArray(answers.r_goal)
-      ? answers.r_goal.join(", ")
-      : Array.isArray(answers.c_goal)
-      ? answers.c_goal.join(", ")
+   cel: Array.isArray(answers.r_goal)
+  ? answers.r_goal.join(", ")
+  : Array.isArray(answers.c_goal)
+    ? answers.c_goal.join(", ")
+    : Array.isArray(answers.m_goal)
+      ? answers.m_goal.join(", ")
       : "",
 
-    koltsegkeret: answers.r_budget || answers.c_budget || "",
+   koltsegkeret: answers.r_budget || answers.c_budget || answers.m_budget || "",
     idotav: answers.r_horizon || answers.c_horizon || "",
-    megjegyzes: answers.r_notes || answers.c_notes || "",
+    megjegyzes: answers.r_notes || answers.c_notes || answers.m_notes || "",
 
     jelenlegi_besorolas: current,
     felujitas_utani_besorolas: improved,
