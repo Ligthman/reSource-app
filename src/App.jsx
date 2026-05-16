@@ -1306,6 +1306,26 @@ tarsashazi_megjegyzes: answers.m_note || "",
               borderColor:contactError&&contact.phone&&contact.phone.replace(/\D/g,"").length<8?C.red:C.grayMid
             }}
           />
+          <select
+  value={contact.source || ""}
+  onChange={e=>setContact(p=>({...p,source:e.target.value}))}
+  style={{
+    ...inp,
+    color: contact.source ? C.text : C.muted,
+    background:C.white
+  }}
+>
+  <option value="">Hol hallottál rólunk?</option>
+  <option value="Ismerőstől">Ismerőstől</option>
+  <option value="Facebook">Facebook</option>
+  <option value="Instagram">Instagram</option>
+  <option value="TikTok">TikTok</option>
+  <option value="Google keresés">Google keresés</option>
+  <option value="LinkedIn">LinkedIn</option>
+  <option value="Partner ajánlotta">Partner ajánlotta</option>
+  <option value="Emailben kaptam">Emailben kaptam</option>
+  <option value="Egyéb">Egyéb</option>
+</select>
         </div>
 
 <div style={{
