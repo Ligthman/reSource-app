@@ -276,6 +276,13 @@ const BLOCKS = {
     {id:"rendszerek",label:"Rendszerek",color:C.teal},
     {id:"celok",label:"Célok",color:C.sun},
   ],
+   multiunit: [
+    {id:"epulet",label:"Épület",color:C.blue},
+    {id:"fogyasztas",label:"Fogyasztás",color:C.orange},
+    {id:"rendszerek",label:"Rendszerek",color:C.teal},
+    {id:"kornyezet",label:"Környezet",color:C.sunDark},
+    {id:"celok",label:"Célok",color:C.sun},
+  ],
 };
 
 const QUESTIONS = {
@@ -345,67 +352,44 @@ const QUESTIONS = {
     {id:"c_notes",block:"celok",q:"Egyéb megjegyzés, különleges adottság?",multi:false,opts:[],freetext:true},
   ],
   multiunit: [
-  {
-    id:"m_zip",
-    type:"text",
-    q:"Melyik településen vagy irányítószámon van az épület?"
-  },
-  {
-    id:"m_type",
-    type:"single",
-    q:"Milyen típusú épületről van szó?",
-    options:[
+    {id:"m_zip",block:"epulet",q:"Melyik településen vagy irányítószámon van az épület?",multi:false,opts:[],freetext:true,basic:true},
+
+    {id:"m_type",block:"epulet",q:"Milyen típusú épületről van szó?",multi:false,opts:[
       "Panelház",
       "Hagyományos társasház",
       "Tégla társasház",
       "Vegyes szerkezetű társasház",
       "Lakópark / társasházi épületegyüttes",
       "Egyéb"
-    ]
-  },
-  {
-    id:"m_units",
-    type:"single",
-    q:"Körülbelül hány lakás van az épületben?",
-    options:[
+    ],basic:true},
+
+    {id:"m_units",block:"epulet",q:"Körülbelül hány lakás van az épületben?",multi:false,opts:[
       "1–10 lakás",
       "11–30 lakás",
       "31–60 lakás",
       "61–100 lakás",
       "100+ lakás",
       "Nem tudom pontosan"
-    ]
-  },
-  {
-    id:"m_floors",
-    type:"single",
-    q:"Hány szintes az épület?",
-    options:[
+    ],basic:true},
+
+    {id:"m_floors",block:"epulet",q:"Hány szintes az épület?",multi:false,opts:[
       "1–3 szint",
       "4–5 szint",
       "6–10 szint",
       "10+ szint",
       "Nem tudom"
-    ]
-  },
-  {
-    id:"m_age",
-    type:"single",
-    q:"Mikor épült nagyjából az épület?",
-    options:[
+    ],basic:true},
+
+    {id:"m_age",block:"epulet",q:"Mikor épült nagyjából az épület?",multi:false,opts:[
       "1950 előtt",
       "1950–1979",
       "1980–1999",
       "2000–2010",
       "2010 után",
       "Nem tudom"
-    ]
-  },
-  {
-    id:"m_renovated",
-    type:"multi",
-    q:"Milyen felújítás történt már az épületen?",
-    options:[
+    ],basic:true},
+
+    {id:"m_renovated",block:"epulet",q:"Milyen felújítás történt már az épületen?",multi:true,opts:[
       "Homlokzati szigetelés",
       "Tetőszigetelés",
       "Nyílászárócsere",
@@ -415,64 +399,44 @@ const QUESTIONS = {
       "Gépészeti felújítás",
       "Nem volt jelentős felújítás",
       "Nem tudom"
-    ]
-  },
-  {
-    id:"m_heating",
-    type:"single",
-    q:"Milyen fűtési rendszer működik az épületben?",
-    options:[
+    ]},
+
+    {id:"m_heating",block:"fogyasztas",q:"Milyen fűtési rendszer működik az épületben?",multi:false,opts:[
       "Távhő",
       "Központi kazán",
       "Egyedi gázfűtés lakásonként",
       "Elektromos fűtés",
       "Vegyes rendszer",
       "Nem tudom"
-    ]
-  },
-  {
-    id:"m_metering",
-    type:"multi",
-    q:"Van-e mérés vagy szabályozás a fűtésnél / fogyasztásnál?",
-    options:[
+    ],basic:true},
+
+    {id:"m_metering",block:"fogyasztas",q:"Van-e mérés vagy szabályozás a fűtésnél / fogyasztásnál?",multi:true,opts:[
       "Egyedi hőmennyiségmérés",
       "Radiátorszelepek / termosztatikus szelepek",
       "Okosmérés",
       "Közös mérés",
       "Nincs egyedi mérés",
       "Nem tudom"
-    ]
-  },
-  {
-    id:"m_roof",
-    type:"single",
-    q:"Milyen a tető állapota / hasznosíthatósága?",
-    options:[
+    ]},
+
+    {id:"m_roof",block:"rendszerek",q:"Milyen a tető állapota / hasznosíthatósága?",multi:false,opts:[
       "Jó állapotú lapostető",
       "Felújítandó lapostető",
       "Magastető",
       "Nem alkalmas napelemre",
       "Nem tudom"
-    ]
-  },
-  {
-    id:"m_green",
-    type:"multi",
-    q:"Milyen külső vagy közös zöldfelület tartozik az épülethez?",
-    options:[
+    ]},
+
+    {id:"m_green",block:"kornyezet",q:"Milyen külső vagy közös zöldfelület tartozik az épülethez?",multi:true,opts:[
       "Belső udvar",
       "Közös kert",
       "Parkoló / burkolt udvar",
       "Zöldtető lehetősége",
       "Nincs érdemi zöldfelület",
       "Nem tudom"
-    ]
-  },
-  {
-    id:"m_water",
-    type:"multi",
-    q:"Érdekes lehet vízgazdálkodási fejlesztés?",
-    options:[
+    ]},
+
+    {id:"m_water",block:"kornyezet",q:"Érdekes lehet vízgazdálkodási fejlesztés?",multi:true,opts:[
       "Esővízgyűjtés",
       "Öntözőrendszer",
       "Zöldfelület vízmegtartása",
@@ -480,13 +444,9 @@ const QUESTIONS = {
       "Szürkevíz-hasznosítás",
       "Nem releváns",
       "Nem tudom"
-    ]
-  },
-  {
-    id:"m_goal",
-    type:"multi",
-    q:"Mi lenne a legfontosabb cél?",
-    options:[
+    ]},
+
+    {id:"m_goal",block:"celok",q:"Mi lenne a legfontosabb cél?",multi:true,opts:[
       "Közös költségek csökkentése",
       "Energiahatékonyság javítása",
       "Fűtési költség csökkentése",
@@ -495,40 +455,28 @@ const QUESTIONS = {
       "Közös terek korszerűsítése",
       "Zöldfelület / udvar fejlesztése",
       "Pályázati / támogatási lehetőség keresése"
-    ]
-  },
-  {
-    id:"m_decision",
-    type:"single",
-    q:"Milyen döntési helyzetben van a ház?",
-    options:[
+    ],basic:true},
+
+    {id:"m_decision",block:"celok",q:"Milyen döntési helyzetben van a ház?",multi:false,opts:[
       "Csak tájékozódunk",
       "Közös képviselőként keresek lehetőségeket",
       "Lakóként javasolnám a háznak",
       "Már van közgyűlési szándék",
       "Már keresünk kivitelezőt / szakértőt",
       "Nem tudom"
-    ]
-  },
-  {
-    id:"m_budget",
-    type:"single",
-    q:"Van-e becsült költségkeret?",
-    options:[
+    ]},
+
+    {id:"m_budget",block:"celok",q:"Van-e becsült költségkeret?",multi:false,opts:[
       "Még nincs",
       "1–5 millió Ft",
       "5–20 millió Ft",
       "20–50 millió Ft",
       "50 millió Ft felett",
       "Pályázattól / finanszírozástól függ"
-    ]
-  },
-  {
-    id:"m_note",
-    type:"text",
-    q:"Van bármi fontos megjegyzés az épületről vagy a lakóközösségről?"
-  }
-],
+    ],basic:true},
+
+    {id:"m_note",block:"celok",q:"Van bármi fontos megjegyzés az épületről vagy a lakóközösségről?",multi:false,opts:[],freetext:true},
+  ],
 };
 
 function calcRating(answers, flow) {
