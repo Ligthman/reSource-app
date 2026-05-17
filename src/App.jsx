@@ -1484,11 +1484,14 @@ export default function ResourceApp() {
   const questions=flow?QUESTIONS[flow]:[];
   const blocks=flow?BLOCKS[flow]:[];
 
-  const visibleQuestions=questions.filter(q=>{
-    if(q.condition&&!q.condition(answers)) return false;
-    if(flow==="commercial") return true;
-    if(!detailedMode&&q.basic!==true) return false;
-    return true;
+ const visibleQuestions=questions.filter(q=>{
+  if(q.condition && !q.condition(answers)) return false;
+
+  if(flow === "commercial" || flow === "multiunit") return true;
+
+  if(!detailedMode && q.basic !== true) return false;
+
+  return true;
   });
 
   useEffect(()=>{
