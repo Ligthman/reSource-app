@@ -327,6 +327,7 @@ const QUESTIONS = {
     {id:"r_notes",block:"celok",q:"Van egyéb megjegyzés, különleges adottság?",multi:false,opts:[],freetext:true},
   ],
   commercial: [
+       {id:"c_zip",block:"epulet",q:"Melyik településen vagy irányítószámon van az épület / helyiség?",multi:false,opts:[],freetext:true,basic:true},
     {id:"c_type",block:"epulet",q:"Milyen típusú az épület / helyiség?",multi:false,opts:["Iroda","Kiskereskedelmi üzlet","Vendéglátóhely","Szolgáltató (szalon, műhely)","Raktár","Üzem / gyár","Mezőgazdasági épület","Egyéb"]},
     {id:"c_size",block:"epulet",q:"Mekkora az alapterület?",multi:false,opts:["100 m² alatt","100–300 m²","300–1000 m²","1000 m² felett"]},
     {id:"c_year",block:"epulet",q:"Mikor épült az épület?",multi:false,opts:["1980 előtt","1980–2000","2000–2015","2015 után"]},
@@ -767,7 +768,7 @@ tamogatasi_irany: flow === "residential"
     nev: contact.name,
     email: contact.email || "",
     telefon: contact.phone || "",
-    varos: answers.r_zip || contact.city || "",
+    varos: answers.r_zip || answers.c_zip || answers.m_zip || contact.city || "",
     utca: contact.street || "",
 
     flow: flow === "residential"
@@ -1831,7 +1832,7 @@ export default function ResourceApp() {
               <h2 style={{fontSize:17,fontWeight:700,color:C.text,marginBottom:18,lineHeight:1.4}}>{q.q}</h2>
               {isFreetext?(
                <>
-  {q.id === "r_zip" ? (
+  {q.id === "r_zip" || q.id === "m_zip" || q.id === "c_zip" (
     <>
       <input
         value={freetext}
