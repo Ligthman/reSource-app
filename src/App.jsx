@@ -666,6 +666,175 @@ function BlockProgress({blocks,answers,questions}) {
   );
 }
 
+function ModuleSelect({ setSelectedModule }) {
+  const modules = [
+    {
+      id: "energy",
+      title: "Resource Energy",
+      subtitle: "Energetikai és megújuló energia előszűrés lakó-, társasházi és céges épületekre.",
+      icon: "⚡",
+      button: "Energetikai felmérés indítása",
+      accent: C.sun
+    },
+    {
+      id: "build",
+      title: "Resource Build",
+      subtitle: "Felújítási és kivitelezési projekt előkészítése, szakember- és partnerigény meghatározása.",
+      icon: "🏗️",
+      button: "Építési projekt indítása",
+      accent: C.orange
+    },
+    {
+      id: "heritage",
+      title: "Resource Heritage",
+      subtitle: "Történeti épületek, kastélyok, kúriák és régi birtokok fenntartható fejlesztési előszűrése.",
+      icon: "🏛️",
+      button: "Történeti épület elemzése",
+      accent: C.purple
+    }
+  ];
+
+  return (
+    <div style={{
+      minHeight: "100vh",
+      background: "linear-gradient(180deg,#F7FAF7,#FFFFFF)",
+      padding: "28px 18px",
+      fontFamily: "'Poppins', sans-serif",
+      color: C.text
+    }}>
+      <div style={{
+        maxWidth: 980,
+        margin: "0 auto"
+      }}>
+        <div style={{
+          textAlign: "center",
+          marginBottom: 34,
+          paddingTop: 24
+        }}>
+          <div style={{
+            display: "inline-flex",
+            alignItems: "center",
+            justifyContent: "center",
+            width: 58,
+            height: 58,
+            borderRadius: 18,
+            background: C.sun,
+            marginBottom: 16
+          }}>
+            <HouseLeafLogo size={34} color="#fff" />
+          </div>
+
+          <h1 style={{
+            fontSize: 34,
+            lineHeight: 1.15,
+            margin: 0,
+            fontWeight: 800,
+            color: C.text
+          }}>
+            Resource App
+          </h1>
+
+          <p style={{
+            fontSize: 16,
+            lineHeight: 1.6,
+            color: C.muted,
+            maxWidth: 720,
+            margin: "12px auto 0"
+          }}>
+            Épületfelmérés, energetikai előszűrés és kivitelezési döntéstámogatás egy rendszerben.
+          </p>
+        </div>
+
+        <div style={{
+          display: "grid",
+          gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))",
+          gap: 18
+        }}>
+          {modules.map((m) => (
+            <button
+              key={m.id}
+              onClick={() => setSelectedModule(m.id)}
+              style={{
+                background: C.white,
+                border: "1.5px solid #E3E8E3",
+                borderRadius: 18,
+                padding: 22,
+                textAlign: "left",
+                cursor: "pointer",
+                boxShadow: "0 12px 30px rgba(0,0,0,0.06)",
+                fontFamily: "'Poppins', sans-serif",
+                transition: "all 0.2s ease"
+              }}
+            >
+              <div style={{
+                width: 48,
+                height: 48,
+                borderRadius: 14,
+                background: m.accent + "18",
+                color: m.accent,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                fontSize: 25,
+                marginBottom: 18
+              }}>
+                {m.icon}
+              </div>
+
+              <div style={{
+                fontSize: 20,
+                fontWeight: 800,
+                color: C.text,
+                marginBottom: 8
+              }}>
+                {m.title}
+              </div>
+
+              <div style={{
+                fontSize: 13,
+                lineHeight: 1.65,
+                color: C.muted,
+                minHeight: 66,
+                marginBottom: 18
+              }}>
+                {m.subtitle}
+              </div>
+
+              <div style={{
+                display: "inline-flex",
+                alignItems: "center",
+                justifyContent: "center",
+                padding: "11px 14px",
+                borderRadius: 10,
+                background: m.accent,
+                color: "#fff",
+                fontSize: 13,
+                fontWeight: 700
+              }}>
+                {m.button}
+              </div>
+            </button>
+          ))}
+        </div>
+
+        <div style={{
+          marginTop: 28,
+          background: "#F2F2F2",
+          borderRadius: 14,
+          padding: 16,
+          fontSize: 12,
+          lineHeight: 1.7,
+          color: "#666",
+          textAlign: "center"
+        }}>
+          Az alkalmazás előzetes döntéstámogató elemzést ad. Nem helyettesíti az energetikai tanúsítványt,
+          műszaki tervet, statikai szakvéleményt vagy engedélyezési dokumentációt.
+        </div>
+      </div>
+    </div>
+  );
+}
+
 function QuizOption({label,selected,onClick,multi}) {
   const [hover,setHover]=useState(false);
   return (
@@ -1447,7 +1616,7 @@ export default function ResourceApp() {
   const [selected,setSelected]=useState([]);
   const [freetext,setFreetext]=useState("");
   const [detailedMode,setDetailedMode]=useState(false);
-
+const [selectedModule, setSelectedModule] = useState(null);
   const font="'Poppins','Helvetica Neue',Arial,sans-serif";
 
  
