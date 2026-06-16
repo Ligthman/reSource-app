@@ -1616,13 +1616,14 @@ export default function ResourceApp() {
   const [selected,setSelected]=useState([]);
   const [freetext,setFreetext]=useState("");
   const [detailedMode,setDetailedMode]=useState(false);
-const [selectedModule, setSelectedModule] = useState(null);
+
   const font="'Poppins','Helvetica Neue',Arial,sans-serif";
-
+const [selectedModule, setSelectedModule] = useState(null);
  
-
+if (!selectedModule) {
+  return <ModuleSelect setSelectedModule={setSelectedModule} />;
+}
   
-
   useEffect(()=>{
     const s=document.createElement("style");
     s.textContent=`
