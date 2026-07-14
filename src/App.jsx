@@ -520,27 +520,406 @@ function climateScore(answers) {
   return Math.max(0, Math.min(100, score));
 }
 
-function ModuleSelect({ onSelect }) {
+function ModuleIcon({ type }) {
+  const common = {
+    width: 26,
+    height: 26,
+    viewBox: "0 0 24 24",
+    fill: "none",
+    stroke: "currentColor",
+    strokeWidth: 1.6,
+    strokeLinecap: "round",
+    strokeLinejoin: "round",
+  };
+
+  if (type === "energy") {
+    return (
+      <svg {...common}>
+        <path d="M13 2L5.5 13h6L11 22l7.5-12h-6L13 2Z" />
+      </svg>
+    );
+  }
+
+  if (type === "build") {
+    return (
+      <svg {...common}>
+        <path d="M3 21h18" />
+        <path d="M6 21V9l6-4 6 4v12" />
+        <path d="M9 21v-6h6v6" />
+        <path d="M8 10h.01M16 10h.01" />
+      </svg>
+    );
+  }
+
+  if (type === "heritage") {
+    return (
+      <svg {...common}>
+        <path d="M3 21h18" />
+        <path d="M5 21V10" />
+        <path d="M19 21V10" />
+        <path d="M3 10h18" />
+        <path d="M12 3l9 5H3l9-5Z" />
+        <path d="M9 21v-6h6v6" />
+      </svg>
+    );
+  }
+
   return (
-    <Shell>
-      <div style={{ textAlign: "center", marginBottom: 30 }}>
-        <LogoMark />
-        <h1 style={styles.h1}>Resource App</h1>
-        <p style={styles.lead}>Nemzetközi épületfelmérő és döntéstámogató platform energetikai, kivitelezési, történeti és klímabiztonsági fejlesztésekhez.</p>
-      </div>
-      <div style={styles.grid4}>
-        {MODULES.map((m) => (
-          <button key={m.id} onClick={() => onSelect(m.id)} style={styles.moduleCard}>
-            <div style={{ ...styles.iconBox, color: m.accent, background: `${m.accent}18` }}>{m.icon}</div>
-            <h2 style={{ ...styles.cardTitle, color: C.text }}>{m.title}</h2>
-            <p style={styles.cardShort}>{m.short}</p>
-            <p style={styles.cardDesc}>{m.description}</p>
-            <div style={{ ...styles.primaryButton, background: m.accent }}>{m.button}</div>
-          </button>
-        ))}
-      </div>
-      <Disclaimer />
-    </Shell>
+    <svg {...common}>
+      <path d="M12 2a10 10 0 1 0 10 10" />
+      <path d="M12 2c2.8 2.7 4.2 6 4.2 10S14.8 19.3 12 22" />
+      <path d="M12 2C9.2 4.7 7.8 8 7.8 12s1.4 7.3 4.2 10" />
+      <path d="M2 12h20" />
+      <path d="M15.5 5.2c1.7.8 3.2 2 4.3 3.6" />
+    </svg>
+  );
+}
+
+function ModuleSelect({ setSelectedModule }) {
+  const modules = [
+    {
+      id: "energy",
+      number: "01",
+      title: "Energy",
+      eyebrow: "Energetika",
+      description:
+        "Energiafogyasztás, megújuló rendszerek, korszerűsítési sorrend és várható megtérülés.",
+    },
+    {
+      id: "build",
+      number: "02",
+      title: "Build",
+      eyebrow: "Kivitelezés",
+      description:
+        "Felújítási és építési projektek előkészítése, szakági igények és következő lépések.",
+    },
+    {
+      id: "heritage",
+      number: "03",
+      title: "Heritage",
+      eyebrow: "Történeti épületek",
+      description:
+        "Kastélyok, kúriák és történeti épületek fenntartható fejlesztési előszűrése.",
+    },
+    {
+      id: "climate",
+      number: "04",
+      title: "Climate",
+      eyebrow: "Klímabiztonság",
+      description:
+        "Hőhullám-, víz-, túlmelegedési és mikroklíma-kockázatok előzetes értékelése.",
+    },
+  ];
+
+  return (
+    <main
+      style={{
+        minHeight: "100vh",
+        background: "#F4F3EF",
+        color: "#242522",
+        fontFamily:
+          "'Inter', 'Helvetica Neue', Arial, sans-serif",
+      }}
+    >
+      <header
+        style={{
+          maxWidth: 1240,
+          margin: "0 auto",
+          padding: "30px 28px",
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          borderBottom: "1px solid rgba(36,37,34,0.12)",
+        }}
+      >
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            gap: 12,
+          }}
+        >
+          <div
+            style={{
+              width: 38,
+              height: 38,
+              borderRadius: 12,
+              background: "#233F3A",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <HouseLeafLogo size={22} color="#FFFFFF" />
+          </div>
+
+          <div>
+            <div
+              style={{
+                fontSize: 17,
+                fontWeight: 700,
+                letterSpacing: "-0.02em",
+              }}
+            >
+              Resource
+            </div>
+
+            <div
+              style={{
+                fontSize: 10,
+                color: "#777970",
+                letterSpacing: "0.13em",
+                textTransform: "uppercase",
+                marginTop: 2,
+              }}
+            >
+              Building Intelligence
+            </div>
+          </div>
+        </div>
+
+        <div
+          style={{
+            fontSize: 11,
+            color: "#777970",
+            letterSpacing: "0.08em",
+            textTransform: "uppercase",
+          }}
+        >
+          Assessment Platform
+        </div>
+      </header>
+
+      <section
+        style={{
+          maxWidth: 1240,
+          margin: "0 auto",
+          padding: "82px 28px 42px",
+        }}
+      >
+        <div
+          style={{
+            maxWidth: 760,
+            marginBottom: 62,
+          }}
+        >
+          <div
+            style={{
+              fontSize: 11,
+              fontWeight: 600,
+              letterSpacing: "0.16em",
+              textTransform: "uppercase",
+              color: "#5E7771",
+              marginBottom: 20,
+            }}
+          >
+            Nemzetközi épületfejlesztési platform
+          </div>
+
+          <h1
+            style={{
+              fontSize: "clamp(42px, 7vw, 78px)",
+              lineHeight: 0.98,
+              letterSpacing: "-0.055em",
+              margin: 0,
+              fontWeight: 600,
+              maxWidth: 840,
+            }}
+          >
+            Értsd meg az épületet,
+            <br />
+            mielőtt döntést hozol.
+          </h1>
+
+          <p
+            style={{
+              margin: "28px 0 0",
+              maxWidth: 650,
+              color: "#686A63",
+              fontSize: 16,
+              lineHeight: 1.75,
+            }}
+          >
+            Előzetes döntéstámogatás energetikai, kivitelezési,
+            történeti és klímabiztonsági fejlesztésekhez — ország- és
+            épülettípus-specifikus logikával.
+          </p>
+        </div>
+
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns:
+              "repeat(auto-fit, minmax(260px, 1fr))",
+            borderTop: "1px solid rgba(36,37,34,0.18)",
+            borderLeft: "1px solid rgba(36,37,34,0.18)",
+          }}
+        >
+          {modules.map((module) => (
+            <button
+              key={module.id}
+              onClick={() => setSelectedModule(module.id)}
+              style={{
+                minHeight: 330,
+                border: "none",
+                borderRight:
+                  "1px solid rgba(36,37,34,0.18)",
+                borderBottom:
+                  "1px solid rgba(36,37,34,0.18)",
+                background: "rgba(255,255,255,0.38)",
+                padding: 28,
+                textAlign: "left",
+                cursor: "pointer",
+                color: "#242522",
+                fontFamily: "inherit",
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "space-between",
+                transition:
+                  "background 180ms ease, transform 180ms ease",
+              }}
+              onMouseEnter={(event) => {
+                event.currentTarget.style.background =
+                  "#FFFFFF";
+                event.currentTarget.style.transform =
+                  "translateY(-3px)";
+              }}
+              onMouseLeave={(event) => {
+                event.currentTarget.style.background =
+                  "rgba(255,255,255,0.38)";
+                event.currentTarget.style.transform =
+                  "translateY(0)";
+              }}
+            >
+              <div>
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "flex-start",
+                    marginBottom: 54,
+                  }}
+                >
+                  <div
+                    style={{
+                      width: 48,
+                      height: 48,
+                      borderRadius: 14,
+                      background: "#E8ECE8",
+                      color: "#233F3A",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                    }}
+                  >
+                    <ModuleIcon type={module.id} />
+                  </div>
+
+                  <div
+                    style={{
+                      fontSize: 11,
+                      color: "#92948C",
+                      letterSpacing: "0.1em",
+                    }}
+                  >
+                    {module.number}
+                  </div>
+                </div>
+
+                <div
+                  style={{
+                    fontSize: 10,
+                    fontWeight: 600,
+                    color: "#5E7771",
+                    letterSpacing: "0.13em",
+                    textTransform: "uppercase",
+                    marginBottom: 10,
+                  }}
+                >
+                  {module.eyebrow}
+                </div>
+
+                <h2
+                  style={{
+                    fontSize: 29,
+                    fontWeight: 600,
+                    letterSpacing: "-0.035em",
+                    margin: 0,
+                  }}
+                >
+                  {module.title}
+                </h2>
+
+                <p
+                  style={{
+                    color: "#6D6F68",
+                    fontSize: 13,
+                    lineHeight: 1.7,
+                    margin: "18px 0 0",
+                  }}
+                >
+                  {module.description}
+                </p>
+              </div>
+
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                  marginTop: 34,
+                  paddingTop: 20,
+                  borderTop:
+                    "1px solid rgba(36,37,34,0.10)",
+                }}
+              >
+                <span
+                  style={{
+                    fontSize: 12,
+                    fontWeight: 600,
+                  }}
+                >
+                  Modul megnyitása
+                </span>
+
+                <span
+                  style={{
+                    fontSize: 20,
+                    lineHeight: 1,
+                  }}
+                >
+                  →
+                </span>
+              </div>
+            </button>
+          ))}
+        </div>
+
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            gap: 20,
+            flexWrap: "wrap",
+            marginTop: 30,
+            paddingTop: 22,
+            borderTop: "1px solid rgba(36,37,34,0.12)",
+            color: "#85877F",
+            fontSize: 11,
+            lineHeight: 1.6,
+          }}
+        >
+          <div>
+            Előzetes döntéstámogató elemzés, nem hatósági vagy
+            tervezői szakvélemény.
+          </div>
+
+          <div>
+            Energy · Build · Heritage · Climate
+          </div>
+        </div>
+      </section>
+    </main>
   );
 }
 
