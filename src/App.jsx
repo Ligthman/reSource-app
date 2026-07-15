@@ -575,7 +575,7 @@ function ModuleIcon({ type }) {
   );
 }
 
-function ModuleSelect({ setSelectedModule }) {
+function ModuleSelect({ onSelect }) {
   const modules = [
     {
       id: "energy",
@@ -758,7 +758,7 @@ function ModuleSelect({ setSelectedModule }) {
           {modules.map((module) => (
             <button
               key={module.id}
-              onClick={() => setSelectedModule(module.id)}
+              onClick={() => onSelect(module.id)}
               style={{
                 minHeight: 330,
                 border: "none",
