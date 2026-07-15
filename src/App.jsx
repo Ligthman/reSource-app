@@ -21,6 +21,7 @@ const C = {
   teal: "#00695C",
   purple: "#4527A0",
   climate: "#1A7A5E",
+  traditional: "#8A6A43",
 };
 
 const MODULES = [
@@ -45,14 +46,14 @@ const MODULES = [
     button: "Építési projekt indítása",
   },
   {
-    id: "heritage",
-    title: "Resource Heritage",
-    icon: "🏛️",
-    accent: C.purple,
-    short: "Történeti épületek és régi birtokok fenntartható fejlesztése.",
+    id: "traditional",
+    title: "Resource Traditional",
+    icon: "◌",
+    accent: C.traditional,
+    short: "Hagyományos és természetes építési technológiájú házak.",
     description:
-      "Kastélyok, kúriák, kolostorok, régi villák és birtokok előszűrése energia, vízbiztonság, műemléki érzékenység és hasznosítás alapján.",
-    button: "Történeti épület elemzése",
+      "Vályog-, vert falú, kő-, vegyes falazatú, régi tömör tégla- és favázas épületek biztonságos felújítási előszűrése.",
+    button: "Hagyományos épület felmérése",
   },
   {
     id: "climate",
@@ -127,12 +128,12 @@ const BLOCKS = {
     { id: "penzugy", label: "Pénzügy", color: C.sun },
     { id: "tamogatas", label: "Támogatás", color: C.purple },
   ],
-  heritage: [
+  traditional: [
     { id: "helyszin", label: "Helyszín", color: C.blue },
-    { id: "epulet", label: "Épület", color: C.purple },
-    { id: "kockazat", label: "Kockázat", color: C.red },
-    { id: "energia", label: "Energia/víz", color: C.teal },
-    { id: "celok", label: "Hasznosítás", color: C.sun },
+    { id: "szerkezet", label: "Szerkezet", color: C.traditional },
+    { id: "nedvesseg", label: "Nedvesség", color: C.teal },
+    { id: "felujitas", label: "Felújítás", color: C.orange },
+    { id: "celok", label: "Célok", color: C.sun },
   ],
   climate: [
     { id: "helyszin", label: "Helyszín", color: C.blue },
@@ -206,7 +207,7 @@ const QUESTIONS = {
   build: [
     { id: "country", block: "helyszin", q: "Melyik országban van a projekt?", opts: COMMON_COUNTRIES, basic: true },
     { id: "zip", block: "helyszin", q: "Település / irányítószám", freetext: true, basic: true },
-    { id: "b_type", block: "projekt", q: "Milyen típusú projektről van szó?", opts: ["Lakóépület felújítás", "Társasház / panel", "Céges épület", "Iroda / üzlet", "Ipari / raktár", "Történeti épület", "Új építés", "Egyéb"], basic: true },
+    { id: "b_type", block: "projekt", q: "Milyen típusú projektről van szó?", opts: ["Lakóépület felújítás", "Társasház / panel", "Céges épület", "Iroda / üzlet", "Ipari / raktár", "Hagyományos / természetes építésű ház", "Új építés", "Egyéb"], basic: true },
     { id: "b_stage", block: "projekt", q: "Hol tart most a projekt?", opts: ["Csak ötlet", "Helyszín megvan", "Van terv", "Van költségkeret", "Kivitelezőt keresek", "Már elindult, de problémás"], basic: true },
     { id: "b_work", block: "munka", q: "Milyen munkákra lehet szükség?", multi: true, opts: ["Szigetelés", "Tető", "Nyílászárók", "Villanyszerelés", "Víz / gépészet", "Fűtéskorszerűsítés", "Napelem", "Hőszivattyú", "Belső felújítás", "Teljes generálkivitelezés", "Még nem tudom"], basic: true },
     { id: "b_docs", block: "munka", q: "Milyen előkészítés van meg?", multi: true, opts: ["Alaprajz", "Fotók", "Műszaki terv", "Energetikai tanúsítvány", "Árajánlat", "Semmi", "Nem tudom"] },
@@ -215,24 +216,26 @@ const QUESTIONS = {
     { id: "b_support", block: "tamogatas", q: "Miben kérnél segítséget?", multi: true, opts: ["Szakember keresés", "Kivitelező ellenőrzés", "Költségbecslés", "Projektmenedzsment", "Energetikai koncepció", "Műszaki előkészítés", "Ajánlatok összehasonlítása"], basic: true },
     { id: "notes", block: "tamogatas", q: "Röviden írd le a projektet", freetext: true },
   ],
-  heritage: [
+  traditional: [
     { id: "country", block: "helyszin", q: "Melyik országban van az épület?", opts: COMMON_COUNTRIES, basic: true },
-    { id: "zip", block: "helyszin", q: "Település / régió", freetext: true, basic: true },
-    { id: "h_type", block: "epulet", q: "Milyen típusú történeti épületről van szó?", opts: ["Kastély", "Kúria", "Kolostor", "Villa", "Major / birtokközpont", "Malom", "Régi iskola / középület", "Városi palota", "Nem tudom"], basic: true },
-    { id: "h_age", block: "epulet", q: "Melyik korszakból származhat?", opts: ["1800 előtt", "1800–1900", "1900–1945", "1945–1980", "Nem tudom"], basic: true },
-    { id: "h_material", block: "epulet", q: "Mi az épület fő falazata?", opts: ["Kő", "Tégla", "Vályog", "Vegyes falazat", "Fa / favázas", "Nem tudom"], basic: true },
-    { id: "h_protection", block: "kockazat", q: "Védett vagy műemléki jellegű az épület?", opts: ["Igen, műemlék", "Helyi védelem alatt áll", "Nem védett", "Nem tudom"], basic: true },
-    { id: "h_condition", block: "kockazat", q: "Milyen az épület jelenlegi állapota?", opts: ["Használatban van", "Részben használható", "Felújítandó", "Rossz állapotú", "Romos / nagy beavatkozást igényel"], basic: true },
-    { id: "h_energy", block: "energia", q: "Milyen jelenlegi fűtési / energetikai rendszer van?", multi: true, opts: ["Gáz", "Olaj", "Fa / biomassza", "Elektromos fűtés", "Hőszivattyú", "Napelem", "Nincs működő rendszer", "Nem tudom"], basic: true },
-    { id: "h_water", block: "energia", q: "Van-e vízforrás vagy vízgazdálkodási lehetőség?", multi: true, opts: ["Kút", "Forrás", "Patak", "Tó", "Nagy tetőfelület esővízgyűjtéshez", "Nagy park / birtok", "Nincs", "Nem tudom"], basic: true },
-    { id: "h_outbuildings", block: "energia", q: "Van-e melléképület / pajta / carport lehetőség napelemhez?", opts: ["Igen, több is", "Igen, egy kisebb", "Nincs", "Nem tudom"] },
-    { id: "h_goal", block: "celok", q: "Mi lenne az épület célja?", multi: true, opts: ["Magánhasználat", "Szálláshely", "Rendezvényhelyszín", "Retreat / elvonulóhely", "Étterem / vendéglátás", "Befektetés", "Remonastère jellegű hasznosítás", "Még nem tudom"], basic: true },
-    { id: "notes", block: "celok", q: "Röviden írd le az épületet / lehetőséget", freetext: true },
+    { id: "zip", block: "helyszin", q: "Település / régió / irányítószám", freetext: true, basic: true },
+    { id: "t_type", block: "szerkezet", q: "Milyen hagyományos épületről van szó?", opts: ["Vályogház", "Vert falú ház", "Döngölt föld / földfal", "Kőház", "Vegyes falazatú ház", "Régi tömör téglaépület", "Favázas / Fachwerk épület", "Nem tudom"], basic: true },
+    { id: "t_age", block: "szerkezet", q: "Mikor épülhetett az épület?", opts: ["1850 előtt", "1850–1918", "1919–1945", "1946–1970", "1970 után", "Nem tudom"], basic: true },
+    { id: "t_wall_thickness", block: "szerkezet", q: "Körülbelül milyen vastag a külső fal?", opts: ["30 cm alatt", "30–45 cm", "45–60 cm", "60 cm felett", "Nem tudom"], basic: true },
+    { id: "t_plaster", block: "szerkezet", q: "Milyen vakolat vagy felület van a falakon?", multi: true, opts: ["Mészvakolat", "Agyagvakolat", "Cementes vakolat", "Gipszkarton / előtétfal", "Festett, de nem tudom mivel", "Részben levert / hiányos", "Nem tudom"], basic: true },
+    { id: "t_damp", block: "nedvesseg", q: "Tapasztalható nedvesség vagy sókivirágzás?", multi: true, opts: ["Nedves lábazat", "Salétrom / sókivirágzás", "Penész", "Leváló vakolat", "Dohos szag", "Nem tapasztalható", "Nem tudom"], basic: true },
+    { id: "t_water_management", block: "nedvesseg", q: "Milyen a tető és a csapadékvíz elvezetése?", multi: true, opts: ["Tető jó állapotú", "Tető javítandó", "Eresz és lefolyó rendben", "Hiányos / hibás eresz", "A víz az épület mellé folyik", "Magas a környező terepszint", "Nem tudom"], basic: true },
+    { id: "t_floor", block: "nedvesseg", q: "Milyen a földszinti padló?", opts: ["Hagyományos tégla / döngölt padló", "Beton aljzat", "Fa padló", "Vegyes", "Nem tudom"] },
+    { id: "t_previous_works", block: "felujitas", q: "Milyen korábbi beavatkozások történtek?", multi: true, opts: ["Cementes újravakolás", "Beton padló készült", "Vegyi falszigetelés / injektálás", "Műanyag nyílászárók", "Külső hőszigetelés", "Belső hőszigetelés", "Tetőfelújítás", "Nem történt jelentős felújítás", "Nem tudom"], basic: true },
+    { id: "t_heating", block: "felujitas", q: "Milyen fűtési rendszer működik?", multi: true, opts: ["Gázkazán", "Cserépkályha / kandalló", "Fa / pellet", "Elektromos fűtés", "Hőszivattyú", "Nincs működő fűtés", "Egyéb"], basic: true },
+    { id: "t_planned", block: "felujitas", q: "Milyen fejlesztést tervezel?", multi: true, opts: ["Nedvességi probléma kezelése", "Vakolatcsere", "Padló felújítása", "Tető / födém szigetelése", "Nyílászárók javítása vagy cseréje", "Homlokzati vagy belső szigetelés", "Fűtéskorszerűsítés", "Teljes felújítás", "Még nem tudom"], basic: true },
+    { id: "t_goal", block: "celok", q: "Mi a legfontosabb cél?", multi: true, opts: ["Egészségesebb belső klíma", "Nedvesség megszüntetése", "Energiafogyasztás csökkentése", "Eredeti szerkezetek megőrzése", "Komfort növelése", "Természetes anyagok használata", "Ingatlan értékének megőrzése"], basic: true },
+    { id: "notes", block: "celok", q: "Röviden írd le az épület állapotát vagy a problémát", freetext: true },
   ],
   climate: [
     { id: "country", block: "helyszin", q: "Melyik országban van az ingatlan?", opts: COMMON_COUNTRIES, basic: true },
     { id: "zip", block: "helyszin", q: "Település / régió / irányítószám", freetext: true, basic: true },
-    { id: "cl_type", block: "telek", q: "Milyen ingatlant szeretnél vizsgálni?", opts: ["Családi ház", "Társasház", "Céges épület", "Telephely", "Történeti épület", "Birtok / nagy telek", "Egyéb"], basic: true },
+    { id: "cl_type", block: "telek", q: "Milyen ingatlant szeretnél vizsgálni?", opts: ["Családi ház", "Társasház", "Céges épület", "Telephely", "Hagyományos épület", "Birtok / nagy telek", "Egyéb"], basic: true },
     { id: "cl_land", block: "telek", q: "Mekkora a telek / külső terület?", opts: ["Nincs külső terület", "Kis udvar", "100–500 m²", "500–3000 m²", "3000 m² felett", "Nem tudom"], basic: true },
     { id: "cl_green", block: "telek", q: "Milyen a zöldfelület aránya?", opts: ["Sok fa és növényzet", "Közepes zöldfelület", "Kevés zöld", "Főleg burkolt felület", "Nem tudom"], basic: true },
     { id: "cl_water", block: "viz", q: "Van-e vízforrás vagy vízmegtartási lehetőség?", multi: true, opts: ["Kút", "Forrás", "Patak", "Tó", "Esővízgyűjtés", "Nagy tetőfelület", "Nincs", "Nem tudom"], basic: true },
@@ -251,7 +254,7 @@ const flowLabels = {
   commercial: "Vállalkozás / céges épület",
   multiunit: "Társasház / panelház",
   build: "Resource Build",
-  heritage: "Resource Heritage",
+  traditional: "Resource Traditional",
   climate: "Resource Climate",
 };
 
@@ -410,19 +413,98 @@ function getBuildRecs(answers) {
   return recs.sort((a, b) => a.priority - b.priority);
 }
 
-function getHeritageRecs(answers) {
+function getTraditionalRecs(answers) {
   const recs = [];
-  const protectedBuilding = ["Igen, műemlék", "Helyi védelem alatt áll", "Nem tudom"].includes(answers.h_protection);
-  const badCondition = ["Rossz állapotú", "Romos / nagy beavatkozást igényel"].includes(answers.h_condition);
-  const water = answers.h_water || [];
-  const energy = answers.h_energy || [];
+  const type = answers.t_type || "";
+  const plaster = answers.t_plaster || [];
+  const damp = answers.t_damp || [];
+  const drainage = answers.t_water_management || [];
+  const previous = answers.t_previous_works || [];
+  const planned = answers.t_planned || [];
 
-  recs.push({ priority: 1, name: "Történeti és műszaki állapotfelmérés", tag: "ELSŐ LÉPÉS", cost: "Egyedi", payback: "Kockázatcsökkentés", reason: "Régi épületnél az állapot, nedvesség, falazat és tető az első döntési pont." });
-  if (protectedBuilding) recs.push({ priority: 2, name: "Műemléki / vizuális beavatkozási kockázat vizsgálata", tag: "ÉRZÉKENY", cost: "Egyedi", payback: "Engedélyezési kockázat csökkentése", reason: "Homlokzat, főtető és kültéri gépészet érzékeny lehet." });
-  if (badCondition) recs.push({ priority: 2, name: "Tető, nedvesség és szerkezeti kockázatok kezelése", tag: "KRITIKUS", cost: "Egyedi", payback: "Állagmegóvás", reason: "Energetikai fejlesztés előtt az épületet stabilizálni kell." });
-  if (!energy.includes("Napelem") && answers.h_outbuildings && !answers.h_outbuildings.includes("Nincs")) recs.push({ priority: 3, name: "Melléképületi / földi PV lehetőség", tag: "REJTETT PV", cost: "Egyedi", payback: "6–12 év", reason: "Történeti főtető helyett kevésbé érzékeny telepítési hely lehet." });
-  if (water.length && !water.includes("Nincs")) recs.push({ priority: 3, name: "Vízbiztonsági és esővíz-stratégia", tag: "WATER", cost: "Egyedi", payback: "Működési biztonság", reason: "Hospitality és birtokhasznosítás esetén stratégiai kérdés." });
-  recs.push({ priority: 4, name: "Hasznosítási és üzemeltetési előszűrés", tag: "REMONASTÈRE", cost: "Egyedi", payback: "Befektetői döntéstámogatás", reason: "Nem csak felújítani kell, hanem működő modellt kell találni." });
+  const moistureRisk =
+    damp.some((item) => !["Nem tapasztalható", "Nem tudom"].includes(item)) ||
+    drainage.some((item) =>
+      ["Tető javítandó", "Hiányos / hibás eresz", "A víz az épület mellé folyik", "Magas a környező terepszint"].includes(item)
+    );
+
+  const incompatibleMaterials =
+    plaster.includes("Cementes vakolat") ||
+    plaster.includes("Gipszkarton / előtétfal") ||
+    previous.includes("Cementes újravakolás") ||
+    previous.includes("Beton padló készült");
+
+  recs.push({
+    priority: 1,
+    name: "Szerkezet- és nedvességdiagnosztika",
+    tag: "ELSŐ LÉPÉS",
+    cost: "Egyedi felmérés",
+    payback: "Kockázatcsökkentés",
+    reason: "Hagyományos falazatnál először a nedvesség forrását, a fal anyagát és a korábbi rétegrendeket kell tisztázni."
+  });
+
+  if (moistureRisk) {
+    recs.push({
+      priority: 1,
+      name: "Tető, eresz, terepszint és csapadékvíz rendezése",
+      tag: "NEDVESSÉG",
+      cost: "A hibától függ",
+      payback: "Állagmegóvás",
+      reason: "A fal kiszárítása előtt a víz utánpótlását kell megszüntetni; önmagában a fal kezelése nem elegendő."
+    });
+  }
+
+  if (incompatibleMaterials) {
+    recs.push({
+      priority: 2,
+      name: "Páraáteresztő rétegrend vizsgálata",
+      tag: "ANYAGHASZNÁLAT",
+      cost: "Egyedi",
+      payback: "Épületfizikai biztonság",
+      reason: "A cementes, párazáró vagy rosszul szellőző rétegek nedvességet tarthatnak a hagyományos falban."
+    });
+  }
+
+  if (type.includes("Vályog") || type.includes("Vert") || type.includes("föld") || type.includes("Vegyes")) {
+    recs.push({
+      priority: 2,
+      name: "Vályog- és földfalhoz értő szakember bevonása",
+      tag: "SZAKÉRTELEM",
+      cost: "Egyedi",
+      payback: "Hibák elkerülése",
+      reason: "Ezek a szerkezetek eltérő vakolatot, csomópontokat és nedvességkezelést igényelnek, mint a modern téglafalak."
+    });
+  }
+
+  if (planned.some((item) => item.includes("szigetelés"))) {
+    recs.push({
+      priority: 3,
+      name: "Hőszigetelés csak páratechnikai vizsgálat után",
+      tag: "ÓVATOSAN",
+      cost: "Egyedi tervezés",
+      payback: "Kockázatfüggő",
+      reason: "A hibás belső vagy külső szigetelés rejtett nedvesedést, penészt és szerkezeti károsodást okozhat."
+    });
+  }
+
+  recs.push({
+    priority: 3,
+    name: "Padlásfödém, nyílászáró és fűtésszabályozás vizsgálata",
+    tag: "BIZTONSÁGOSABB IRÁNY",
+    cost: "100 000 Ft-tól",
+    payback: "3–10 év",
+    reason: "Gyakran ezekkel lehet kisebb épületfizikai kockázattal javítani a komfortot és az energiafelhasználást."
+  });
+
+  recs.push({
+    priority: 4,
+    name: "Felújítási sorrend és összehangolt műszaki koncepció",
+    tag: "KÖVETKEZŐ",
+    cost: "Egyedi",
+    payback: "Átláthatóság",
+    reason: "A víz, a fal, a padló, a szellőzés, a fűtés és az energetika csak együtt tervezhető biztonságosan."
+  });
+
   return recs.sort((a, b) => a.priority - b.priority);
 }
 
@@ -469,15 +551,15 @@ function getResults(answers, flow, selectedModule) {
     };
   }
 
-  if (flow === "heritage") {
-    const sensitivity = heritageScore(answers);
+  if (flow === "traditional") {
+    const sensitivity = traditionalScore(answers);
     return {
-      scoreLabel: "Heritage Sensitivity Score",
+      scoreLabel: "Traditional Building Risk Score",
       score: `${sensitivity}/100`,
       color: sensitivity >= 70 ? C.red : sensitivity >= 40 ? C.orange : C.green,
-      title: "Történeti épület előszűrés",
-      summary: "A Heritage modul a történeti érték, műemléki érzékenység, energia, víz és hasznosítási cél alapján ad előzetes fejlesztési térképet.",
-      recs: getHeritageRecs(answers),
+      title: "Hagyományos épület felújítási előszűrése",
+      summary: "A Traditional modul a falazat, nedvesség, vakolatok, korábbi beavatkozások és tervezett felújítás alapján jelzi a fő épületfizikai kockázatokat és a biztonságosabb következő lépéseket.",
+      recs: getTraditionalRecs(answers),
     };
   }
 
@@ -501,13 +583,21 @@ function buildScore(answers) {
   return Math.min(100, score);
 }
 
-function heritageScore(answers) {
-  let score = 25;
-  if (["Igen, műemlék", "Helyi védelem alatt áll"].includes(answers.h_protection)) score += 30;
-  if (["Rossz állapotú", "Romos / nagy beavatkozást igényel"].includes(answers.h_condition)) score += 25;
-  if (["Kő", "Vályog", "Vegyes falazat"].includes(answers.h_material)) score += 10;
-  if ((answers.h_goal || []).includes("Remonastère jellegű hasznosítás")) score += 10;
-  return Math.min(100, score);
+function traditionalScore(answers) {
+  let risk = 20;
+  const damp = answers.t_damp || [];
+  const drainage = answers.t_water_management || [];
+  const plaster = answers.t_plaster || [];
+  const previous = answers.t_previous_works || [];
+  const planned = answers.t_planned || [];
+
+  if (damp.some((item) => !["Nem tapasztalható", "Nem tudom"].includes(item))) risk += 25;
+  if (drainage.some((item) => ["Tető javítandó", "Hiányos / hibás eresz", "A víz az épület mellé folyik", "Magas a környező terepszint"].includes(item))) risk += 20;
+  if (plaster.includes("Cementes vakolat") || plaster.includes("Gipszkarton / előtétfal")) risk += 15;
+  if (previous.some((item) => ["Beton padló készült", "Vegyi falszigetelés / injektálás", "Belső hőszigetelés", "Külső hőszigetelés"].includes(item))) risk += 10;
+  if (planned.some((item) => item.includes("szigetelés"))) risk += 10;
+
+  return Math.min(100, risk);
 }
 
 function climateScore(answers) {
@@ -520,22 +610,24 @@ function climateScore(answers) {
   return Math.max(0, Math.min(100, score));
 }
 
-function ModuleIcon({ type }) {
+
+function LineIcon({ type, size = 28 }) {
   const common = {
-    width: 26,
-    height: 26,
+    width: size,
+    height: size,
     viewBox: "0 0 24 24",
     fill: "none",
     stroke: "currentColor",
-    strokeWidth: 1.6,
+    strokeWidth: 1.8,
     strokeLinecap: "round",
     strokeLinejoin: "round",
+    "aria-hidden": true,
   };
 
   if (type === "energy") {
     return (
       <svg {...common}>
-        <path d="M13 2L5.5 13h6L11 22l7.5-12h-6L13 2Z" />
+        <path d="M13 2 5.8 12.5h5.5L10.7 22l7.5-12.2h-5.4L13 2Z" />
       </svg>
     );
   }
@@ -543,404 +635,171 @@ function ModuleIcon({ type }) {
   if (type === "build") {
     return (
       <svg {...common}>
-        <path d="M3 21h18" />
+        <path d="M4 21h16" />
         <path d="M6 21V9l6-4 6 4v12" />
         <path d="M9 21v-6h6v6" />
-        <path d="M8 10h.01M16 10h.01" />
+        <path d="M9 11h.01M15 11h.01" />
       </svg>
     );
   }
 
-  if (type === "heritage") {
+  if (type === "traditional") {
     return (
       <svg {...common}>
-        <path d="M3 21h18" />
-        <path d="M5 21V10" />
-        <path d="M19 21V10" />
-        <path d="M3 10h18" />
-        <path d="M12 3l9 5H3l9-5Z" />
-        <path d="M9 21v-6h6v6" />
+        <path d="M4 20h16" />
+        <path d="M6 20V10l6-5 6 5v10" />
+        <path d="M9 20v-6h6v6" />
+        <path d="M7 11c2 1 3.5 1 5 0s3-1 5 0" />
+        <path d="M8 8.5c1.5.8 2.7.8 4 0s2.5-.8 4 0" />
+      </svg>
+    );
+  }
+
+  if (type === "climate") {
+    return (
+      <svg {...common}>
+        <path d="M12 22c4.2-3.2 6.5-6.8 6.5-10.5A6.5 6.5 0 0 0 12 5a6.5 6.5 0 0 0-6.5 6.5C5.5 15.2 7.8 18.8 12 22Z" />
+        <path d="M8.5 12.5c2.5.2 4.5-1.2 6-4" />
+        <path d="M12 18V9" />
+      </svg>
+    );
+  }
+
+  if (type === "residential") {
+    return (
+      <svg {...common}>
+        <path d="m3 11 9-7 9 7" />
+        <path d="M5 10v10h14V10" />
+        <path d="M9 20v-6h6v6" />
+      </svg>
+    );
+  }
+
+  if (type === "commercial") {
+    return (
+      <svg {...common}>
+        <path d="M4 21h16" />
+        <path d="M6 21V4h12v17" />
+        <path d="M9 8h.01M12 8h.01M15 8h.01M9 12h.01M12 12h.01M15 12h.01" />
+        <path d="M10 21v-5h4v5" />
       </svg>
     );
   }
 
   return (
     <svg {...common}>
-      <path d="M12 2a10 10 0 1 0 10 10" />
-      <path d="M12 2c2.8 2.7 4.2 6 4.2 10S14.8 19.3 12 22" />
-      <path d="M12 2C9.2 4.7 7.8 8 7.8 12s1.4 7.3 4.2 10" />
-      <path d="M2 12h20" />
-      <path d="M15.5 5.2c1.7.8 3.2 2 4.3 3.6" />
+      <path d="M4 21V6h16v15" />
+      <path d="M8 6V3h8v3" />
+      <path d="M8 10h.01M12 10h.01M16 10h.01M8 14h.01M12 14h.01M16 14h.01" />
+      <path d="M10 21v-4h4v4" />
     </svg>
   );
 }
 
+
 function ModuleSelect({ onSelect }) {
-  const modules = [
-    {
-      id: "energy",
-      number: "01",
-      title: "Energy",
-      eyebrow: "Energetika",
-      description:
-        "Energiafogyasztás, megújuló rendszerek, korszerűsítési sorrend és várható megtérülés.",
-    },
-    {
-      id: "build",
-      number: "02",
-      title: "Build",
-      eyebrow: "Kivitelezés",
-      description:
-        "Felújítási és építési projektek előkészítése, szakági igények és következő lépések.",
-    },
-    {
-      id: "heritage",
-      number: "03",
-      title: "Heritage",
-      eyebrow: "Történeti épületek",
-      description:
-        "Kastélyok, kúriák és történeti épületek fenntartható fejlesztési előszűrése.",
-    },
-    {
-      id: "climate",
-      number: "04",
-      title: "Climate",
-      eyebrow: "Klímabiztonság",
-      description:
-        "Hőhullám-, víz-, túlmelegedési és mikroklíma-kockázatok előzetes értékelése.",
-    },
-  ];
-
   return (
-    <main
-      style={{
-        minHeight: "100vh",
-        background: "#F4F3EF",
-        color: "#242522",
-        fontFamily:
-          "'Inter', 'Helvetica Neue', Arial, sans-serif",
-      }}
-    >
-      <header
-        style={{
-          maxWidth: 1240,
-          margin: "0 auto",
-          padding: "30px 28px",
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-          borderBottom: "1px solid rgba(36,37,34,0.12)",
-        }}
-      >
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            gap: 12,
-          }}
-        >
-          <div
+    <Shell>
+      <section style={styles.heroPanel}>
+        <div style={styles.heroEyebrow}>Nemzetközi épületfejlesztési platform</div>
+        <h1 style={styles.heroTitle}>Értsd meg az épületet, mielőtt döntést hozol.</h1>
+        <p style={styles.heroLead}>
+          Előzetes döntéstámogatás energetikai, kivitelezési, hagyományos épületszerkezeti és klímabiztonsági
+          fejlesztésekhez — ország- és épülettípus-specifikus logikával.
+        </p>
+      </section>
+
+      <div style={styles.moduleGrid}>
+        {MODULES.map((m, index) => (
+          <button
+            key={m.id}
+            onClick={() => onSelect(m.id)}
             style={{
-              width: 38,
-              height: 38,
-              borderRadius: 12,
-              background: "#233F3A",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
+              ...styles.moduleCard,
+              "--module-accent": moduleColor(m.id),
             }}
           >
-            <HouseLeafLogo size={22} color="#FFFFFF" />
-          </div>
-
-          <div>
-            <div
-              style={{
-                fontSize: 17,
-                fontWeight: 700,
-                letterSpacing: "-0.02em",
-              }}
-            >
-              Resource
-            </div>
-
-            <div
-              style={{
-                fontSize: 10,
-                color: "#777970",
-                letterSpacing: "0.13em",
-                textTransform: "uppercase",
-                marginTop: 2,
-              }}
-            >
-              Building Intelligence
-            </div>
-          </div>
-        </div>
-
-        <div
-          style={{
-            fontSize: 11,
-            color: "#777970",
-            letterSpacing: "0.08em",
-            textTransform: "uppercase",
-          }}
-        >
-          Assessment Platform
-        </div>
-      </header>
-
-      <section
-        style={{
-          maxWidth: 1240,
-          margin: "0 auto",
-          padding: "82px 28px 42px",
-        }}
-      >
-        <div
-          style={{
-            maxWidth: 760,
-            marginBottom: 62,
-          }}
-        >
-          <div
-            style={{
-              fontSize: 11,
-              fontWeight: 600,
-              letterSpacing: "0.16em",
-              textTransform: "uppercase",
-              color: "#5E7771",
-              marginBottom: 20,
-            }}
-          >
-            Nemzetközi épületfejlesztési platform
-          </div>
-
-          <h1
-            style={{
-              fontSize: "clamp(42px, 7vw, 78px)",
-              lineHeight: 0.98,
-              letterSpacing: "-0.055em",
-              margin: 0,
-              fontWeight: 600,
-              maxWidth: 840,
-            }}
-          >
-            Értsd meg az épületet,
-            <br />
-            mielőtt döntést hozol.
-          </h1>
-
-          <p
-            style={{
-              margin: "28px 0 0",
-              maxWidth: 650,
-              color: "#686A63",
-              fontSize: 16,
-              lineHeight: 1.75,
-            }}
-          >
-            Előzetes döntéstámogatás energetikai, kivitelezési,
-            történeti és klímabiztonsági fejlesztésekhez — ország- és
-            épülettípus-specifikus logikával.
-          </p>
-        </div>
-
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns:
-              "repeat(auto-fit, minmax(260px, 1fr))",
-            borderTop: "1px solid rgba(36,37,34,0.18)",
-            borderLeft: "1px solid rgba(36,37,34,0.18)",
-          }}
-        >
-          {modules.map((module) => (
-            <button
-              key={module.id}
-              onClick={() => onSelect(module.id)}
-              style={{
-                minHeight: 330,
-                border: "none",
-                borderRight:
-                  "1px solid rgba(36,37,34,0.18)",
-                borderBottom:
-                  "1px solid rgba(36,37,34,0.18)",
-                background: "rgba(255,255,255,0.38)",
-                padding: 28,
-                textAlign: "left",
-                cursor: "pointer",
-                color: "#242522",
-                fontFamily: "inherit",
-                display: "flex",
-                flexDirection: "column",
-                justifyContent: "space-between",
-                transition:
-                  "background 180ms ease, transform 180ms ease",
-              }}
-              onMouseEnter={(event) => {
-                event.currentTarget.style.background =
-                  "#FFFFFF";
-                event.currentTarget.style.transform =
-                  "translateY(-3px)";
-              }}
-              onMouseLeave={(event) => {
-                event.currentTarget.style.background =
-                  "rgba(255,255,255,0.38)";
-                event.currentTarget.style.transform =
-                  "translateY(0)";
-              }}
-            >
-              <div>
-                <div
-                  style={{
-                    display: "flex",
-                    justifyContent: "space-between",
-                    alignItems: "flex-start",
-                    marginBottom: 54,
-                  }}
-                >
-                  <div
-                    style={{
-                      width: 48,
-                      height: 48,
-                      borderRadius: 14,
-                      background: "#E8ECE8",
-                      color: "#233F3A",
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                    }}
-                  >
-                    <ModuleIcon type={module.id} />
-                  </div>
-
-                  <div
-                    style={{
-                      fontSize: 11,
-                      color: "#92948C",
-                      letterSpacing: "0.1em",
-                    }}
-                  >
-                    {module.number}
-                  </div>
-                </div>
-
-                <div
-                  style={{
-                    fontSize: 10,
-                    fontWeight: 600,
-                    color: "#5E7771",
-                    letterSpacing: "0.13em",
-                    textTransform: "uppercase",
-                    marginBottom: 10,
-                  }}
-                >
-                  {module.eyebrow}
-                </div>
-
-                <h2
-                  style={{
-                    fontSize: 29,
-                    fontWeight: 600,
-                    letterSpacing: "-0.035em",
-                    margin: 0,
-                  }}
-                >
-                  {module.title}
-                </h2>
-
-                <p
-                  style={{
-                    color: "#6D6F68",
-                    fontSize: 13,
-                    lineHeight: 1.7,
-                    margin: "18px 0 0",
-                  }}
-                >
-                  {module.description}
-                </p>
-              </div>
-
+            <div style={styles.moduleCardTop}>
               <div
                 style={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  alignItems: "center",
-                  marginTop: 34,
-                  paddingTop: 20,
-                  borderTop:
-                    "1px solid rgba(36,37,34,0.10)",
+                  ...styles.moduleIcon,
+                  color: moduleColor(m.id),
+                  background: `${moduleColor(m.id)}12`,
+                  borderColor: `${moduleColor(m.id)}28`,
                 }}
               >
-                <span
-                  style={{
-                    fontSize: 12,
-                    fontWeight: 600,
-                  }}
-                >
-                  Modul megnyitása
-                </span>
-
-                <span
-                  style={{
-                    fontSize: 20,
-                    lineHeight: 1,
-                  }}
-                >
-                  →
-                </span>
+                <LineIcon type={m.id} size={27} />
               </div>
-            </button>
-          ))}
-        </div>
+              <div style={styles.moduleNumber}>0{index + 1}</div>
+            </div>
 
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "space-between",
-            gap: 20,
-            flexWrap: "wrap",
-            marginTop: 30,
-            paddingTop: 22,
-            borderTop: "1px solid rgba(36,37,34,0.12)",
-            color: "#85877F",
-            fontSize: 11,
-            lineHeight: 1.6,
-          }}
-        >
-          <div>
-            Előzetes döntéstámogató elemzés, nem hatósági vagy
-            tervezői szakvélemény.
-          </div>
+            <div>
+              <div style={{ ...styles.moduleEyebrow, color: moduleColor(m.id) }}>
+                {m.id === "energy"
+                  ? "Energetika"
+                  : m.id === "build"
+                    ? "Kivitelezés"
+                    : m.id === "traditional"
+                      ? "Hagyományos épületek"
+                      : "Klímabiztonság"}
+              </div>
+              <h2 style={styles.moduleTitle}>{m.title.replace("Resource ", "")}</h2>
+              <p style={styles.moduleDescription}>{m.description}</p>
+            </div>
 
-          <div>
-            Energy · Build · Heritage · Climate
-          </div>
-        </div>
-      </section>
-    </main>
+            <div style={styles.moduleAction}>
+              <span>{m.button}</span>
+              <span aria-hidden="true">→</span>
+            </div>
+          </button>
+        ))}
+      </div>
+
+      <Disclaimer />
+    </Shell>
   );
 }
+
+
 
 function EnergyFlowSelect({ onSelect, onBack }) {
   return (
     <Shell>
       <BackButton onClick={onBack}>← Vissza a modulokhoz</BackButton>
-      <SectionHeader title="Resource Energy" subtitle="Válaszd ki, milyen épület energetikai előszűrését szeretnéd elindítani." />
-      <div style={styles.grid3}>
+
+      <section style={styles.sectionIntro}>
+        <div style={{ ...styles.sectionIcon, color: C.sunDark, background: C.sunLight }}>
+          <LineIcon type="energy" size={29} />
+        </div>
+        <div>
+          <div style={styles.eyebrow}>Resource Energy</div>
+          <h1 style={styles.sectionTitle}>Milyen épületet szeretnél felmérni?</h1>
+          <p style={styles.sectionLead}>
+            Válaszd ki az épülettípust. A következő kérdések már ehhez igazodnak.
+          </p>
+        </div>
+      </section>
+
+      <div style={styles.flowGrid}>
         {ENERGY_FLOWS.map((flow) => (
-          <button key={flow.id} style={styles.choiceCard} onClick={() => onSelect(flow.id)}>
-            <div style={{ fontSize: 34, marginBottom: 12 }}>{flow.icon}</div>
-            <h2 style={styles.cardTitle}>{flow.title}</h2>
-            <p style={styles.cardDesc}>{flow.description}</p>
-            <div style={{ ...styles.primaryButton, background: C.sun }}>Indítás</div>
+          <button key={flow.id} style={styles.flowCard} onClick={() => onSelect(flow.id)}>
+            <div style={styles.flowIcon}>
+              <LineIcon type={flow.id} size={27} />
+            </div>
+            <div style={{ flex: 1 }}>
+              <h2 style={styles.flowTitle}>{flow.title}</h2>
+              <p style={styles.flowDescription}>{flow.description}</p>
+            </div>
+            <div style={styles.flowArrow}>→</div>
           </button>
         ))}
       </div>
+
+      <Disclaimer />
     </Shell>
   );
 }
+
 
 function QuizScreen({ flow, moduleId, answers, setAnswers, step, setStep, onBack, onFinish }) {
   const questions = QUESTIONS[flow] || [];
@@ -1134,14 +993,36 @@ function BlockProgress({ blocks, questions, answers }) {
   );
 }
 
+
 function QuizOption({ label, selected, onClick, multi }) {
   return (
-    <button onClick={onClick} style={{ ...styles.option, borderColor: selected ? C.sun : C.grayMid, background: selected ? C.sunLight : C.white, fontWeight: selected ? 700 : 500 }}>
-      <span style={{ ...styles.optionMark, borderColor: selected ? C.sun : C.grayMid, background: selected ? C.sun : "transparent" }}>{selected ? (multi ? "✓" : "●") : ""}</span>
-      {label}
+    <button
+      type="button"
+      onClick={onClick}
+      style={{
+        ...styles.option,
+        borderColor: selected ? "#355E55" : "rgba(48,70,63,0.14)",
+        background: selected ? "#EDF3F0" : "rgba(255,255,255,0.94)",
+        boxShadow: selected ? "0 0 0 3px rgba(53,94,85,0.06)" : "0 5px 16px rgba(31,43,39,0.035)",
+        fontWeight: selected ? 700 : 500,
+      }}
+    >
+      <span
+        style={{
+          ...styles.optionMark,
+          borderRadius: multi ? 6 : "50%",
+          borderColor: selected ? "#355E55" : "#AEB8B3",
+          background: selected ? "#355E55" : "#FFFFFF",
+        }}
+      >
+        {selected ? (multi ? "✓" : "•") : ""}
+      </span>
+      <span style={{ flex: 1 }}>{label}</span>
     </button>
   );
 }
+
+
 
 function Shell({ children, compact = false }) {
   return (
@@ -1149,102 +1030,33 @@ function Shell({ children, compact = false }) {
       style={{
         minHeight: "100vh",
         background:
-          "radial-gradient(circle at top left, rgba(53,94,85,0.08), transparent 34%), linear-gradient(180deg,#F4F2EC 0%,#F8F7F3 48%,#F1F3EF 100%)",
-        padding: compact ? "18px 16px 42px" : "24px 16px 52px",
+          "radial-gradient(circle at 10% 0%, rgba(53,94,85,0.08), transparent 34%), linear-gradient(180deg,#F4F2EC 0%,#F8F7F3 50%,#F1F3EF 100%)",
+        padding: compact ? "14px 14px 38px" : "18px 14px 46px",
         fontFamily: "'Poppins','Helvetica Neue',Arial,sans-serif",
         color: "#252724",
       }}
     >
-      <div
-        style={{
-          width: "100%",
-          maxWidth: 1080,
-          margin: "0 auto",
-        }}
-      >
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between",
-            gap: 16,
-            marginBottom: 22,
-            padding: "11px 14px",
-            border: "1px solid rgba(44,67,61,0.11)",
-            borderRadius: 16,
-            background: "rgba(255,255,255,0.78)",
-            boxShadow: "0 8px 28px rgba(31,43,39,0.055)",
-            backdropFilter: "blur(10px)",
-          }}
-        >
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: 11,
-            }}
-          >
-            <div
-              style={{
-                width: 38,
-                height: 38,
-                borderRadius: 12,
-                background: "#355E55",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                flexShrink: 0,
-              }}
-            >
-              <HouseLeafLogo size={22} color="#FFFFFF" />
+      <div style={{ width: "100%", maxWidth: 1080, margin: "0 auto" }}>
+        <header style={styles.appHeader}>
+          <div style={styles.brandWrap}>
+            <div style={styles.brandMark}>
+              <HouseLeafLogo size={21} color="#FFFFFF" />
             </div>
-
             <div>
-              <div
-                style={{
-                  fontSize: 16,
-                  fontWeight: 800,
-                  color: "#252724",
-                  letterSpacing: "-0.02em",
-                }}
-              >
-                Resource
-              </div>
-
-              <div
-                style={{
-                  fontSize: 9,
-                  fontWeight: 700,
-                  color: "#78817C",
-                  textTransform: "uppercase",
-                  letterSpacing: "0.12em",
-                  marginTop: 1,
-                }}
-              >
-                Building Intelligence
-              </div>
+              <div style={styles.brandName}>Resource</div>
+              <div style={styles.brandSubtitle}>Building Intelligence</div>
             </div>
           </div>
-
-          <div
-            className="resource-header-label"
-            style={{
-              fontSize: 10,
-              fontWeight: 700,
-              color: "#7D827E",
-              textTransform: "uppercase",
-              letterSpacing: "0.1em",
-            }}
-          >
-            Energy · Build · Heritage · Climate
+          <div className="resource-header-label" style={styles.headerMeta}>
+            Energy · Build · Traditional · Climate
           </div>
-        </div>
-
+        </header>
         {children}
       </div>
     </main>
   );
 }
+
 
 function LogoMark() {
   return (
@@ -1254,15 +1066,26 @@ function LogoMark() {
   );
 }
 
+
 function SectionHeader({ title, subtitle }) {
+  const type =
+    title.includes("Energy") ? "energy" :
+    title.includes("Build") ? "build" :
+    title.includes("Traditional") ? "traditional" : "climate";
+
   return (
-    <div style={{ textAlign: "center", margin: "18px 0 30px" }}>
-      <LogoMark />
-      <h1 style={styles.h1}>{title}</h1>
-      <p style={styles.lead}>{subtitle}</p>
-    </div>
+    <section style={styles.sectionIntro}>
+      <div style={{ ...styles.sectionIcon, color: moduleColor(type), background: `${moduleColor(type)}12` }}>
+        <LineIcon type={type} size={29} />
+      </div>
+      <div>
+        <div style={{ ...styles.eyebrow, color: moduleColor(type) }}>{title}</div>
+        <h1 style={styles.sectionTitle}>{subtitle}</h1>
+      </div>
+    </section>
   );
 }
+
 
 function BackButton({ children, onClick }) {
   return <button onClick={onClick} style={styles.backButton}>{children}</button>;
@@ -1289,146 +1112,412 @@ function createReportHtml({ result, answers, flow, moduleId, contact }) {
   </style></head><body><div class="page"><div class="header"><div class="brand">Resource App</div><div class="muted">${new Date().toLocaleDateString("hu-HU")} · ${MODULES.find((m) => m.id === moduleId)?.title || ""} · ${flowLabels[flow] || ""}</div></div><h1>${result.title}</h1><p>${result.summary}</p><div class="box"><div class="muted">${result.scoreLabel}</div><div class="score">${result.score}</div></div>${contact?.name ? `<p><strong>${contact.name}</strong><br>${contact.email || ""} ${contact.phone || ""}<br>${contact.city || answers.zip || ""}</p>` : ""}<h2>Ajánlott lépések</h2><table><thead><tr><th>Lépés</th><th>Költségsáv</th><th>Érték / megtérülés</th></tr></thead><tbody>${rows}</tbody></table><p class="muted" style="margin-top:24px">Tájékoztató jellegű előszűrés. Helyszíni felmérés és szakértői ellenőrzés szükséges.</p><button onclick="window.print()" style="margin-top:20px;padding:12px 18px;border:0;border-radius:10px;background:#4CAF50;color:#fff;font-weight:700">Mentés PDF-ként</button></div></body></html>`;
 }
 
+
 const styles = {
- h1: {
-  fontSize: 34,
-  lineHeight: 1.14,
-  margin: 0,
-  fontWeight: 800,
-  letterSpacing: "-0.035em",
-  color: "#252724"
-},
- h2: {
-  fontSize: 24,
-  lineHeight: 1.25,
-  margin: 0,
-  fontWeight: 800,
-  letterSpacing: "-0.025em",
-  color: "#252724"
-},
-  lead: {
-  fontSize: 15,
-  lineHeight: 1.7,
-  color: "#707670",
-  maxWidth: 760,
-  margin: "12px auto 0"
-},
-  leadLeft: { fontSize: 15, lineHeight: 1.7, color: C.muted, margin: "10px 0 0", maxWidth: 720 },
-  muted: { fontSize: 12, color: C.muted, margin: 0 },
-  eyebrow: { fontSize: 11, fontWeight: 900, letterSpacing: 1.2, textTransform: "uppercase", color: C.sunDark, marginBottom: 8 },
-  grid4: { display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(240px,1fr))", gap: 18 },
-  grid3: { display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(260px,1fr))", gap: 18 },
- moduleCard: {
-  background: "rgba(255,255,255,0.9)",
-  border: "1px solid rgba(48,70,63,0.12)",
-  borderRadius: 18,
-  padding: 21,
-  textAlign: "left",
-  cursor: "pointer",
-  boxShadow: "0 10px 28px rgba(31,43,39,0.07)",
-  fontFamily: "inherit"
-},
+  appHeader: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "space-between",
+    gap: 16,
+    marginBottom: 22,
+    padding: "11px 14px",
+    border: "1px solid rgba(48,70,63,0.11)",
+    borderRadius: 16,
+    background: "rgba(255,255,255,0.82)",
+    boxShadow: "0 8px 28px rgba(31,43,39,0.055)",
+    backdropFilter: "blur(10px)",
+  },
+  brandWrap: { display: "flex", alignItems: "center", gap: 11 },
+  brandMark: {
+    width: 38,
+    height: 38,
+    borderRadius: 12,
+    background: "#355E55",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    flexShrink: 0,
+  },
+  brandName: { fontSize: 16, fontWeight: 800, color: "#252724", letterSpacing: "-0.02em" },
+  brandSubtitle: {
+    fontSize: 9,
+    fontWeight: 700,
+    color: "#78817C",
+    textTransform: "uppercase",
+    letterSpacing: "0.12em",
+    marginTop: 1,
+  },
+  headerMeta: {
+    fontSize: 10,
+    fontWeight: 700,
+    color: "#7D827E",
+    textTransform: "uppercase",
+    letterSpacing: "0.1em",
+  },
+
+  heroPanel: {
+    background: "linear-gradient(135deg,rgba(255,255,255,0.96),rgba(248,249,246,0.92))",
+    border: "1px solid rgba(48,70,63,0.12)",
+    borderRadius: 24,
+    padding: "clamp(26px,5vw,54px)",
+    boxShadow: "0 16px 42px rgba(31,43,39,0.07)",
+    marginBottom: 20,
+  },
+  heroEyebrow: {
+    fontSize: 11,
+    fontWeight: 800,
+    letterSpacing: "0.15em",
+    textTransform: "uppercase",
+    color: "#5B746D",
+    marginBottom: 15,
+  },
+  heroTitle: {
+    fontSize: "clamp(35px,6vw,62px)",
+    lineHeight: 1.02,
+    letterSpacing: "-0.05em",
+    margin: 0,
+    fontWeight: 800,
+    color: "#252724",
+    maxWidth: 820,
+  },
+  heroLead: {
+    fontSize: 15,
+    lineHeight: 1.75,
+    color: "#69706B",
+    maxWidth: 740,
+    margin: "22px 0 0",
+  },
+
+  moduleGrid: {
+    display: "grid",
+    gridTemplateColumns: "repeat(auto-fit,minmax(235px,1fr))",
+    gap: 14,
+  },
+  moduleCard: {
+    minHeight: 285,
+    background: "rgba(255,255,255,0.94)",
+    border: "1px solid rgba(48,70,63,0.12)",
+    borderRadius: 20,
+    padding: 22,
+    textAlign: "left",
+    cursor: "pointer",
+    boxShadow: "0 10px 28px rgba(31,43,39,0.065)",
+    fontFamily: "inherit",
+    color: "#252724",
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "space-between",
+  },
+  moduleCardTop: {
+    display: "flex",
+    alignItems: "flex-start",
+    justifyContent: "space-between",
+    marginBottom: 28,
+  },
+  moduleIcon: {
+    width: 50,
+    height: 50,
+    borderRadius: 15,
+    border: "1px solid",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  moduleNumber: { fontSize: 11, color: "#929791", letterSpacing: "0.1em", fontWeight: 700 },
+  moduleEyebrow: {
+    fontSize: 10,
+    fontWeight: 800,
+    letterSpacing: "0.12em",
+    textTransform: "uppercase",
+    marginBottom: 8,
+  },
+  moduleTitle: { fontSize: 27, lineHeight: 1.1, margin: 0, fontWeight: 800, letterSpacing: "-0.035em" },
+  moduleDescription: { fontSize: 13, color: "#6E746F", lineHeight: 1.65, margin: "14px 0 0" },
+  moduleAction: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "space-between",
+    gap: 12,
+    marginTop: 24,
+    paddingTop: 16,
+    borderTop: "1px solid rgba(48,70,63,0.1)",
+    fontSize: 12,
+    fontWeight: 800,
+    color: "#2F3D38",
+  },
+
+  sectionIntro: {
+    display: "flex",
+    alignItems: "flex-start",
+    gap: 16,
+    background: "rgba(255,255,255,0.94)",
+    border: "1px solid rgba(48,70,63,0.12)",
+    borderRadius: 20,
+    padding: 22,
+    boxShadow: "0 10px 28px rgba(31,43,39,0.06)",
+    marginBottom: 16,
+  },
+  sectionIcon: {
+    width: 54,
+    height: 54,
+    borderRadius: 16,
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    flexShrink: 0,
+  },
+  sectionTitle: {
+    fontSize: "clamp(26px,4vw,36px)",
+    lineHeight: 1.15,
+    margin: 0,
+    fontWeight: 800,
+    letterSpacing: "-0.035em",
+    color: "#252724",
+  },
+  sectionLead: { fontSize: 14, color: "#727872", lineHeight: 1.65, margin: "8px 0 0" },
+
+  flowGrid: { display: "grid", gap: 12 },
+  flowCard: {
+    width: "100%",
+    display: "flex",
+    alignItems: "center",
+    gap: 16,
+    textAlign: "left",
+    padding: 18,
+    border: "1px solid rgba(48,70,63,0.12)",
+    borderRadius: 17,
+    background: "rgba(255,255,255,0.94)",
+    boxShadow: "0 8px 22px rgba(31,43,39,0.05)",
+    cursor: "pointer",
+    color: "#252724",
+    fontFamily: "inherit",
+  },
+  flowIcon: {
+    width: 49,
+    height: 49,
+    borderRadius: 15,
+    background: "#EDF3F0",
+    color: "#355E55",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    flexShrink: 0,
+  },
+  flowTitle: { fontSize: 18, fontWeight: 800, margin: 0, letterSpacing: "-0.02em" },
+  flowDescription: { fontSize: 13, color: "#747A75", lineHeight: 1.55, margin: "5px 0 0" },
+  flowArrow: { fontSize: 22, color: "#355E55", paddingLeft: 6 },
+
+  h1: { fontSize: 34, lineHeight: 1.14, margin: 0, fontWeight: 800, letterSpacing: "-0.035em", color: "#252724" },
+  h2: { fontSize: 24, lineHeight: 1.25, margin: 0, fontWeight: 800, letterSpacing: "-0.025em", color: "#252724" },
+  lead: { fontSize: 15, lineHeight: 1.7, color: "#707670", maxWidth: 760, margin: "12px auto 0" },
+  leadLeft: { fontSize: 15, lineHeight: 1.7, color: "#707670", margin: "10px 0 0", maxWidth: 720 },
+  muted: { fontSize: 12, color: "#848A85", margin: 0 },
+  eyebrow: { fontSize: 10, fontWeight: 800, letterSpacing: "0.12em", textTransform: "uppercase", color: "#355E55", marginBottom: 7 },
+
+  grid4: { display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(240px,1fr))", gap: 14 },
+  grid3: { display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(260px,1fr))", gap: 14 },
   choiceCard: {
-  background: "rgba(255,255,255,0.92)",
-  border: "1px solid rgba(48,70,63,0.12)",
-  borderRadius: 18,
-  padding: 21,
-  textAlign: "left",
-  cursor: "pointer",
-  boxShadow: "0 10px 28px rgba(31,43,39,0.07)",
-  fontFamily: "inherit"
-},
-  iconBox: { width: 52, height: 52, borderRadius: 16, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 26, marginBottom: 16 },
-  cardTitle: { fontSize: 20, fontWeight: 850, margin: "0 0 8px" },
-  cardShort: { fontSize: 13, fontWeight: 800, color: C.text, lineHeight: 1.45, margin: "0 0 8px" },
-  cardDesc: { fontSize: 13, color: C.muted, lineHeight: 1.65, margin: "0 0 16px" },
+    background: "rgba(255,255,255,0.94)",
+    border: "1px solid rgba(48,70,63,0.12)",
+    borderRadius: 18,
+    padding: 20,
+    textAlign: "left",
+    cursor: "pointer",
+    boxShadow: "0 10px 28px rgba(31,43,39,0.06)",
+    fontFamily: "inherit",
+  },
+  iconBox: { width: 50, height: 50, borderRadius: 15, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 25, marginBottom: 14 },
+  cardTitle: { fontSize: 20, fontWeight: 800, margin: "0 0 8px", letterSpacing: "-0.02em" },
+  cardShort: { fontSize: 13, fontWeight: 700, color: "#303431", lineHeight: 1.45, margin: "0 0 8px" },
+  cardDesc: { fontSize: 13, color: "#737974", lineHeight: 1.65, margin: "0 0 16px" },
+
   primaryButton: {
-  display: "inline-flex",
-  alignItems: "center",
-  justifyContent: "center",
-  border: 0,
-  color: "#fff",
-  borderRadius: 12,
-  padding: "12px 17px",
-  fontWeight: 800,
-  fontSize: 13,
-  cursor: "pointer",
-  fontFamily: "inherit",
-  boxShadow: "0 7px 18px rgba(35,63,58,0.16)"
-},
+    display: "inline-flex",
+    alignItems: "center",
+    justifyContent: "center",
+    border: 0,
+    color: "#fff",
+    borderRadius: 12,
+    padding: "12px 17px",
+    fontWeight: 800,
+    fontSize: 13,
+    cursor: "pointer",
+    fontFamily: "inherit",
+    boxShadow: "0 7px 18px rgba(35,63,58,0.16)",
+  },
   secondaryButton: {
-  display: "inline-flex",
-  alignItems: "center",
-  justifyContent: "center",
-  border: "1px solid rgba(48,70,63,0.15)",
-  background: "rgba(255,255,255,0.92)",
-  color: "#303431",
-  borderRadius: 12,
-  padding: "12px 16px",
-  fontWeight: 800,
-  fontSize: 13,
-  cursor: "pointer",
-  fontFamily: "inherit"
-},
+    display: "inline-flex",
+    alignItems: "center",
+    justifyContent: "center",
+    border: "1px solid rgba(48,70,63,0.15)",
+    background: "rgba(255,255,255,0.94)",
+    color: "#303431",
+    borderRadius: 12,
+    padding: "12px 16px",
+    fontWeight: 800,
+    fontSize: 13,
+    cursor: "pointer",
+    fontFamily: "inherit",
+  },
   backButton: {
-  border: "1px solid rgba(48,70,63,0.14)",
-  background: "rgba(255,255,255,0.88)",
-  color: "#3E4945",
-  borderRadius: 12,
-  padding: "10px 14px",
-  cursor: "pointer",
-  fontWeight: 700,
-  fontFamily: "inherit",
-  marginBottom: 14,
-  boxShadow: "0 5px 16px rgba(31,43,39,0.045)"
-},
-  disclaimer: { marginTop: 28, background: C.grayLight, borderRadius: 14, padding: 16, fontSize: 12, lineHeight: 1.7, color: "#666", textAlign: "center" },
+    border: "1px solid rgba(48,70,63,0.14)",
+    background: "rgba(255,255,255,0.88)",
+    color: "#3E4945",
+    borderRadius: 12,
+    padding: "10px 14px",
+    cursor: "pointer",
+    fontWeight: 700,
+    fontFamily: "inherit",
+    marginBottom: 14,
+    boxShadow: "0 5px 16px rgba(31,43,39,0.045)",
+  },
+  disclaimer: {
+    marginTop: 22,
+    background: "rgba(255,255,255,0.66)",
+    border: "1px solid rgba(48,70,63,0.1)",
+    borderRadius: 14,
+    padding: 15,
+    fontSize: 11,
+    lineHeight: 1.65,
+    color: "#747A75",
+    textAlign: "center",
+  },
+
   quizTop: {
-  display: "flex",
-  justifyContent: "space-between",
-  gap: 16,
-  alignItems: "flex-start",
-  background: "rgba(255,255,255,0.93)",
-  border: "1px solid rgba(48,70,63,0.12)",
-  borderRadius: 18,
-  padding: 21,
-  boxShadow: "0 10px 28px rgba(31,43,39,0.065)"
-},
+    display: "flex",
+    justifyContent: "space-between",
+    gap: 16,
+    alignItems: "flex-start",
+    background: "rgba(255,255,255,0.94)",
+    border: "1px solid rgba(48,70,63,0.12)",
+    borderRadius: 18,
+    padding: 20,
+    boxShadow: "0 10px 28px rgba(31,43,39,0.06)",
+  },
   progressCircle: {
-  width: 62,
-  height: 62,
-  borderRadius: 18,
-  background: "#E7EEEA",
-  border: "1px solid rgba(53,94,85,0.12)",
-  color: "#355E55",
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "center",
-  fontWeight: 900,
-  flexShrink: 0
-},
-  option: { width: "100%", display: "flex", alignItems: "center", gap: 12, textAlign: "left", padding: "13px 15px", border: "1.5px solid", borderRadius: 10, cursor: "pointer", fontSize: 14, color: C.text, fontFamily: "inherit" },
-  optionMark: { width: 20, height: 20, borderRadius: 6, border: "2px solid", color: "#fff", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 11, fontWeight: 900, flexShrink: 0 },
-  textarea: { width: "100%", minHeight: 160, border: "1.5px solid #D9E0D9", borderRadius: 12, padding: 14, fontFamily: "inherit", fontSize: 14, resize: "vertical" },
-  textareaSmall: { width: "100%", minHeight: 90, border: "1.5px solid #D9E0D9", borderRadius: 12, padding: 12, fontFamily: "inherit", fontSize: 14, resize: "vertical", marginTop: 10 },
-  input: { border: "1.5px solid #D9E0D9", borderRadius: 12, padding: "12px 13px", fontFamily: "inherit", fontSize: 14, width: "100%" },
+    width: 62,
+    height: 62,
+    borderRadius: 18,
+    background: "#E7EEEA",
+    border: "1px solid rgba(53,94,85,0.12)",
+    color: "#355E55",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    fontWeight: 900,
+    flexShrink: 0,
+  },
+  optionList: { display: "grid", gap: 9 },
+  option: {
+    width: "100%",
+    display: "flex",
+    alignItems: "center",
+    gap: 12,
+    textAlign: "left",
+    padding: "14px 15px",
+    border: "1px solid",
+    borderRadius: 12,
+    cursor: "pointer",
+    fontSize: 14,
+    color: "#252724",
+    fontFamily: "inherit",
+  },
+  optionMark: {
+    width: 20,
+    height: 20,
+    border: "1.5px solid",
+    color: "#fff",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    fontSize: 11,
+    fontWeight: 900,
+    flexShrink: 0,
+  },
+  textarea: {
+    width: "100%",
+    minHeight: 150,
+    border: "1px solid rgba(48,70,63,0.15)",
+    borderRadius: 13,
+    padding: 14,
+    fontFamily: "inherit",
+    fontSize: 14,
+    resize: "vertical",
+    background: "rgba(255,255,255,0.94)",
+  },
+  textareaSmall: {
+    width: "100%",
+    minHeight: 90,
+    border: "1px solid rgba(48,70,63,0.15)",
+    borderRadius: 13,
+    padding: 12,
+    fontFamily: "inherit",
+    fontSize: 14,
+    resize: "vertical",
+    marginTop: 10,
+    background: "rgba(255,255,255,0.94)",
+  },
+  input: {
+    border: "1px solid rgba(48,70,63,0.15)",
+    borderRadius: 12,
+    padding: "12px 13px",
+    fontFamily: "inherit",
+    fontSize: 14,
+    width: "100%",
+    background: "rgba(255,255,255,0.94)",
+  },
   navRow: { display: "flex", flexWrap: "wrap", gap: 10, justifyContent: "space-between", alignItems: "center", marginTop: 20 },
-  resultHero: { display: "grid", gridTemplateColumns: "minmax(0,1fr) 220px", gap: 18, alignItems: "stretch", background: C.white, border: "1.5px solid #E3E8E3", borderRadius: 20, padding: 22, boxShadow: "0 12px 30px rgba(0,0,0,.06)", marginBottom: 18 },
-  scoreBox: { border: "1.5px solid", borderRadius: 16, padding: 18, display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", textAlign: "center" },
-  scoreLabel: { fontSize: 11, color: C.muted, fontWeight: 900, textTransform: "uppercase", letterSpacing: 1.2 },
-  scoreValue: { fontSize: 34, fontWeight: 950, margin: "8px 0" },
+
+  resultHero: {
+    display: "grid",
+    gridTemplateColumns: "minmax(0,1fr) 220px",
+    gap: 18,
+    alignItems: "stretch",
+    background: "rgba(255,255,255,0.94)",
+    border: "1px solid rgba(48,70,63,0.12)",
+    borderRadius: 20,
+    padding: 22,
+    boxShadow: "0 12px 30px rgba(31,43,39,0.06)",
+    marginBottom: 18,
+  },
+  scoreBox: {
+    border: "1px solid",
+    borderRadius: 16,
+    padding: 18,
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center",
+    textAlign: "center",
+  },
+  scoreLabel: { fontSize: 11, color: "#858B86", fontWeight: 800, textTransform: "uppercase", letterSpacing: 1.1 },
+  scoreValue: { fontSize: 34, fontWeight: 900, margin: "8px 0" },
   cardsList: { display: "grid", gap: 12, marginTop: 18 },
-  recCard: { background: C.white, border: "1.5px solid #E3E8E3", borderRadius: 16, padding: 18, boxShadow: "0 8px 22px rgba(0,0,0,.04)" },
+  recCard: {
+    background: "rgba(255,255,255,0.94)",
+    border: "1px solid rgba(48,70,63,0.12)",
+    borderRadius: 16,
+    padding: 18,
+    boxShadow: "0 8px 22px rgba(31,43,39,0.045)",
+  },
   recTop: { display: "flex", justifyContent: "space-between", gap: 12, alignItems: "flex-start" },
-  recTag: { display: "inline-block", fontSize: 10, fontWeight: 900, color: C.sunDark, background: C.sunLight, padding: "5px 8px", borderRadius: 999, marginBottom: 8 },
+  recTag: { display: "inline-block", fontSize: 10, fontWeight: 800, color: "#355E55", background: "#EDF3F0", padding: "5px 8px", borderRadius: 999, marginBottom: 8 },
   recTitle: { margin: 0, fontSize: 18, lineHeight: 1.3 },
-  recCost: { fontSize: 12, fontWeight: 850, color: C.text, background: C.grayLight, borderRadius: 10, padding: "8px 10px", whiteSpace: "nowrap" },
-  recMeta: { fontSize: 12, color: C.muted, borderTop: "1px solid #eee", paddingTop: 10, marginTop: 10 },
-  reportBox: { background: C.white, border: "1.5px solid #E3E8E3", borderRadius: 18, padding: 20, boxShadow: "0 12px 30px rgba(0,0,0,.05)", marginTop: 18 },
+  recCost: { fontSize: 12, fontWeight: 800, color: "#303431", background: "#F1F2EF", borderRadius: 10, padding: "8px 10px", whiteSpace: "nowrap" },
+  recMeta: { fontSize: 12, color: "#858B86", borderTop: "1px solid rgba(48,70,63,0.09)", paddingTop: 10, marginTop: 10 },
+  reportBox: {
+    background: "rgba(255,255,255,0.94)",
+    border: "1px solid rgba(48,70,63,0.12)",
+    borderRadius: 18,
+    padding: 20,
+    boxShadow: "0 12px 30px rgba(31,43,39,0.055)",
+    marginTop: 18,
+  },
   formGrid: { display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(190px,1fr))", gap: 10 },
-  checkboxLine: { display: "flex", alignItems: "flex-start", gap: 8, fontSize: 12, color: C.muted, lineHeight: 1.5, marginTop: 10 },
-  statusBox: { background: C.sunLight, border: "1px solid #4CAF5044", color: C.sunDark, borderRadius: 10, padding: 12, fontSize: 13, fontWeight: 700, marginTop: 12 },
+  checkboxLine: { display: "flex", alignItems: "flex-start", gap: 8, fontSize: 12, color: "#777D78", lineHeight: 1.5, marginTop: 10 },
+  statusBox: { background: "#EDF3F0", border: "1px solid rgba(53,94,85,0.18)", color: "#355E55", borderRadius: 10, padding: 12, fontSize: 13, fontWeight: 700, marginTop: 12 },
 };
+
 
 export default function ResourceApp() {
   const [selectedModule, setSelectedModule] = useState(null);
@@ -1442,12 +1531,18 @@ export default function ResourceApp() {
     style.textContent = `
       @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap');
       *{box-sizing:border-box}
-      button{transition:transform .15s ease, box-shadow .15s ease, border-color .15s ease}
+      html,body,#root{margin:0;min-height:100%;background:#F4F2EC}
+      button{transition:transform .15s ease, box-shadow .15s ease, border-color .15s ease, background .15s ease}
       button:hover{transform:translateY(-1px)}
+      button:focus-visible{outline:3px solid rgba(53,94,85,.22);outline-offset:2px}
       @media(max-width:760px){
-        h1{font-size:28px!important}
-        .hide-mobile{display:none!important}
         .resource-header-label{display:none!important}
+      }
+      @media(max-width:620px){
+        button:hover{transform:none}
+      }
+      @media(max-width:560px){
+        h1{font-size:inherit}
       }
     `;
     document.head.appendChild(style);
