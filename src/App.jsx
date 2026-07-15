@@ -1145,8 +1145,103 @@ function QuizOption({ label, selected, onClick, multi }) {
 
 function Shell({ children, compact = false }) {
   return (
-    <main style={{ minHeight: "100vh", background: "linear-gradient(180deg,#F7FAF7,#FFFFFF)", padding: compact ? "18px" : "28px 18px", fontFamily: "Poppins, Arial, sans-serif", color: C.text }}>
-      <div style={{ maxWidth: 1080, margin: "0 auto" }}>{children}</div>
+    <main
+      style={{
+        minHeight: "100vh",
+        background:
+          "radial-gradient(circle at top left, rgba(53,94,85,0.08), transparent 34%), linear-gradient(180deg,#F4F2EC 0%,#F8F7F3 48%,#F1F3EF 100%)",
+        padding: compact ? "18px 16px 42px" : "24px 16px 52px",
+        fontFamily: "'Poppins','Helvetica Neue',Arial,sans-serif",
+        color: "#252724",
+      }}
+    >
+      <div
+        style={{
+          width: "100%",
+          maxWidth: 1080,
+          margin: "0 auto",
+        }}
+      >
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            gap: 16,
+            marginBottom: 22,
+            padding: "11px 14px",
+            border: "1px solid rgba(44,67,61,0.11)",
+            borderRadius: 16,
+            background: "rgba(255,255,255,0.78)",
+            boxShadow: "0 8px 28px rgba(31,43,39,0.055)",
+            backdropFilter: "blur(10px)",
+          }}
+        >
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: 11,
+            }}
+          >
+            <div
+              style={{
+                width: 38,
+                height: 38,
+                borderRadius: 12,
+                background: "#355E55",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                flexShrink: 0,
+              }}
+            >
+              <HouseLeafLogo size={22} color="#FFFFFF" />
+            </div>
+
+            <div>
+              <div
+                style={{
+                  fontSize: 16,
+                  fontWeight: 800,
+                  color: "#252724",
+                  letterSpacing: "-0.02em",
+                }}
+              >
+                Resource
+              </div>
+
+              <div
+                style={{
+                  fontSize: 9,
+                  fontWeight: 700,
+                  color: "#78817C",
+                  textTransform: "uppercase",
+                  letterSpacing: "0.12em",
+                  marginTop: 1,
+                }}
+              >
+                Building Intelligence
+              </div>
+            </div>
+          </div>
+
+          <div
+            className="resource-header-label"
+            style={{
+              fontSize: 10,
+              fontWeight: 700,
+              color: "#7D827E",
+              textTransform: "uppercase",
+              letterSpacing: "0.1em",
+            }}
+          >
+            Energy · Build · Heritage · Climate
+          </div>
+        </div>
+
+        {children}
+      </div>
     </main>
   );
 }
@@ -1195,27 +1290,123 @@ function createReportHtml({ result, answers, flow, moduleId, contact }) {
 }
 
 const styles = {
-  h1: { fontSize: 34, lineHeight: 1.15, margin: 0, fontWeight: 900, color: C.text },
-  h2: { fontSize: 24, lineHeight: 1.25, margin: 0, fontWeight: 850, color: C.text },
-  lead: { fontSize: 16, lineHeight: 1.65, color: C.muted, maxWidth: 760, margin: "12px auto 0" },
+ h1: {
+  fontSize: 34,
+  lineHeight: 1.14,
+  margin: 0,
+  fontWeight: 800,
+  letterSpacing: "-0.035em",
+  color: "#252724"
+},
+ h2: {
+  fontSize: 24,
+  lineHeight: 1.25,
+  margin: 0,
+  fontWeight: 800,
+  letterSpacing: "-0.025em",
+  color: "#252724"
+},
+  lead: {
+  fontSize: 15,
+  lineHeight: 1.7,
+  color: "#707670",
+  maxWidth: 760,
+  margin: "12px auto 0"
+},
   leadLeft: { fontSize: 15, lineHeight: 1.7, color: C.muted, margin: "10px 0 0", maxWidth: 720 },
   muted: { fontSize: 12, color: C.muted, margin: 0 },
   eyebrow: { fontSize: 11, fontWeight: 900, letterSpacing: 1.2, textTransform: "uppercase", color: C.sunDark, marginBottom: 8 },
   grid4: { display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(240px,1fr))", gap: 18 },
   grid3: { display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(260px,1fr))", gap: 18 },
-  moduleCard: { background: C.white, border: "1.5px solid #E3E8E3", borderRadius: 20, padding: 22, textAlign: "left", cursor: "pointer", boxShadow: "0 12px 30px rgba(0,0,0,.06)", fontFamily: "inherit" },
-  choiceCard: { background: C.white, border: "1.5px solid #E3E8E3", borderRadius: 18, padding: 22, textAlign: "left", cursor: "pointer", boxShadow: "0 12px 30px rgba(0,0,0,.06)", fontFamily: "inherit" },
+ moduleCard: {
+  background: "rgba(255,255,255,0.9)",
+  border: "1px solid rgba(48,70,63,0.12)",
+  borderRadius: 18,
+  padding: 21,
+  textAlign: "left",
+  cursor: "pointer",
+  boxShadow: "0 10px 28px rgba(31,43,39,0.07)",
+  fontFamily: "inherit"
+},
+  choiceCard: {
+  background: "rgba(255,255,255,0.92)",
+  border: "1px solid rgba(48,70,63,0.12)",
+  borderRadius: 18,
+  padding: 21,
+  textAlign: "left",
+  cursor: "pointer",
+  boxShadow: "0 10px 28px rgba(31,43,39,0.07)",
+  fontFamily: "inherit"
+},
   iconBox: { width: 52, height: 52, borderRadius: 16, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 26, marginBottom: 16 },
   cardTitle: { fontSize: 20, fontWeight: 850, margin: "0 0 8px" },
   cardShort: { fontSize: 13, fontWeight: 800, color: C.text, lineHeight: 1.45, margin: "0 0 8px" },
   cardDesc: { fontSize: 13, color: C.muted, lineHeight: 1.65, margin: "0 0 16px" },
-  primaryButton: { display: "inline-flex", alignItems: "center", justifyContent: "center", border: 0, color: "#fff", borderRadius: 11, padding: "12px 16px", fontWeight: 800, fontSize: 13, cursor: "pointer", fontFamily: "inherit" },
-  secondaryButton: { display: "inline-flex", alignItems: "center", justifyContent: "center", border: "1.5px solid #D9E0D9", background: C.white, color: C.text, borderRadius: 11, padding: "12px 16px", fontWeight: 800, fontSize: 13, cursor: "pointer", fontFamily: "inherit" },
-  backButton: { border: "1px solid #D9E0D9", background: C.white, color: C.text, borderRadius: 999, padding: "10px 14px", cursor: "pointer", fontWeight: 700, fontFamily: "inherit", marginBottom: 14 },
+  primaryButton: {
+  display: "inline-flex",
+  alignItems: "center",
+  justifyContent: "center",
+  border: 0,
+  color: "#fff",
+  borderRadius: 12,
+  padding: "12px 17px",
+  fontWeight: 800,
+  fontSize: 13,
+  cursor: "pointer",
+  fontFamily: "inherit",
+  boxShadow: "0 7px 18px rgba(35,63,58,0.16)"
+},
+  secondaryButton: {
+  display: "inline-flex",
+  alignItems: "center",
+  justifyContent: "center",
+  border: "1px solid rgba(48,70,63,0.15)",
+  background: "rgba(255,255,255,0.92)",
+  color: "#303431",
+  borderRadius: 12,
+  padding: "12px 16px",
+  fontWeight: 800,
+  fontSize: 13,
+  cursor: "pointer",
+  fontFamily: "inherit"
+},
+  backButton: {
+  border: "1px solid rgba(48,70,63,0.14)",
+  background: "rgba(255,255,255,0.88)",
+  color: "#3E4945",
+  borderRadius: 12,
+  padding: "10px 14px",
+  cursor: "pointer",
+  fontWeight: 700,
+  fontFamily: "inherit",
+  marginBottom: 14,
+  boxShadow: "0 5px 16px rgba(31,43,39,0.045)"
+},
   disclaimer: { marginTop: 28, background: C.grayLight, borderRadius: 14, padding: 16, fontSize: 12, lineHeight: 1.7, color: "#666", textAlign: "center" },
-  quizTop: { display: "flex", justifyContent: "space-between", gap: 16, alignItems: "flex-start", background: C.white, border: "1.5px solid #E3E8E3", borderRadius: 18, padding: 20, boxShadow: "0 12px 30px rgba(0,0,0,.05)" },
-  progressCircle: { width: 62, height: 62, borderRadius: "50%", background: C.sunLight, color: C.sunDark, display: "flex", alignItems: "center", justifyContent: "center", fontWeight: 900, flexShrink: 0 },
-  optionList: { display: "grid", gap: 10 },
+  quizTop: {
+  display: "flex",
+  justifyContent: "space-between",
+  gap: 16,
+  alignItems: "flex-start",
+  background: "rgba(255,255,255,0.93)",
+  border: "1px solid rgba(48,70,63,0.12)",
+  borderRadius: 18,
+  padding: 21,
+  boxShadow: "0 10px 28px rgba(31,43,39,0.065)"
+},
+  progressCircle: {
+  width: 62,
+  height: 62,
+  borderRadius: 18,
+  background: "#E7EEEA",
+  border: "1px solid rgba(53,94,85,0.12)",
+  color: "#355E55",
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+  fontWeight: 900,
+  flexShrink: 0
+},
   option: { width: "100%", display: "flex", alignItems: "center", gap: 12, textAlign: "left", padding: "13px 15px", border: "1.5px solid", borderRadius: 10, cursor: "pointer", fontSize: 14, color: C.text, fontFamily: "inherit" },
   optionMark: { width: 20, height: 20, borderRadius: 6, border: "2px solid", color: "#fff", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 11, fontWeight: 900, flexShrink: 0 },
   textarea: { width: "100%", minHeight: 160, border: "1.5px solid #D9E0D9", borderRadius: 12, padding: 14, fontFamily: "inherit", fontSize: 14, resize: "vertical" },
@@ -1256,6 +1447,7 @@ export default function ResourceApp() {
       @media(max-width:760px){
         h1{font-size:28px!important}
         .hide-mobile{display:none!important}
+        .resource-header-label{display:none!important}
       }
     `;
     document.head.appendChild(style);
